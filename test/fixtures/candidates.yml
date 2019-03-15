@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: candidates
+#
+#  id              :bigint(8)        not null, primary key
+#  number          :string
+#  first_name      :string
+#  last_name       :string
+#  baccalaureat_id :bigint(8)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: MyString
+  first_name: MyString
+  last_name: MyString
+  baccalaureat: one
+
+two:
+  number: MyString
+  first_name: MyString
+  last_name: MyString
+  baccalaureat: two

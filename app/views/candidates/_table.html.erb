@@ -1,0 +1,28 @@
+<p><%= candidates.total_count %> candidats</p>
+<table class="table mt-5">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Number</th>
+      <th>Baccalaureat</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% candidates.each do |candidate| %>
+      <tr>
+        <td><%= candidate.first_name %></td>
+        <td><%= candidate.last_name %></td>
+        <td><%= candidate.number %></td>
+        <td><%= candidate.baccalaureat %></td>
+        <td>
+          <%= link_to 'Show', candidate, class: 'btn btn-primary btn-sm' %>
+          <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate candidates, theme: 'twitter-bootstrap-4' %>

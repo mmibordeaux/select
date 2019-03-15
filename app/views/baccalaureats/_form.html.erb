@@ -1,0 +1,6 @@
+<%= simple_form_for(baccalaureat) do |f| %>
+  <%= f.input :title %>
+  <%= f.association :parent %>
+  <%= f.input :quota %>
+  <%= f.submit 'Enregistrer', class: 'btn btn-primary' %>
+<% end %>

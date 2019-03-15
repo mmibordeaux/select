@@ -1,0 +1,31 @@
+<h1>Baccalauréats</h1>
+<p><%= @baccalaureats.count %> baccalauréats</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Candidates</th>
+      <th>Quota</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @baccalaureats.each do |baccalaureat| %>
+      <tr>
+        <td><%= link_to baccalaureat, baccalaureat %></td>
+        <td><%= baccalaureat.inherited_candidates.count %></td>
+        <td><%= baccalaureat.inherited_quota %></td>
+        <td>
+          <%= link_to 'Show', baccalaureat, class: 'btn btn-primary btn-sm' %>
+          <%= link_to 'Edit', edit_baccalaureat_path(baccalaureat), class: 'btn btn-primary btn-sm' %>
+          <%= link_to 'Destroy', baccalaureat, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Créer un baccalaureat', new_baccalaureat_path, class: 'btn btn-primary' %>

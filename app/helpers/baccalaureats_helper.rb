@@ -1,0 +1,2 @@
+module BaccalaureatsHelper
+end

@@ -1,0 +1,10 @@
+<h1><%= @candidate %></h1>
+
+<p><%= @candidate.number %></p>
+
+<p>
+  <strong>Baccalaureat:</strong>
+  <%= @candidate.baccalaureat %>
+</p>
+
+<%= link_to 'Edit', edit_candidate_path(@candidate), class: 'btn btn-primary' %>

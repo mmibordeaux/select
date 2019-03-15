@@ -1,0 +1,7 @@
+<%= simple_form_for(candidate) do |f| %>
+  <%= f.input :number, label: 'Numéro' %>
+  <%= f.input :first_name, label: 'Prénom' %>
+  <%= f.input :last_name, label: 'Nom' %>
+  <%= f.association :baccalaureat, label: 'Baccalauréat' %>
+  <%= f.submit 'Enregistrer', class: 'btn btn-primary' %>
+<% end %>
