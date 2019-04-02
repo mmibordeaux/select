@@ -8,6 +8,10 @@ class CandidatesController < ApplicationController
     @candidates = @candidates.page params[:page]
   end
 
+  def import
+    Candidate.import params[:csv] if params[:csv]
+  end
+
   # GET /candidates/1
   def show
   end

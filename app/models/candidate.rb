@@ -41,11 +41,43 @@ class Candidate < ApplicationRecord
   ]
 
   belongs_to :baccalaureat
-  belongs_to :evaluated_by, class_name: 'User'
+  belongs_to :evaluated_by, class_name: 'User', optional: :true
 
   scope :search, -> (term) {where('unaccent(first_name) ILIKE unaccent(?) OR unaccent(last_name) ILIKE unaccent(?)', "%#{term}%", "%#{term}%")}
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   before_save :compute_evaluation_note
+
+  def self.import(csv)
+    require 'csv'
+    rows = CSV.parse csv, {
+      headers: :first_row,
+      col_sep: ';'
+    }
+    rows.each do |row|
+      title = row[6]
+      baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
+      title = row[13]
+      unless title.blank?
+        baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
+        title = row[15]
+        unless title.blank?
+          baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
+        end
+      end
+
+      number = "#{row[3]}"
+      first_name = "#{row[5]}"
+      last_name = "#{row[4]}"
+      level = "#{row[10]} - #{row[11]}"
+      candidate = Candidate.where(number: number).first_or_create
+      candidate.first_name = first_name
+      candidate.last_name = last_name
+      candidate.baccalaureat = baccalaureat
+      candidate.level = level
+      candidate.save
+      puts "Created candidate #{number}"
+    end
+  end
 
   def parcoursup_url
     "https://parcoursup/#{number}"

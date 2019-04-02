@@ -2,9 +2,22 @@
 
 <p><%= @candidate.number %></p>
 
+<p><%= @candidate.level %></p>
 <p>
   <strong>Baccalaureat:</strong>
   <%= @candidate.baccalaureat %>
 </p>
+
+<p>
+  <strong>Moyenne:</strong>
+  <%= @candidate.dossier_note %>
+</p>
+
+<p>
+  <strong>Evaluation:</strong>
+  <%= @candidate.evaluation_note %>
+</p>
+
+<%= link_to 'Ouvrir dans Parcoursup', @candidate.parcoursup_url, target: :_blank, class: 'btn btn-light' %>
 
 <%= link_to 'Edit', edit_candidate_path(@candidate), class: 'btn btn-primary' %>

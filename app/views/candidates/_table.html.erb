@@ -15,14 +15,13 @@
   <tbody>
     <% candidates.each do |candidate| %>
       <tr>
-        <td><%= candidate.first_name %></td>
+        <td><%= link_to candidate.first_name, candidate %></td>
         <td><%= candidate.last_name %></td>
         <td><%= candidate.number %></td>
         <td><%= candidate.baccalaureat %></td>
         <td><%= candidate.dossier_note %></td>
         <td><%= candidate.evaluation_note %></td>
         <td>
-          <%= link_to 'Show', candidate, class: 'btn btn-primary btn-sm' %>
           <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>
         </td>
       </tr>

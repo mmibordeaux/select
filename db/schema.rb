@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_052857) do
+ActiveRecord::Schema.define(version: 2019_04_02_184159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_052857) do
     t.float "evaluation_note", default: 0.0
     t.text "evaluation_comment", default: ""
     t.bigint "evaluated_by_id"
+    t.text "level"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
     t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"
   end
