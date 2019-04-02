@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_191109) do
+ActiveRecord::Schema.define(version: 2019_04_02_052857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,31 @@ ActiveRecord::Schema.define(version: 2019_03_15_191109) do
     t.bigint "baccalaureat_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "dossier_note", default: 0.0
+    t.float "evaluation_attitude", default: 0.0
+    t.float "evaluation_intention", default: 0.0
+    t.float "evaluation_production", default: 0.0
+    t.float "evaluation_localization", default: 0.0
+    t.float "evaluation_note", default: 0.0
+    t.text "evaluation_comment", default: ""
+    t.bigint "evaluated_by_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
+    t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "baccalaureats", "baccalaureats", column: "parent_id"
   add_foreign_key "candidates", "baccalaureats"
+  add_foreign_key "candidates", "users", column: "evaluated_by_id"
 end

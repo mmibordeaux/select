@@ -6,6 +6,8 @@
       <th>Last name</th>
       <th>Number</th>
       <th>Baccalaureat</th>
+      <th>Dossier</th>
+      <th>Evaluation</th>
       <th></th>
     </tr>
   </thead>
@@ -17,6 +19,8 @@
         <td><%= candidate.last_name %></td>
         <td><%= candidate.number %></td>
         <td><%= candidate.baccalaureat %></td>
+        <td><%= candidate.dossier_note %></td>
+        <td><%= candidate.evaluation_note %></td>
         <td>
           <%= link_to 'Show', candidate, class: 'btn btn-primary btn-sm' %>
           <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>

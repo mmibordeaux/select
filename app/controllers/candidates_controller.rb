@@ -3,7 +3,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates
   def index
-    @candidates = Candidate.all
+    @candidates = Candidate.ordered_by_evaluation
     @candidates = @candidates.search params[:search] if params.has_key? :search
     @candidates = @candidates.page params[:page]
   end
@@ -34,6 +34,7 @@ class CandidatesController < ApplicationController
 
   # PATCH/PUT /candidates/1
   def update
+    @candidate.evaluated_by = current_user
     if @candidate.update(candidate_params)
       redirect_to @candidate, notice: 'Candidate was successfully updated.'
     else
@@ -55,6 +56,6 @@ class CandidatesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def candidate_params
-      params.require(:candidate).permit(:number, :first_name, :last_name, :baccalaureat_id)
+      params.require(:candidate).permit(:evaluation_attitude, :evaluation_intention, :evaluation_production, :evaluation_localization, :evaluation_comment)
     end
 end
