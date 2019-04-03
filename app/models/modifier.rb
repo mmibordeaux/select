@@ -30,7 +30,7 @@ class Modifier < ApplicationRecord
   scope :production, -> { where(kind: KIND_PRODUCTION) }
   scope :localization, -> { where(kind: KIND_LOCALIZATION) }
 
-  default_scope -> { order(value: :asc) }
+  default_scope -> { order(:kind, value: :asc) }
 
   def title_and_description
     "#{title} (#{description})"
