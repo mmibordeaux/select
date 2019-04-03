@@ -3,6 +3,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates
   def index
+    Candidate.positionize
     @candidates = Candidate.ordered_by_evaluation
     @candidates = @candidates.search params[:search] if params.has_key? :search
     @candidates = @candidates.page params[:page]

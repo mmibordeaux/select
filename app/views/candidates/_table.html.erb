@@ -2,11 +2,11 @@
 <table class="table mt-5">
   <thead>
     <tr>
+      <th width="30">#</th>
+      <th width="80">Number</th>
       <th>First name</th>
       <th>Last name</th>
-      <th>Number</th>
-      <th>Baccalaureat</th>
-      <th>Dossier</th>
+      <th width="400">Baccalaureat</th>
       <th>Evaluation</th>
       <th></th>
     </tr>
@@ -15,11 +15,11 @@
   <tbody>
     <% candidates.each do |candidate| %>
       <tr>
-        <td><%= link_to candidate.first_name, candidate %></td>
+        <td><%= candidate.position %></td>
+        <td><%= link_to candidate.number, candidate %></td>
+        <td><%= candidate.first_name %></td>
         <td><%= candidate.last_name %></td>
-        <td><%= candidate.number %></td>
-        <td><%= candidate.baccalaureat %></td>
-        <td><%= candidate.dossier_note %></td>
+        <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
         <td><%= candidate.evaluation_note %></td>
         <td>
           <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>

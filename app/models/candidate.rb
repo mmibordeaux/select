@@ -18,6 +18,7 @@
 #  intention_id       :bigint(8)
 #  production_id      :bigint(8)
 #  localization_id    :bigint(8)
+#  position           :integer
 #
 
 class Candidate < ApplicationRecord
@@ -61,6 +62,18 @@ class Candidate < ApplicationRecord
       candidate.level = level
       candidate.save
       puts "Created candidate #{number}"
+    end
+  end
+
+  def self.positionize
+    current_note = nil
+    current_position = 0
+    ordered_by_evaluation.each do |candidate|
+      if candidate.evaluation_note != current_note
+        current_note = candidate.evaluation_note
+        current_position += 1
+      end
+      candidate.update_column :position, current_position
     end
   end
 

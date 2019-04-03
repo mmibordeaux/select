@@ -18,6 +18,7 @@
 #  intention_id       :bigint(8)
 #  production_id      :bigint(8)
 #  localization_id    :bigint(8)
+#  position           :integer
 #
 
 require 'test_helper'
