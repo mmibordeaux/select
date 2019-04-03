@@ -1,28 +1,38 @@
 <%= simple_form_for(candidate) do |f| %>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4 bg-light pt-3 pb-3">
       <h2><%= candidate %></h2>
       <p>Numéro : <%= candidate.number %></p>
       <p>Baccalaureat : <%= candidate.baccalaureat %></p>
       <p>Moyenne : <%= candidate.dossier_note %></p>
-      <%= link_to 'Ouvrir dans Parcoursup', candidate.parcoursup_url, target: :_blank, class: 'btn btn-light' %>
+      <%= link_to 'Ouvrir dans Parcoursup', candidate.parcoursup_url, target: :_blank, class: 'btn btn-info' %>
     </div>
-    <div class="col-md-4">
-      <h2>Evaluation</h2>
-      <%= f.input :evaluation_attitude,
-                  as: :radio_buttons,
-                  collection: Candidate::EVALUATION_ATTITUDE %>
-      <%= f.input :evaluation_intention,
-                  as: :radio_buttons,
-                  collection: Candidate::EVALUATION_INTENTION %>
-      <%= f.input :evaluation_production,
-                  as: :radio_buttons,
-                  collection: Candidate::EVALUATION_PRODUCTION %>
-      <%= f.input :evaluation_localization,
-                  as: :radio_buttons,
-                  collection: Candidate::EVALUATION_LOCALIZATION %>
-      <%= f.input :evaluation_comment %>
-      <%= f.submit 'Enregistrer', class: 'btn btn-primary' %>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.association :attitude,
+                            as: :radio_buttons,
+                            collection: Modifier.attitude,
+                            label_method: :title_and_description %>
+          <%= f.association :intention,
+                            as: :radio_buttons,
+                            collection: Modifier.intention,
+                            label_method: :title_and_description %>
+        </div>
+        <div class="col-md-6">
+          <%= f.association :production,
+                            as: :radio_buttons,
+                            collection: Modifier.production,
+                            label_method: :title_and_description %>
+          <%= f.association :localization,
+                            as: :radio_buttons,
+                            collection: Modifier.localization,
+                            label_method: :title_and_description %>
+        </div>
+      </div>
+      <%= f.input :evaluation_comment,
+                  label: 'Commentaire' %>
     </div>
   </div>
+      <%= f.submit 'Enregistrer', class: 'btn btn-primary float-right' %>
 <% end %>

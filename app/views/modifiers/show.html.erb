@@ -1,0 +1,22 @@
+<p>
+  <strong>Title:</strong>
+  <%= @modifier.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @modifier.description %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @modifier.value %>
+</p>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @modifier.kind %>
+</p>
+
+<%= link_to 'Edit', edit_modifier_path(@modifier) %> |
+<%= link_to 'Back', modifiers_path %>

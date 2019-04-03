@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_184159) do
+ActiveRecord::Schema.define(version: 2019_04_03_064838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,16 +33,29 @@ ActiveRecord::Schema.define(version: 2019_04_02_184159) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "dossier_note", default: 0.0
-    t.float "evaluation_attitude", default: 0.0
-    t.float "evaluation_intention", default: 0.0
-    t.float "evaluation_production", default: 0.0
-    t.float "evaluation_localization", default: 0.0
     t.float "evaluation_note", default: 0.0
     t.text "evaluation_comment", default: ""
     t.bigint "evaluated_by_id"
     t.text "level"
+    t.bigint "attitude_id"
+    t.bigint "intention_id"
+    t.bigint "production_id"
+    t.bigint "localization_id"
+    t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
     t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"
+    t.index ["intention_id"], name: "index_candidates_on_intention_id"
+    t.index ["localization_id"], name: "index_candidates_on_localization_id"
+    t.index ["production_id"], name: "index_candidates_on_production_id"
+  end
+
+  create_table "modifiers", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.float "value"
+    t.string "kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
