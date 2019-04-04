@@ -2,24 +2,33 @@
 #
 # Table name: candidates
 #
-#  id                 :bigint(8)        not null, primary key
-#  number             :string
-#  first_name         :string
-#  last_name          :string
-#  baccalaureat_id    :bigint(8)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  dossier_note       :float            default(0.0)
-#  evaluation_note    :float            default(0.0)
-#  evaluation_comment :text             default("")
-#  evaluated_by_id    :bigint(8)
-#  level              :text
-#  attitude_id        :bigint(8)
-#  intention_id       :bigint(8)
-#  production_id      :bigint(8)
-#  localization_id    :bigint(8)
-#  position           :integer
-#  dossier_id         :string
+#  id                                   :bigint(8)        not null, primary key
+#  number                               :string
+#  first_name                           :string
+#  last_name                            :string
+#  baccalaureat_id                      :bigint(8)
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  dossier_note                         :float            default(0.0)
+#  evaluation_note                      :float            default(0.0)
+#  evaluation_comment                   :text             default("")
+#  evaluated_by_id                      :bigint(8)
+#  level                                :text
+#  attitude_id                          :bigint(8)
+#  intention_id                         :bigint(8)
+#  production_id                        :bigint(8)
+#  localization_id                      :bigint(8)
+#  position                             :integer
+#  parcoursup_entete                    :text
+#  parcoursup_scolarite                 :text
+#  parcoursup_activites_centres_interet :text
+#  parcoursup_bac                       :text
+#  parcoursup_bulletins                 :text
+#  parcoursup_ael                       :text
+#  parcoursup_lettre_motivation         :text
+#  parcoursup_groupe                    :text
+#  parcoursup_documents                 :text
+#  parcoursup_formulaire                :text
 #
 
 class Candidate < ApplicationRecord
@@ -78,8 +87,21 @@ class Candidate < ApplicationRecord
     end
   end
 
-  def parcoursup(kind)
-    Parcoursup.instance.load(number, kind)
+  def parcoursup_synced?
+    !parcoursup_formulaire.blank?
+  end
+
+  def parcoursup_sync!
+    Parcoursup::PARTS.each do |part|
+      key = parcoursup_part_to_key(part)
+      value = Parcoursup.instance.load(number, part)
+      update_column key, value
+    end
+  end
+
+  def parcoursup(part)
+    key = parcoursup_part_to_key(part)
+    attributes[key]
   end
 
   def parcoursup_form
@@ -91,6 +113,10 @@ class Candidate < ApplicationRecord
   end
 
   protected
+
+  def parcoursup_part_to_key(part)
+    "parcoursup_#{part.underscore}".to_sym
+  end
 
   def compute_evaluation_note
     self.evaluation_note =  dossier_note + attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f

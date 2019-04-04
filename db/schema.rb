@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_03_075801) do
+ActiveRecord::Schema.define(version: 2019_04_04_073723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 2019_04_03_075801) do
     t.bigint "production_id"
     t.bigint "localization_id"
     t.integer "position"
+    t.text "parcoursup_entete"
+    t.text "parcoursup_scolarite"
+    t.text "parcoursup_activites_centres_interet"
+    t.text "parcoursup_bac"
+    t.text "parcoursup_bulletins"
+    t.text "parcoursup_ael"
+    t.text "parcoursup_lettre_motivation"
+    t.text "parcoursup_groupe"
+    t.text "parcoursup_documents"
+    t.text "parcoursup_formulaire"
     t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
     t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"

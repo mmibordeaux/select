@@ -15,6 +15,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates/1
   def show
+    @candidate.parcoursup_sync! unless @candidate.parcoursup_synced?
   end
 
   # GET /candidates/new
