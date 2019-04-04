@@ -18,6 +18,21 @@
   <%= @candidate.evaluation_note %>
 </p>
 
-<%= link_to 'Ouvrir dans Parcoursup', @candidate.parcoursup_url, target: :_blank, class: 'btn btn-light' %>
+
+<ul class="nav nav-tabs">
+<% Parcoursup::PARTS.each_with_index do |kind, index| %>
+  <li class="nav-item">
+    <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
+  </li>
+<% end %>
+</ul>
+
+<div class="tab-content" id="parcoursup">
+  <% Parcoursup::PARTS.each_with_index do |kind, index| %>
+    <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
+      <%= sanitize @candidate.parcoursup(kind) %>
+    </div>
+  <% end %>
+</div>
 
 <%= link_to 'Edit', edit_candidate_path(@candidate), class: 'btn btn-primary' %>

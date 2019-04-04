@@ -19,6 +19,7 @@
 #  production_id      :bigint(8)
 #  localization_id    :bigint(8)
 #  position           :integer
+#  dossier_id         :string
 #
 
 class Candidate < ApplicationRecord
@@ -77,8 +78,12 @@ class Candidate < ApplicationRecord
     end
   end
 
-  def parcoursup_url
-    "https://gestion.parcoursup.fr/#{number}"
+  def parcoursup(kind)
+    Parcoursup.instance.load(number, kind)
+  end
+
+  def parcoursup_form
+    Parcoursup.instance.form(number)
   end
 
   def to_s

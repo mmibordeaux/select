@@ -9,6 +9,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'devise'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'rest-client'
 
 # Front
 gem 'sassc-rails'
@@ -30,6 +31,8 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'annotate'
+  gem 'figaro'
+  gem 'http_logger'
 end
 
 group :test do

@@ -19,6 +19,7 @@
 #  production_id      :bigint(8)
 #  localization_id    :bigint(8)
 #  position           :integer
+#  dossier_id         :string
 #
 
 require 'test_helper'
