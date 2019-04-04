@@ -47,6 +47,8 @@ class Candidate < ApplicationRecord
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   before_save :compute_evaluation_note
 
+  validates_length_of :evaluation_comment, minimum: 25, allow_blank: false, on: :evaluation
+
   def self.import(csv)
     require 'csv'
     rows = CSV.parse csv, {
@@ -70,12 +72,14 @@ class Candidate < ApplicationRecord
       last_name = "#{row[4]}"
       level = "#{row[10]} - #{row[11]}"
       scholarship = row[8].to_s == 'Oui'
+
       candidate = Candidate.where(number: number).first_or_create
       candidate.first_name = first_name
       candidate.last_name = last_name
       candidate.baccalaureat = baccalaureat
       candidate.level = level
       candidate.scholarship = scholarship
+      candidate.dossier_note = Note.average(row)
       candidate.save
       puts "Created candidate #{number}"
     end
@@ -133,7 +137,7 @@ class Candidate < ApplicationRecord
 
   def parcoursup_clean(part)
     raw = parcoursup part
-    return if raw.nil?
+    return '' if raw.nil?
     doc = Nokogiri::HTML raw
     doc.xpath('//script').remove
     doc.xpath('//style').remove

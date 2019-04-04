@@ -1,9 +1,5 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, @user %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+<h1><%= @user %></h1>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= render 'candidates/table', candidates: @candidates %>

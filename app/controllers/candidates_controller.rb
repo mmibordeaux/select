@@ -67,7 +67,8 @@ class CandidatesController < ApplicationController
   # PATCH/PUT /candidates/1
   def update
     @candidate.evaluated_by = current_user
-    if @candidate.update(candidate_params)
+    @candidate.assign_attributes candidate_params
+    if @candidate.save(context: :evaluation)
       redirect_to @candidate, notice: 'Candidate was successfully updated.'
     else
       render :edit
