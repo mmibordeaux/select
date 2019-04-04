@@ -117,6 +117,18 @@ class Candidate < ApplicationRecord
     self.send key
   end
 
+  def parcoursup_clean(part)
+    raw = parcoursup part
+    doc = Nokogiri::HTML raw
+    doc.xpath('//script').remove
+    doc.xpath('//style').remove
+    doc.at('body').inner_html
+  end
+
+  def parcoursup_load(part)
+    Parcoursup.instance.load_page(number, part)
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end

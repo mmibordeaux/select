@@ -19,21 +19,27 @@
   <%= @candidate.evaluation_note %>
 </p>
 
-
-<ul class="nav nav-tabs">
-<% Parcoursup::PARTS.each_with_index do |kind, index| %>
-  <li class="nav-item">
-    <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
-  </li>
-<% end %>
-</ul>
-
-<div class="tab-content" id="parcoursup">
-  <% Parcoursup::PARTS.each_with_index do |kind, index| %>
-    <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
-      <%= sanitize @candidate.parcoursup(kind) %>
-    </div>
-  <% end %>
-</div>
-
 <%= link_to 'Edit', edit_candidate_path(@candidate), class: 'btn btn-primary' %>
+
+<hr/>
+
+<div class="row">
+  <div class="col-md-3">
+    <ul class="nav nav-pills flex-column bg-light">
+      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
+        <li class="nav-item">
+          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="tab-content" id="parcoursup">
+      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
+        <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
+          <%= @candidate.parcoursup_clean(kind).html_safe %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
