@@ -13,7 +13,7 @@ class CandidatesController < ApplicationController
   end
 
   def scholarship
-    @candidates = Candidate.where(scholarship: true).page params[:page]
+    @candidates = Candidate.where(scholarship: true).ordered_by_evaluation.page params[:page]
   end
 
   def production
