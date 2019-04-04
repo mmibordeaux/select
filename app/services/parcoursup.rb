@@ -44,6 +44,7 @@ class Parcoursup
 
   # Ex.: 483982
   def get_dossier_id(candidate_number)
+    puts "Parcoursup.get_dossier_id #{candidate_number}"
     authenticate
     RestClient.get "#{URL}/DossierCandidat/dossier?ACTION=0&g_cn_cod=#{candidate_number}&g_ti_cod=4331&g_ta_cod=-1&g_gf_cod=-1&c_gp_cod=-1&preferences=recherche&selected=entete&sessionId=#{@cookies['JSESSIONID']}&login=496668&code=0331420P&from=gestion", {
       cookies: @cookie_jar
@@ -59,6 +60,7 @@ class Parcoursup
   end
 
   def load(candidate_number, page)
+    puts "Parcoursup.load #{candidate_number}, #{page}"
     authenticate
     dossier_id = get_dossier_id(candidate_number)
     RestClient.get "#{URL}/DossierCandidat/dossier?ACTION=1&module=#{page}&dossierid=#{dossier_id}", {
@@ -71,6 +73,8 @@ class Parcoursup
   protected
 
   def authenticate
+    return unless @cookie_jar
+    puts "Parcoursup.authenticate"
     RestClient.post "#{URL}/Gestion/authentification", {
       g_ea_cod: ENV['PARCOURSUP_LOGIN'],
       g_ea_mot_pas: ENV['PARCOURSUP_PASSWORD'],
