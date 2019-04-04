@@ -33,11 +33,13 @@
 #  production_in_formulaire             :boolean          default(FALSE)
 #  production_somewhere_else            :boolean          default(FALSE)
 #  production_analyzed                  :boolean          default(FALSE)
+#  attributed_to_id                     :bigint(8)
 #
 
 class Candidate < ApplicationRecord
   belongs_to :baccalaureat
   belongs_to :evaluated_by, class_name: 'User', optional: true
+  belongs_to :attributed_to, class_name: 'User', optional: true
   belongs_to :attitude, class_name: 'Modifier', optional: true
   belongs_to :intention, class_name: 'Modifier', optional: true
   belongs_to :production, class_name: 'Modifier', optional: true
@@ -45,6 +47,9 @@ class Candidate < ApplicationRecord
 
   scope :search, -> (term) {where('unaccent(first_name) ILIKE unaccent(?) OR unaccent(last_name) ILIKE unaccent(?)', "%#{term}%", "%#{term}%")}
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
+  scope :todo, -> { where(evaluated_by_id: nil)}
+  scope :done, -> { where.not(evaluated_by_id: nil)}
+
   before_save :compute_evaluation_note
 
   validates_length_of :evaluation_comment, minimum: 25, allow_blank: false, on: :evaluation

@@ -40,6 +40,12 @@ class CandidatesController < ApplicationController
     redirect_to candidates_path
   end
 
+  def my
+    @candidates = current_user.candidates_attributed
+    @candidates_todo = @candidates.todo.page params[:page_todo]
+    @candidates_done = @candidates.done.page params[:page_done]
+  end
+
   # GET /candidates/1
   def show
   end
@@ -66,6 +72,7 @@ class CandidatesController < ApplicationController
 
   # PATCH/PUT /candidates/1
   def update
+    @candidate.production_auto_evaluated = false
     @candidate.evaluated_by = current_user
     @candidate.assign_attributes candidate_params
     if @candidate.save(context: :evaluation)
@@ -89,6 +96,6 @@ class CandidatesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def candidate_params
-      params.require(:candidate).permit(:attitude_id, :intention_id, :production_id, :localization_id, :evaluation_comment)
+      params.require(:candidate).permit(:attitude_id, :intention_id, :production_id, :localization_id, :evaluation_comment, :baccalaureat_id, :dossier_note)
     end
 end

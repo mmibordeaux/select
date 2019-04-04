@@ -14,4 +14,15 @@ namespace :candidates do
     end
     # Candidate.first.find_production!
   end
+
+  desc "Split between users"
+  task split: :environment do
+    users = User.all
+    candidates = Candidate.all
+    candidates_per_user = (1.0 * candidates.count / users.count).ceil
+    users.each_with_index do |user, index|
+      candidates_for_user = candidates.limit(candidates_per_user).offset(candidates_per_user * index)
+      candidates_for_user.update_all(attributed_to_id: user.id)
+    end
+  end
 end

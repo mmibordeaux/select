@@ -6,7 +6,8 @@
   <thead>
     <tr>
       <th>Email</th>
-      <th>Evaluations</th>
+      <th>A faire</th>
+      <th>Fait</th>
     </tr>
   </thead>
 
@@ -14,6 +15,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user, user %></td>
+        <td><%= user.candidates_attributed.count %></td>
         <td><%= user.candidates_evaluated.count %></td>
       </tr>
     <% end %>

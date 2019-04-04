@@ -19,6 +19,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :candidates_evaluated, class_name: 'Candidate', foreign_key: :evaluated_by
+  has_many :candidates_attributed, class_name: 'Candidate', foreign_key: :attributed_to_id
 
   def to_s
     "#{email}"

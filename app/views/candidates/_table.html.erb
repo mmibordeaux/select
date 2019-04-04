@@ -1,5 +1,8 @@
+<%
+param_name ||= :page
+%>
 <p><%= candidates.total_count %> candidats</p>
-<table class="table mt-5">
+<table class="table table-hover mt-5">
   <thead>
     <tr>
       <th width="30">#</th>
@@ -9,6 +12,7 @@
       <th width="400">Baccalaureat</th>
       <th width="80">Boursier</th>
       <th>Evaluation</th>
+      <th>Attr.</th>
       <th width="80">Production</th>
       <th></th>
     </tr>
@@ -24,6 +28,7 @@
         <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
         <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
         <td><%= candidate.evaluation_note.round(2) %></td>
+        <td class="small"><%= link_to_if candidate.attributed_to, candidate.attributed_to %></td>
         <td>
           <% if candidate.production_analyzed %>
             <% if candidate.production_in_formulaire %>
@@ -34,7 +39,7 @@
               Non
             <% end %>
           <% else %>
-            Non analysée
+            NA
           <% end %>
         </td>
         <td>
@@ -44,4 +49,4 @@
     <% end %>
   </tbody>
 </table>
-<%= paginate candidates, theme: 'twitter-bootstrap-4' %>
+<%= paginate candidates, theme: 'twitter-bootstrap-4', param_name: param_name %>
