@@ -30,6 +30,9 @@
 #  parcoursup_documents                 :text
 #  parcoursup_formulaire                :text
 #  scholarship                          :boolean          default(FALSE)
+#  production_in_formulaire             :boolean          default(FALSE)
+#  production_somewhere_else            :boolean          default(FALSE)
+#  production_analyzed                  :boolean          default(FALSE)
 #
 
 class Candidate < ApplicationRecord
@@ -112,6 +115,29 @@ class Candidate < ApplicationRecord
     end
   end
 
+  def self.find_all_productions
+    find_each do |candidate|
+      candidate.find_production!
+    end
+  end
+
+  def find_production!
+    return unless parcoursup_synced?
+    # Formulaire
+    formulaire = parcoursup_clean('formulaire')
+    doc = Nokogiri::HTML formulaire
+    text = doc.at('textarea').text
+    self.update_column :production_in_formulaire, !text.blank?
+    # Somewhere else
+    http_found = false
+    http_found = true if 'http'.in? formulaire
+    parcoursup_lettre_motivation = parcoursup_clean('lettre_motivation')
+    http_found = true if 'http'.in? parcoursup_lettre_motivation
+    self.update_column :production_somewhere_else, http_found
+    # Analyzed
+    self.update_column :production_analyzed, true
+  end
+
   def parcoursup(part)
     key = parcoursup_part_to_key(part)
     self.send key
@@ -119,6 +145,7 @@ class Candidate < ApplicationRecord
 
   def parcoursup_clean(part)
     raw = parcoursup part
+    return if raw.nil?
     doc = Nokogiri::HTML raw
     doc.xpath('//script').remove
     doc.xpath('//style').remove

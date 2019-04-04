@@ -8,6 +8,7 @@
       <th>Last name</th>
       <th width="400">Baccalaureat</th>
       <th>Evaluation</th>
+      <th width="80">Production</th>
       <th></th>
     </tr>
   </thead>
@@ -21,6 +22,19 @@
         <td><%= candidate.last_name %></td>
         <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
         <td><%= candidate.evaluation_note %></td>
+        <td>
+          <% if candidate.production_analyzed %>
+            <% if candidate.production_in_formulaire %>
+              Oui
+            <% elsif candidate.production_somewhere_else %>
+              Peut-être
+            <% else %>
+              Non
+            <% end %>
+          <% else %>
+            Non analysé
+          <% end %>
+        </td>
         <td>
           <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>
         </td>

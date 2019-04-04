@@ -30,6 +30,9 @@
 #  parcoursup_documents                 :text
 #  parcoursup_formulaire                :text
 #  scholarship                          :boolean          default(FALSE)
+#  production_in_formulaire             :boolean          default(FALSE)
+#  production_somewhere_else            :boolean          default(FALSE)
+#  production_analyzed                  :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

@@ -1,23 +1,6 @@
 <% content_for :title, @candidate %>
-<h1><%= @candidate %></h1>
 
-<p><%= @candidate.number %></p>
-
-<p><%= @candidate.level %></p>
-<p>
-  <strong>Baccalaureat:</strong>
-  <%= @candidate.baccalaureat %>
-</p>
-
-<p>
-  <strong>Moyenne:</strong>
-  <%= @candidate.dossier_note %>
-</p>
-
-<p>
-  <strong>Evaluation:</strong>
-  <%= @candidate.evaluation_note %>
-</p>
+<%= render 'header', candidate: @candidate %>
 
 <%= link_to 'Edit', edit_candidate_path(@candidate), class: 'btn btn-primary' %>
 

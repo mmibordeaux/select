@@ -1,0 +1,30 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <% if candidate.scholarship %>
+      <span class="badge badge-dark float-right">Boursier</span>
+    <% end %>
+    <h1><%= candidate %></h1>
+    <p><%= candidate.number %></p>
+    <div class="row">
+      <div class="col-md-4">
+        <p><%= candidate.level %></p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Baccalaureat:</strong>
+          <%= link_to candidate.baccalaureat, candidate.baccalaureat %>
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Moyenne:</strong>
+          <%= candidate.dossier_note %>
+        </p>
+        <p>
+          <strong>Evaluation:</strong>
+          <%= candidate.evaluation_note %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
