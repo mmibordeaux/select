@@ -24,7 +24,7 @@ class CandidatesController < ApplicationController
       @candidates = @candidates.where(production_in_formulaire: true)
     when 'maybe'
       @title = 'Candidats avec possible production'
-      @candidates = @candidates.where(production_somewhere_else: true)
+      @candidates = @candidates.where(production_in_formulaire: false, production_somewhere_else: true)
     when 'not-analyzed'
       @title = 'Candidats à production non analysée'
       @candidates = @candidates.where(production_analyzed: false)

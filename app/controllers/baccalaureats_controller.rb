@@ -8,7 +8,7 @@ class BaccalaureatsController < ApplicationController
 
   # GET /baccalaureats/1
   def show
-    @candidates = @baccalaureat.inherited_candidates.page params[:page]
+    @candidates = @baccalaureat.inherited_candidates.ordered_by_evaluation.page params[:page]
   end
 
   # GET /baccalaureats/new

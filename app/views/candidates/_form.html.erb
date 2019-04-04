@@ -29,7 +29,14 @@
                         label: 'Motivation pour la spécialité' %>
     </div>
   </div>
-  <%= f.input :evaluation_comment,
-              label: 'Commentaire' %>
-  <%= f.submit 'Enregistrer', class: 'btn btn-primary float-right' %>
+  <div class="row">
+    <div class="col-md-9">
+      <%= f.input :evaluation_comment,
+                  label: 'Commentaire' %>
+    </div>
+    <div class="col-md-3">
+      <label>&nbsp;</label><br/>
+      <%= f.submit 'Enregistrer l\'évaluation', class: 'btn btn-primary align-right' %>
+    </div>
+  </div>
 <% end %>

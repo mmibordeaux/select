@@ -3,10 +3,11 @@
   <thead>
     <tr>
       <th width="30">#</th>
-      <th width="80">Number</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th width="80">Numéro</th>
+      <th>Prénom</th>
+      <th>Nom</th>
       <th width="400">Baccalaureat</th>
+      <th width="80">Boursier</th>
       <th>Evaluation</th>
       <th width="80">Production</th>
       <th></th>
@@ -21,6 +22,7 @@
         <td><%= candidate.first_name %></td>
         <td><%= candidate.last_name %></td>
         <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
+        <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
         <td><%= candidate.evaluation_note.round(2) %></td>
         <td>
           <% if candidate.production_analyzed %>

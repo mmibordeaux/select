@@ -119,15 +119,20 @@ class Candidate < ApplicationRecord
     formulaire = parcoursup_clean('formulaire')
     doc = Nokogiri::HTML formulaire
     text = doc.at('textarea').text
-    self.update_column :production_in_formulaire, !text.blank?
+    self.production_in_formulaire = !text.blank?
     # Somewhere else
     http_found = false
     http_found = true if 'http'.in? formulaire
     parcoursup_lettre_motivation = parcoursup_clean('lettre_motivation')
     http_found = true if 'http'.in? parcoursup_lettre_motivation
-    self.update_column :production_somewhere_else, http_found
+    self.production_somewhere_else = http_found
+    # Auto attribute modifier
+    if !self.production_in_formulaire && !self.production_somewhere_else
+      self.production_id = 5
+    end
     # Analyzed
-    self.update_column :production_analyzed, true
+    self.production_analyzed = true
+    save
   end
 
   def parcoursup(part)

@@ -2,9 +2,9 @@
 
 <%= render 'header', candidate: @candidate %>
 
-<%= link_to 'Evaluer', edit_candidate_path(@candidate), class: 'btn btn-primary' %>
+<%= render 'form', candidate: @candidate %>
 
-<hr/>
+<hr class="clear" />
 
 <div class="row">
   <div class="col-md-3">
