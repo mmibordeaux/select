@@ -1,4 +1,8 @@
 <h1>Candidats</h1>
+<%= link_to 'Recalculer l\'ordre des candidats',
+            positionize_candidates_path,
+            method: :post,
+            class: 'btn btn-primary float-right' %>
 <%= render 'table', candidates: @candidates %>
 <br>
 <%= link_to 'New Candidate', new_candidate_path %>

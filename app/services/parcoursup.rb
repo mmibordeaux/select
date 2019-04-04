@@ -28,7 +28,7 @@ class Parcoursup
       g_dp_cod: 0,
       g_py_cod: -1,
       formation: 4331,
-      nbResultatsParPage: 50
+      nbResultatsParPage: 10000
     },
     {
       cookies: @cookies
@@ -59,8 +59,8 @@ class Parcoursup
     return
   end
 
-  def load(candidate_number, page)
-    puts "Parcoursup.load #{candidate_number}, #{page}"
+  def load_page(candidate_number, page)
+    puts "Parcoursup.load_page #{candidate_number}, #{page}"
     authenticate
     dossier_id = get_dossier_id(candidate_number)
     RestClient.get "#{URL}/DossierCandidat/dossier?ACTION=1&module=#{page}&dossierid=#{dossier_id}", {
@@ -73,7 +73,6 @@ class Parcoursup
   protected
 
   def authenticate
-    return unless @cookie_jar
     puts "Parcoursup.authenticate"
     RestClient.post "#{URL}/Gestion/authentification", {
       g_ea_cod: ENV['PARCOURSUP_LOGIN'],

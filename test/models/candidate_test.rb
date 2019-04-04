@@ -29,6 +29,7 @@
 #  parcoursup_groupe                    :text
 #  parcoursup_documents                 :text
 #  parcoursup_formulaire                :text
+#  scholarship                          :boolean          default(FALSE)
 #
 
 require 'test_helper'

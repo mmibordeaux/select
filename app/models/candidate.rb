@@ -29,6 +29,7 @@
 #  parcoursup_groupe                    :text
 #  parcoursup_documents                 :text
 #  parcoursup_formulaire                :text
+#  scholarship                          :boolean          default(FALSE)
 #
 
 class Candidate < ApplicationRecord
@@ -65,11 +66,13 @@ class Candidate < ApplicationRecord
       first_name = "#{row[5]}"
       last_name = "#{row[4]}"
       level = "#{row[10]} - #{row[11]}"
+      scholarship = row[8].to_s == 'Oui'
       candidate = Candidate.where(number: number).first_or_create
       candidate.first_name = first_name
       candidate.last_name = last_name
       candidate.baccalaureat = baccalaureat
       candidate.level = level
+      candidate.scholarship = scholarship
       candidate.save
       puts "Created candidate #{number}"
     end
@@ -87,6 +90,12 @@ class Candidate < ApplicationRecord
     end
   end
 
+  def self.sync_all
+    find_each do |candidate|
+      candidate.parcoursup_sync! unless candidate.parcoursup_synced?
+    end
+  end
+
   def parcoursup_synced?
     !parcoursup_formulaire.blank?
   end
@@ -94,18 +103,18 @@ class Candidate < ApplicationRecord
   def parcoursup_sync!
     Parcoursup::PARTS.each do |part|
       key = parcoursup_part_to_key(part)
-      value = Parcoursup.instance.load(number, part)
-      update_column key, value
+      value = self.send key
+      if value.blank?
+        value = Parcoursup.instance.load_page(number, part)
+        update_column key, value
+        sleep 2
+      end
     end
   end
 
   def parcoursup(part)
     key = parcoursup_part_to_key(part)
-    attributes[key]
-  end
-
-  def parcoursup_form
-    Parcoursup.instance.form(number)
+    self.send key
   end
 
   def to_s

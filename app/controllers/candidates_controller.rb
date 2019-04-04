@@ -3,8 +3,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates
   def index
-    Candidate.positionize
-    @candidates = Candidate.ordered_by_evaluation
+    @candidates = Candidate.ordered_by_evaluation.includes(:baccalaureat)
     @candidates = @candidates.search params[:search] if params.has_key? :search
     @candidates = @candidates.page params[:page]
   end
@@ -13,9 +12,17 @@ class CandidatesController < ApplicationController
     Candidate.import params[:csv] if params[:csv]
   end
 
+  def scholarship
+    @candidates = Candidate.where(scholarship: true).page params[:page]
+  end
+
+  def positionize
+    Candidate.positionize
+    redirect_to candidates_path
+  end
+
   # GET /candidates/1
   def show
-    @candidate.parcoursup_sync! unless @candidate.parcoursup_synced?
   end
 
   # GET /candidates/new
