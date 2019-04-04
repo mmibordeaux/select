@@ -93,12 +93,6 @@ class Candidate < ApplicationRecord
     end
   end
 
-  def self.sync_all
-    find_each do |candidate|
-      candidate.parcoursup_sync! unless candidate.parcoursup_synced?
-    end
-  end
-
   def parcoursup_synced?
     !parcoursup_formulaire.blank?
   end
@@ -112,12 +106,6 @@ class Candidate < ApplicationRecord
         update_column key, value
         sleep 2
       end
-    end
-  end
-
-  def self.find_all_productions
-    find_each do |candidate|
-      candidate.find_production!
     end
   end
 
