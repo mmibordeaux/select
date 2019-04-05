@@ -4,13 +4,19 @@
       <span class="badge badge-dark float-right">Boursier</span>
     <% end %>
     <h1><%= candidate %></h1>
+    <%= link_to 'Modifier', edit_candidate_path(@candidate), class: 'btn btn-light btn-sm float-right' %>
     <p><%= candidate.number %></p>
     <div class="row">
       <div class="col-md-4">
         <p><%= candidate.level %></p>
         <p>
-          <% if candidate.evaluated_by %>
-            Evalué par <%= link_to candidate.evaluated_by, candidate.evaluated_by %>
+          <% if candidate.evaluation_done %>
+            Evalué 
+            <% if candidate.evaluated_by %>
+              par <%= link_to candidate.evaluated_by, candidate.evaluated_by %>
+            <% else %>
+              automatiquement
+            <% end %>
           <% else %>
             Non évalué
           <% end %>

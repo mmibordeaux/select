@@ -12,9 +12,8 @@ param_name ||= :page
       <th width="400">Baccalaureat</th>
       <th width="80">Boursier</th>
       <th>Evaluation</th>
-      <th>Attr.</th>
+      <th>Evaluateur</th>
       <th width="80">Production</th>
-      <th></th>
     </tr>
   </thead>
 
@@ -28,7 +27,15 @@ param_name ||= :page
         <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
         <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
         <td><%= candidate.evaluation_note.round(2) %></td>
-        <td class="small"><%= link_to_if candidate.attributed_to, candidate.attributed_to %></td>
+        <td class="small">
+          <% if candidate.evaluated_by %>
+            <%= link_to candidate.evaluated_by, candidate.evaluated_by %>
+          <% elsif candidate.attributed_to %>
+            <%= link_to candidate.attributed_to, candidate.attributed_to %>
+          <% else %>
+            Pas d'évaluateur
+          <% end %>
+        </td>
         <td>
           <% if candidate.production_analyzed %>
             <% if candidate.production_in_formulaire %>
@@ -41,9 +48,6 @@ param_name ||= :page
           <% else %>
             NA
           <% end %>
-        </td>
-        <td>
-          <%= link_to 'Edit', edit_candidate_path(candidate), class: 'btn btn-primary btn-sm' %>
         </td>
       </tr>
     <% end %>

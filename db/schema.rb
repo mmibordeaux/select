@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_04_200701) do
+ActiveRecord::Schema.define(version: 2019_04_05_051028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2019_04_04_200701) do
     t.boolean "production_somewhere_else", default: false
     t.boolean "production_analyzed", default: false
     t.bigint "attributed_to_id"
+    t.boolean "evaluation_done", default: false
     t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
@@ -83,6 +84,7 @@ ActiveRecord::Schema.define(version: 2019_04_04_200701) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "evaluator"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

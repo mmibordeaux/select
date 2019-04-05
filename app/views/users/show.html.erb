@@ -2,4 +2,6 @@
 
 <h1><%= @user %></h1>
 
+<%= link_to 'Modifier', edit_user_path(@user) %>
+
 <%= render 'candidates/table', candidates: @candidates %>

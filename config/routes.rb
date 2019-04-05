@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :modifiers, :baccalaureats
-  resources :users, only: [:index, :show]
+  resources :modifiers, :baccalaureats, :users
   resources :candidates do
     collection do
       get :scholarship

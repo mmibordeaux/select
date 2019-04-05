@@ -72,20 +72,20 @@ class CandidatesController < ApplicationController
 
   # PATCH/PUT /candidates/1
   def update
-    @candidate.production_auto_evaluated = false
+    @candidate.evaluation_done = true
     @candidate.evaluated_by = current_user
     @candidate.assign_attributes candidate_params
     if @candidate.save(context: :evaluation)
-      redirect_to @candidate, notice: 'Candidate was successfully updated.'
+      remaining = current_user.candidates_attributed.todo.count
+      next_candidate = current_user.candidates_attributed.todo.first
+      if next_candidate
+        redirect_to next_candidate, notice: "Evaluation enregistrée. Courage, plus que #{remaining} !"
+      else
+        redirect_to candidates_path, notice: "Terminé!"
+      end
     else
-      render :edit
+      render :show
     end
-  end
-
-  # DELETE /candidates/1
-  def destroy
-    @candidate.destroy
-    redirect_to candidates_url, notice: 'Candidate was successfully destroyed.'
   end
 
   private

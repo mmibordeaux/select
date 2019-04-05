@@ -34,6 +34,7 @@
 #  production_somewhere_else            :boolean          default(FALSE)
 #  production_analyzed                  :boolean          default(FALSE)
 #  attributed_to_id                     :bigint(8)
+#  evaluation_done                      :boolean          default(FALSE)
 #
 
 class Candidate < ApplicationRecord
@@ -47,8 +48,8 @@ class Candidate < ApplicationRecord
 
   scope :search, -> (term) {where('unaccent(first_name) ILIKE unaccent(?) OR unaccent(last_name) ILIKE unaccent(?)', "%#{term}%", "%#{term}%")}
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
-  scope :todo, -> { where(evaluated_by_id: nil)}
-  scope :done, -> { where.not(evaluated_by_id: nil)}
+  scope :todo, -> { where(evaluation_done: false)}
+  scope :done, -> { where(evaluation_done: true)}
 
   before_save :compute_evaluation_note
 
@@ -113,7 +114,7 @@ class Candidate < ApplicationRecord
       if value.blank?
         value = Parcoursup.instance.load_page(number, part)
         update_column key, value
-        sleep 2
+        sleep 1
       end
     end
   end
@@ -134,6 +135,8 @@ class Candidate < ApplicationRecord
     # Auto attribute modifier
     if !self.production_in_formulaire && !self.production_somewhere_else
       self.production_id = 5
+      self.evaluation_comment = 'Pas de production en ligne'
+      self.evaluation_done = true
     end
     # Analyzed
     self.production_analyzed = true

@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Email</th>
+      <th>Participe à l'évaluation</th>
       <th>A faire</th>
       <th>Fait</th>
     </tr>
@@ -15,6 +16,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user, user %></td>
+        <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
         <td><%= user.candidates_attributed.count %></td>
         <td><%= user.candidates_evaluated.count %></td>
       </tr>

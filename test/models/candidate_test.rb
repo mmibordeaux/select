@@ -34,6 +34,7 @@
 #  production_somewhere_else            :boolean          default(FALSE)
 #  production_analyzed                  :boolean          default(FALSE)
 #  attributed_to_id                     :bigint(8)
+#  evaluation_done                      :boolean          default(FALSE)
 #
 
 require 'test_helper'
