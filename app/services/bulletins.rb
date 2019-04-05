@@ -27,11 +27,11 @@ class Bulletins
     'résultats inégaux',
     'superficiel',
     'manque d\'implication',
-    'résultats moyens',
     'catastrophique',
-    'absent',
+    'absen',
     'passable',
-    'bavard'
+    'bavard',
+    'aucun travail'
   ]
 
   def self.keywords(html)
