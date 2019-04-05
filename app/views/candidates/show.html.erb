@@ -2,9 +2,39 @@
 
 <%= render 'header', candidate: @candidate %>
 
+<h2>Synthèse</h2>
+
+<div class="row synthesis">
+  <div class="col-md-4">
+    <%= @candidate.parcoursup_synthesis_lettre_motivation.html_safe %>
+  </div>
+  <div class="col-md-6">
+    <%= @candidate.parcoursup_synthesis_formulaire.html_safe %>
+  </div>
+  <div class="col-md-2">
+    <% keywords = @candidate.parcoursup_synthesis_bulletins_keywords %>
+    <ul class="list-unstyled">
+      <% keywords.each do |keyword| %>
+        <li>
+          <h5>
+            <span class="badge badge-xl badge-<%= keyword[:kind] == 'positive' ? 'success' : 'danger' %>">
+              <%= keyword[:word] %>
+              <span class="small">x<%= keyword[:occurences] %></span>
+            </span>
+          </h5>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<hr />
+
 <%= render 'form', candidate: @candidate %>
 
-<hr class="clear" />
+<hr />
+
+<h2>Tout le dossier Parcoursup</h2>
 
 <div class="row">
   <div class="col-md-3">

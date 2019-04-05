@@ -7,6 +7,10 @@ class CandidatesController < ApplicationController
     @candidates = @candidates.search params[:search] if params.has_key? :search
     @candidates = @candidates.page params[:page]
     @candidates_synced = Candidate.parcoursup_synced
+    @candidates_done = Candidate.done.count
+    @candidates_total = Candidate.count
+    @candidates_percent = @candidates_total.zero? ? 0
+                                                  : 100.0 * @candidates_done / @candidates_total
   end
 
   def import

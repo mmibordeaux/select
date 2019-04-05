@@ -171,6 +171,23 @@ class Candidate < ApplicationRecord
     Parcoursup.instance.load_page(number, part)
   end
 
+  def parcoursup_synthesis_lettre_motivation
+    letter = parcoursup_clean 'lettre_motivation'
+    doc = Nokogiri::HTML letter
+    doc.at('#div_lm_consult').inner_html
+  end
+
+  def parcoursup_synthesis_formulaire
+    formulaire = parcoursup_clean 'formulaire'
+    doc = Nokogiri::HTML formulaire
+    doc.at('.divGlobalFormulaire').inner_html
+  end
+
+  def parcoursup_synthesis_bulletins_keywords
+    bulletins = parcoursup_clean 'bulletins'
+    Bulletins.keywords bulletins
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end

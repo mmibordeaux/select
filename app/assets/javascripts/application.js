@@ -11,4 +11,6 @@ jQuery(function ($) {
     var $content = $('#formulaire textarea').html().replace(/\n/g, "<br />");
     $('#formulaire textarea').replaceWith($content);
     $('#parcoursup').autolink();
+    $('.synthesis textarea').replaceWith($content);
+    $('.synthesis').autolink();
 });

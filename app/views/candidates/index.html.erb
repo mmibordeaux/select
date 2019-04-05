@@ -1,11 +1,18 @@
 <% content_for :title, 'Candidats' %>
+
+<div class="progress" style="height: 30px;">
+  <div  class="progress-bar bg-info"
+        role="progressbar"
+        style="width: <%= @candidates_percent %>%">
+    <%= @candidates_done %>
+  </div>
+</div>
 <h1>Candidats</h1>
 <%= link_to 'Recalculer l\'ordre des candidats',
             positionize_candidates_path,
             method: :post,
             class: 'btn btn-primary float-right' %>
 
-<p><%= @candidates_synced.count %> candidats synchronisés avec Parcoursup</p>
 <%= render 'table', candidates: @candidates %>
-<br>
 <%= link_to 'New Candidate', new_candidate_path %>
+<p><%= @candidates_synced.count %> candidats synchronisés avec Parcoursup</p>
