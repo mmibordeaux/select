@@ -6,6 +6,7 @@ class CandidatesController < ApplicationController
     @candidates = Candidate.ordered_by_evaluation.includes(:baccalaureat)
     @candidates = @candidates.search params[:search] if params.has_key? :search
     @candidates = @candidates.page params[:page]
+    @candidates_synced = Candidate.parcoursup_synced
   end
 
   def import

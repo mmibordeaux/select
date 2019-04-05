@@ -50,6 +50,7 @@ class Candidate < ApplicationRecord
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}
+  scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
 
   before_save :compute_evaluation_note
 
