@@ -3,9 +3,10 @@
 <h1><%= @baccalaureat.title %></h1>
 
 <% if @baccalaureat.quota %>
-  <p><%= link_to @baccalaureat.quota, @baccalaureat.quota %></p>
+  <p>Quota: <%= @baccalaureat.quota %></p>
 <% end %>
 
 <%= link_to 'Modifier', edit_baccalaureat_path(@baccalaureat), class: 'btn btn-primary' %>
+<%= link_to 'Supprimer', baccalaureat_path(@baccalaureat), method: :delete, data: { confirm: 'Sûr ?' }, class: 'btn btn-danger' %>
 
 <%= render 'candidates/table', candidates: @candidates %>
