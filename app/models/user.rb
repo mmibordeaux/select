@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :candidates_evaluated, class_name: 'Candidate', foreign_key: :evaluated_by
   has_many :candidates_attributed, class_name: 'Candidate', foreign_key: :attributed_to_id
 
+  scope :evaluators, -> { where(evaluator: true) }
+
   def to_s
     "#{email}"
   end

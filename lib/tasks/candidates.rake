@@ -17,8 +17,8 @@ namespace :candidates do
 
   desc "Split between users"
   task split: :environment do
-    users = User.all
-    candidates = Candidate.all
+    users = User.evaluators
+    candidates = Candidate.todo
     candidates_per_user = (1.0 * candidates.count / users.count).ceil
     users.each_with_index do |user, index|
       candidates_for_user = candidates.limit(candidates_per_user).offset(candidates_per_user * index)
