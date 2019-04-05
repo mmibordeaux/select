@@ -55,6 +55,10 @@ class Candidate < ApplicationRecord
   before_save :compute_evaluation_note
 
   validates_length_of :evaluation_comment, minimum: 25, allow_blank: false, on: :evaluation
+  validates_presence_of :attitude, on: :evaluation
+  validates_presence_of :intention, on: :evaluation
+  validates_presence_of :production, on: :evaluation
+  validates_presence_of :localization, on: :evaluation
 
   def self.import(csv)
     require 'csv'
