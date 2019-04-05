@@ -54,7 +54,7 @@ class Candidate < ApplicationRecord
 
   before_save :compute_evaluation_note
 
-  validates_length_of :evaluation_comment, minimum: 25, allow_blank: false, on: :evaluation
+  validates_length_of :evaluation_comment, minimum: 15, allow_blank: false, on: :evaluation
   validates_presence_of :attitude, on: :evaluation
   validates_presence_of :intention, on: :evaluation
   validates_presence_of :production, on: :evaluation
