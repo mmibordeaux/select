@@ -75,20 +75,25 @@ class Candidate < ApplicationRecord
       end
 
       number = "#{row[3]}"
-      first_name = "#{row[5]}"
-      last_name = "#{row[4]}"
-      level = "#{row[10]} - #{row[11]}"
-      scholarship = row[8].to_s == 'Oui'
-
-      candidate = Candidate.where(number: number).first_or_create
-      candidate.first_name = first_name
-      candidate.last_name = last_name
-      candidate.baccalaureat = baccalaureat
-      candidate.level = level
-      candidate.scholarship = scholarship
-      candidate.dossier_note = Note.average(row)
-      candidate.save
-      puts "Created candidate #{number}"
+      validated = row[17].to_s == 'Oui'
+      if validated
+        first_name = "#{row[5]}"
+        last_name = "#{row[4]}"
+        level = "#{row[10]} - #{row[11]}"
+        scholarship = row[8].to_s == 'Oui'
+        candidate = Candidate.where(number: number).first_or_create
+        candidate.first_name = first_name
+        candidate.last_name = last_name
+        candidate.baccalaureat = baccalaureat
+        candidate.level = level
+        candidate.scholarship = scholarship
+        candidate.dossier_note = Note.average(row)
+        candidate.save
+        puts "Created candidate #{number}"
+      else
+        Candidate.where(number: number).destroy_all
+        puts "Deleted candidate #{number}"
+      end
     end
   end
 
