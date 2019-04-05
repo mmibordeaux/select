@@ -15,9 +15,19 @@
     <% keywords = @candidate.parcoursup_synthesis_bulletins_keywords %>
     <ul class="list-unstyled">
       <% keywords.each do |keyword| %>
+        <% 
+        case keyword[:kind]
+        when 'positive'
+          color = 'success'
+        when 'neutral'
+          color = 'secondary'
+        when 'negative'
+          color = 'danger'
+        end
+        %>
         <li>
           <h5>
-            <span class="badge badge-xl badge-<%= keyword[:kind] == 'positive' ? 'success' : 'danger' %>">
+            <span class="badge badge-xl badge-<%= color %>">
               <%= keyword[:word] %>
               <span class="small">x<%= keyword[:occurences] %></span>
             </span>

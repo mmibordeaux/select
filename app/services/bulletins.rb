@@ -4,20 +4,26 @@ class Bulletins
   POSITIVE_WORDS = [
     'sérieux',
     'bon travail',
-    'satisfaisant',
     'motivé',
     'enthousiaste',
     'dynamique',
     'potentiel',
     'félicitations',
-    'encouragements'
+    'encouragements',
+    'excellent'
+  ]
+
+  NEUTRAL_WORDS = [
+    'moyen',
+    'convenable',
+    'correct'
   ]
 
   NEGATIVE_WORDS = [
     'difficultés',
     'insuffisant',
     'décevant',
-    'fragile',
+    'fragil',
     'résultats inégaux',
     'superficiel',
     'manque d\'implication',
@@ -34,7 +40,7 @@ class Bulletins
 
   def extract(html)
     @html = html
-    @keywords = find(POSITIVE_WORDS, 'positive') + find(NEGATIVE_WORDS, 'negative')
+    @keywords = find(POSITIVE_WORDS, 'positive') + find(NEUTRAL_WORDS, 'neutral') + find(NEGATIVE_WORDS, 'negative')
     @keywords.sort_by { |w| w[:occurences] }.reverse
   end
 
