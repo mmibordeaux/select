@@ -1,3 +1,4 @@
+/*global jQuery */
 //= require jquery3
 //= require rails-ujs
 //= require activestorage
@@ -6,5 +7,8 @@
 //= require autolink
 
 jQuery(function ($) {
-    $('document.body').autolink();
+    'use strict';
+    var $content = $('#formulaire textarea').html().replace(/\n/g, "<br />");
+    $('#formulaire textarea').replaceWith($content);
+    $('#parcoursup').autolink();
 });
