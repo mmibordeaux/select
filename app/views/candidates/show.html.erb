@@ -12,9 +12,19 @@
     <%= @candidate.parcoursup_synthesis_formulaire.html_safe %>
   </div>
   <div class="col-md-2">
-    <% keywords = @candidate.parcoursup_synthesis_bulletins_keywords %>
+    <div class="progress mb-4" style="height: 30px">
+      <div  class="progress-bar bg-danger"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_negative %>%"></div>
+      <div  class="progress-bar bg-secondary"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_neutral %>%"></div>
+      <div  class="progress-bar bg-success"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_positive %>%"></div>
+    </div>
     <ul class="list-unstyled">
-      <% keywords.each do |keyword| %>
+      <% @bulletins_analyze.keywords.each do |keyword| %>
         <% 
         case keyword[:kind]
         when 'positive'

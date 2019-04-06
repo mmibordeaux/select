@@ -53,6 +53,8 @@ class CandidatesController < ApplicationController
 
   # GET /candidates/1
   def show
+    bulletins = @candidate.parcoursup_clean 'bulletins'
+    @bulletins_analyze = BulletinsAnalyze.new bulletins
   end
 
   # GET /candidates/new

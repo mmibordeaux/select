@@ -183,11 +183,6 @@ class Candidate < ApplicationRecord
     doc.at('.divGlobalFormulaire').inner_html
   end
 
-  def parcoursup_synthesis_bulletins_keywords
-    bulletins = parcoursup_clean 'bulletins'
-    Bulletins.keywords bulletins
-  end
-
   def to_s
     "#{first_name} #{last_name}"
   end
