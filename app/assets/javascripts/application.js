@@ -53,7 +53,8 @@ jQuery(function ($) {
         'photographie',
         'web marketing',
         'anglais',
-        'game designer'
+        'game designer',
+        'webdesign'
     ],{
         separateWordSearch: false,
         exclude: ['.labelInputText', '.titreCkeditor']
