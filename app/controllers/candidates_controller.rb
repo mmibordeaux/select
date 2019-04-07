@@ -91,6 +91,8 @@ class CandidatesController < ApplicationController
         redirect_to candidates_path, notice: "Terminé!"
       end
     else
+      bulletins = @candidate.parcoursup_clean 'bulletins'
+      @bulletins_analyze = BulletinsAnalyze.new bulletins
       render :show
     end
   end
