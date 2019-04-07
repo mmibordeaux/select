@@ -8,6 +8,7 @@ gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'devise'
+gem 'devise-i18n'
 gem 'rest-client'
 
 # Front
@@ -17,6 +18,7 @@ gem 'nokogiri'
 gem 'simple_form'
 gem 'bootstrap'
 gem 'kaminari'
+gem 'kaminari-i18n'
 gem 'bootstrap4-kaminari-views'
 gem 'jquery-rails'
 
