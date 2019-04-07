@@ -51,7 +51,8 @@ jQuery(function ($) {
         'indesign',
         'photographie',
         'web marketing',
-        'anglais'
+        'anglais',
+        'game designer'
     ],{
         separateWordSearch: false,
         exclude: ['.labelInputText', '.titreCkeditor']
