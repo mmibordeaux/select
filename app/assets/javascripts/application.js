@@ -49,7 +49,9 @@ jQuery(function ($) {
         'artistique',
         'seo',
         'indesign',
-        'photographie'
+        'photographie',
+        'web marketing',
+        'anglais'
     ],{
         separateWordSearch: false,
         exclude: ['.labelInputText', '.titreCkeditor']
