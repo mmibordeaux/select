@@ -11,7 +11,7 @@ namespace :app do
           sh 'bundle exec rake db:create'
           sh "pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d #{ Rails.application.config.database_configuration[Rails.env]['database']} db/latest.dump"
           sh 'bundle exec rake db:migrate'
-          sh 'rm db/latest.dump'
+          # sh 'rm db/latest.dump'
         rescue
           'There was warnings/errors while restoring'
         end

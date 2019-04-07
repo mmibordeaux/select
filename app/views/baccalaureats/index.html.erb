@@ -14,7 +14,7 @@
       <tr>
         <td><%= link_to baccalaureat, baccalaureat %></td>
         <td><%= baccalaureat.inherited_candidates.count %></td>
-        <td><%= baccalaureat.inherited_quota %></td>
+        <td><%= baccalaureat.inherited_quota.round if baccalaureat.inherited_quota %></td>
       </tr>
     <% end %>
   </tbody>
