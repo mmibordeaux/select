@@ -41,7 +41,7 @@ jQuery(function ($) {
         'stage',
         'cadrage',
         'prise de son',
-        ' son',
+        'mao',
         'programmation',
         'infographie',
         'web design',
