@@ -5,6 +5,7 @@
 //= require popper
 //= require bootstrap
 //= require autolink
+//= require jquery.mark.es6.min
 
 jQuery(function ($) {
     'use strict';
@@ -13,4 +14,44 @@ jQuery(function ($) {
     $('#parcoursup').autolink();
     $('.synthesis textarea').replaceWith($content);
     $('.synthesis').autolink();
+
+    $('.marked').mark([
+        'html',
+        'python',
+        'php',
+        'css',
+        'mooc',
+        'tournage',
+        'developpement',
+        'javascript',
+        'openclassroom',
+        ' jeu',
+        'webmaster',
+        'reseaux sociaux',
+        'communication',
+        'sécurité',
+        'community manager',
+        'design graphique',
+        'courts-métrages',
+        'montage',
+        'site web',
+        'photoshop',
+        'illustrator',
+        'audiovisuel',
+        'stage',
+        'cadrage',
+        'prise de son',
+        ' son',
+        'programmation',
+        'infographie',
+        'web design',
+        'photographe',
+        'artistique',
+        'seo',
+        'indesign',
+        'photographie'
+    ],{
+        separateWordSearch: false,
+        exclude: ['.labelInputText', '.titreCkeditor']
+    });
 });
