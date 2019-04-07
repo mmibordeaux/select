@@ -5,7 +5,7 @@
 //= require popper
 //= require bootstrap
 //= require autolink
-//= require jquery.mark.es6.min
+//= require jquery.mark.min
 
 jQuery(function ($) {
     'use strict';
