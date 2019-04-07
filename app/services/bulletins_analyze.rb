@@ -9,7 +9,8 @@ class BulletinsAnalyze
     'potentiel',
     'félicitations',
     'encouragements',
-    'excellent'
+    'excellent',
+    'compliment'
   ]
 
   NEUTRAL_WORDS = [
