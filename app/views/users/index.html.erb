@@ -7,8 +7,8 @@
     <tr>
       <th>Email</th>
       <th>Participe à l'évaluation</th>
-      <th>A faire</th>
       <th>Fait</th>
+      <th>A faire</th>
     </tr>
   </thead>
 
@@ -17,8 +17,8 @@
       <tr>
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
-        <td><%= user.candidates_attributed.count %></td>
         <td><%= user.candidates_evaluated.count %></td>
+        <td><%= user.candidates_attributed.count %></td>
       </tr>
     <% end %>
   </tbody>
