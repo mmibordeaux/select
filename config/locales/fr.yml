@@ -1,0 +1,16 @@
+fr: 
+  activerecord:
+    errors:
+      models:
+        candidate:
+          attributes:
+            attitude:
+              blank: 'doit être rempli'
+            intention:
+              blank: 'doit être rempli'
+            production:
+              blank: 'doit être rempli'
+            localization:
+              blank: 'doit être rempli'
+            evaluation_comment:
+              too_short: 'trop court'
