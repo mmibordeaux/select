@@ -47,6 +47,7 @@ class Candidate < ApplicationRecord
   belongs_to :localization, class_name: 'Modifier', optional: true
 
   scope :search, -> (term) {where('unaccent(first_name) ILIKE unaccent(?) OR unaccent(last_name) ILIKE unaccent(?)', "%#{term}%", "%#{term}%")}
+  scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}

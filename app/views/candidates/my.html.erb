@@ -1,8 +1,0 @@
-<% content_for :title, 'Mes candidats' %>
-<h1>Mes candidats</h1>
-
-<h2>A évaluer</h2>
-<%= render 'table', candidates: @candidates_todo, param_name: :page_todo %>
-
-<h2>Déjà évalués</h2>
-<%= render 'table', candidates: @candidates_done, param_name: :page_done %>

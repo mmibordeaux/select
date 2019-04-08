@@ -13,42 +13,8 @@ class CandidatesController < ApplicationController
                                                   : 100.0 * @candidates_done / @candidates_total
   end
 
-  def import
-    Candidate.import params[:csv] if params[:csv]
-  end
-
   def scholarship
     @candidates = Candidate.where(scholarship: true).ordered_by_evaluation.page params[:page]
-  end
-
-  def production
-    @candidates = Candidate.all
-    case params[:production]
-    when 'yes'
-      @title = 'Candidats avec production'
-      @candidates = @candidates.where(production_in_formulaire: true)
-    when 'maybe'
-      @title = 'Candidats avec possible production'
-      @candidates = @candidates.where(production_in_formulaire: false, production_somewhere_else: true)
-    when 'not-analyzed'
-      @title = 'Candidats à production non analysée'
-      @candidates = @candidates.where(production_analyzed: false)
-    when 'no'
-      @title = 'Candidats sans production'
-      @candidates = @candidates.where(production_in_formulaire: false, production_somewhere_else: false, production_analyzed: true)
-    end
-    @candidates = @candidates.page params[:page]
-  end
-
-  def positionize
-    Candidate.positionize
-    redirect_to candidates_path
-  end
-
-  def my
-    @candidates = current_user.candidates_attributed
-    @candidates_todo = @candidates.todo.page params[:page_todo]
-    @candidates_done = @candidates.done.ordered_by_evaluation.page params[:page_done]
   end
 
   # GET /candidates/1
