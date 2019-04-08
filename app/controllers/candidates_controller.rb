@@ -48,7 +48,7 @@ class CandidatesController < ApplicationController
   def my
     @candidates = current_user.candidates_attributed
     @candidates_todo = @candidates.todo.page params[:page_todo]
-    @candidates_done = @candidates.done.page params[:page_done]
+    @candidates_done = @candidates.done.ordered_by_evaluation.page params[:page_done]
   end
 
   # GET /candidates/1

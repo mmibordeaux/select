@@ -11,7 +11,7 @@ class BulletinsAnalyze
     'encouragements',
     'excellent',
     'compliment',
-    'volontaire '
+    'volontaire'
   ]
 
   NEUTRAL_WORDS = [
@@ -32,7 +32,10 @@ class BulletinsAnalyze
     'absen',
     'passable',
     'bavard',
-    'aucun travail'
+    'aucun travail',
+    'manque',
+    'irrégulier',
+    'inquiétant'
   ]
 
   def initialize(html)

@@ -54,8 +54,17 @@ jQuery(function ($) {
         'web marketing',
         'anglais',
         'game designer',
-        'webdesign'
-    ],{
+        'webdesign',
+        'motion',
+        'métier',
+        'groupe',
+        'équipe',
+        'autodidacte',
+        'apprendre',
+        'apprentissage',
+        'portes ouvertes',
+        'jpo'
+    ], {
         separateWordSearch: false,
         exclude: ['.labelInputText', '.titreCkeditor']
     });
