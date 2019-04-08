@@ -6,6 +6,8 @@
 //= require bootstrap
 //= require autolink
 //= require jquery.mark.min
+//= require Chart.bundle
+//= require chartkick
 
 jQuery(function ($) {
     'use strict';

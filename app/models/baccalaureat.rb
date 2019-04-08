@@ -15,6 +15,8 @@ class Baccalaureat < ApplicationRecord
   has_many :children, class_name: 'Baccalaureat', foreign_key: :parent_id, dependent: :destroy
   has_many :candidates, dependent: :nullify
 
+  scope :root, -> { where(parent: nil) }
+
   default_scope { order(:title) }
 
   def self.with_title_and_parent(title, parent)

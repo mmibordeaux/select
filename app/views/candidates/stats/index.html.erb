@@ -1,0 +1,16 @@
+<% content_for :title, 'Statistiques' %>
+
+<h1>Statistiques</h1>
+
+<h2>Candidatures</h2>
+<div class="row">
+	<div class="col-md-6">
+		<h3>Boursiers</h3>
+		<%= pie_chart Candidate.group(:scholarship).count %>
+	</div>
+	<div class="col-md-6">
+		<h3>Types de bacs</h3>
+		<%= pie_chart Baccalaureat.root.map { |b| [b.to_s, b.inherited_candidates.count] } %>
+	</div>
+</div>
+<hr/>

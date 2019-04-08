@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post 'import' => 'operations#import'
     post 'positionize' => 'operations#positionize', as: :positionize
     get 'production/:production' => 'production#index', as: :production
+    get 'stats' => 'stats#index', as: :stats
   end
   resources :candidates do
     collection do
