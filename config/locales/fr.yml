@@ -1,5 +1,9 @@
 fr: 
   activerecord:
+    models:
+      candidate:
+        one: 'Candidat'
+        other: 'Candidats'
     errors:
       models:
         candidate:
