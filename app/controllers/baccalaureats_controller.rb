@@ -53,6 +53,6 @@ class BaccalaureatsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def baccalaureat_params
-      params.require(:baccalaureat).permit(:title, :parent_id, :quota)
+      params.require(:baccalaureat).permit(:title, :parent_id, :quota, :evaluation_bonus)
     end
 end

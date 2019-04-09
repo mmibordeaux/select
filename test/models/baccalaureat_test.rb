@@ -2,12 +2,13 @@
 #
 # Table name: baccalaureats
 #
-#  id         :bigint(8)        not null, primary key
-#  title      :string
-#  parent_id  :bigint(8)
-#  quota      :float
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :bigint(8)        not null, primary key
+#  title            :string
+#  parent_id        :bigint(8)
+#  quota            :float
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  evaluation_bonus :float
 #
 
 require 'test_helper'

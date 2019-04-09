@@ -6,6 +6,7 @@
       <th>Title</th>
       <th>Candidates</th>
       <th>Quota</th>
+      <th>Bonus</th>
     </tr>
   </thead>
 
@@ -15,6 +16,7 @@
         <td><%= link_to baccalaureat, baccalaureat %></td>
         <td><%= baccalaureat.inherited_candidates.count %></td>
         <td><%= baccalaureat.inherited_quota.round if baccalaureat.inherited_quota %></td>
+        <td><%= baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus %></td>
       </tr>
     <% end %>
   </tbody>

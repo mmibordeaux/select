@@ -53,7 +53,7 @@ class Candidate < ApplicationRecord
   scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
 
-  before_save :compute_evaluation_note
+  before_save :denormalize_evaluation_note
 
   validates_length_of :evaluation_comment, minimum: 15, allow_blank: false, on: :evaluation
   validates_presence_of :attitude, on: :evaluation
@@ -184,6 +184,10 @@ class Candidate < ApplicationRecord
     doc.at('.divGlobalFormulaire').inner_html
   end
 
+  def denormalize_evaluation_note!
+    self.update_column :evaluation_note, compute_evaluation_note
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end
@@ -194,7 +198,15 @@ class Candidate < ApplicationRecord
     "parcoursup_#{part.underscore}".to_sym
   end
 
+  def denormalize_evaluation_note
+    self.evaluation_note = compute_evaluation_note
+  end
+
   def compute_evaluation_note
-    self.evaluation_note =  dossier_note + attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
+    note = dossier_note
+    note += attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
+    note += Setting.first.evaluation_scholarship_bonus if scholarship
+    note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
+    note
   end
 end

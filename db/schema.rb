@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_045156) do
+ActiveRecord::Schema.define(version: 2019_04_09_054211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_04_09_045156) do
     t.float "quota"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "evaluation_bonus"
     t.index ["parent_id"], name: "index_baccalaureats_on_parent_id"
   end
 
@@ -77,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_04_09_045156) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.float "scholarship_bonus"
+    t.float "evaluation_scholarship_bonus"
     t.integer "interview_number_of_candidates"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -2,12 +2,13 @@
 #
 # Table name: baccalaureats
 #
-#  id         :bigint(8)        not null, primary key
-#  title      :string
-#  parent_id  :bigint(8)
-#  quota      :float
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :bigint(8)        not null, primary key
+#  title            :string
+#  parent_id        :bigint(8)
+#  quota            :float
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  evaluation_bonus :float
 #
 
 class Baccalaureat < ApplicationRecord
@@ -26,6 +27,11 @@ class Baccalaureat < ApplicationRecord
   def inherited_quota
     return quota if quota
     return parent.inherited_quota if parent
+  end
+
+  def inherited_evaluation_bonus
+    return evaluation_bonus if evaluation_bonus
+    return parent.inherited_evaluation_bonus if parent
   end
 
   def inherited_candidates

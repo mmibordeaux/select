@@ -55,6 +55,6 @@ class SettingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def setting_params
-      params.require(:setting).permit(:scholarship_bonus, :interview_number_of_candidates)
+      params.require(:setting).permit(:evaluation_scholarship_bonus, :interview_number_of_candidates)
     end
 end

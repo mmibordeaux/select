@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :settings
   devise_for :users
-  resources :modifiers, :baccalaureats, :users
+  resources :modifiers, :baccalaureats, :users, :settings
   namespace :candidates do
     get 'my' => 'my#index'
     get 'import' => 'operations#import'
