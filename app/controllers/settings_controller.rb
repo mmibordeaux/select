@@ -4,7 +4,7 @@ class SettingsController < ApplicationController
   # GET /settings
   def index
     @settings = Setting.all
-    redirect_to new_setting_path if @settings.none?
+    return redirect_to new_setting_path if @settings.none?
     redirect_to @settings.first
   end
 
