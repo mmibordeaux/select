@@ -52,6 +52,7 @@ class Candidate < ApplicationRecord
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
+  scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
 
   before_save :denormalize_evaluation_note
 
