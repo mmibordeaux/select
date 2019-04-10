@@ -27,12 +27,15 @@ data = [
     }
 ]
 Baccalaureat.all.each { |baccalaureat|
-    data << {
-      id: baccalaureat.id.to_s,
-      parent: baccalaureat.parent_id ? baccalaureat.parent_id.to_s : '0',
-      name: baccalaureat.title,
-      value: baccalaureat.inherited_candidates.count
-    }
+  result = {
+    id: baccalaureat.id.to_s,
+    parent: baccalaureat.parent_id ? baccalaureat.parent_id.to_s : '0',
+    name: baccalaureat.title,
+    value: baccalaureat.inherited_candidates.count
+  }
+  result[:color] = 'rgb(96,153,208)' if baccalaureat.title == 'Bacheliers technologiques toutes séries'
+  result[:color] = 'rgb(92,92,97)' if baccalaureat.title == 'Tous les candidats sauf les Bac technologiques'
+  data << result
 }
 %>
 // Splice in transparent for the center circle
