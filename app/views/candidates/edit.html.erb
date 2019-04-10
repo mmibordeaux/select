@@ -1,5 +1,4 @@
 <% content_for :title, @candidate %>
-<h1><%= @candidate %></h1>
 <%= simple_form_for(@candidate) do |f| %>
   <%= f.association :baccalaureat,
                     collection: Baccalaureat.all.sort_by(&:to_s),

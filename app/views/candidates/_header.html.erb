@@ -3,7 +3,6 @@
     <% if candidate.scholarship %>
       <span class="badge badge-dark float-right">Boursier</span>
     <% end %>
-    <h1><%= candidate %></h1>
     <%= link_to 'Modifier', edit_candidate_path(@candidate), class: 'btn btn-light btn-sm float-right' %>
     <p><%= candidate.number %></p>
     <div class="row">
