@@ -1,12 +1,13 @@
-<h1>Baccalauréats</h1>
+<% content_for :title, 'Baccalauréats' %>
 <p><%= @baccalaureats.count %> baccalauréats</p>
 <table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Candidates</th>
+      <th width="600">Title</th>
       <th>Quota</th>
-      <th>Bonus</th>
+      <th>Dossiers</th>
+      <th>Entretiens</th>
+      <th>Sélection</th>
     </tr>
   </thead>
 
@@ -14,9 +15,10 @@
     <% @baccalaureats.each do |baccalaureat| %>
       <tr>
         <td><%= link_to baccalaureat, baccalaureat %></td>
+        <td><%= "#{baccalaureat.inherited_quota.round}%" if baccalaureat.inherited_quota %></td>
         <td><%= baccalaureat.inherited_candidates.count %></td>
-        <td><%= baccalaureat.inherited_quota.round if baccalaureat.inherited_quota %></td>
-        <td><%= baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus %></td>
+        <td><%= baccalaureat.inherited_candidates.selected_for_interviews.count %></td>
+        <td>0</td>
       </tr>
     <% end %>
   </tbody>

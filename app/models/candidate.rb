@@ -46,13 +46,20 @@ class Candidate < ApplicationRecord
   belongs_to :production, class_name: 'Modifier', optional: true
   belongs_to :localization, class_name: 'Modifier', optional: true
 
-  scope :search, -> (term) {where('unaccent(first_name) ILIKE unaccent(?) OR unaccent(last_name) ILIKE unaccent(?)', "%#{term}%", "%#{term}%")}
+  scope :search, -> (term) {
+    where('unaccent(first_name) ILIKE unaccent(?)
+          OR unaccent(last_name) ILIKE unaccent(?)
+          OR number ILIKE ?',
+      "%#{term}%",
+      "%#{term}%",
+      "%#{term}%")
+  }
   scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
-  scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
+  scope :selected_for_interviews, -> { where('position < ?', Setting.first.interview_number_of_candidates)}
 
   before_save :denormalize_evaluation_note
 

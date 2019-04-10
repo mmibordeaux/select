@@ -8,7 +8,10 @@ Rails.application.routes.draw do
     post 'positionize' => 'operations#positionize', as: :positionize
     get 'production/:production' => 'production#index', as: :production
     get 'stats' => 'stats#index', as: :stats
-    get 'interviews' => 'interviews#index', as: :interviews
+    scope :interviews do
+      get 'stats' => 'interviews#stats', as: :interviews_stats
+      root to: 'interviews#index', as: :interviews
+    end
   end
   resources :candidates do
     collection do

@@ -1,4 +1,4 @@
-<% content_for :title, 'Candidats' %>
+<% content_for :title, 'Tous les dossiers' %>
 
 <div class="progress" style="height: 30px;">
   <div  class="progress-bar bg-info"
@@ -7,7 +7,6 @@
     <%= @candidates_done %>
   </div>
 </div>
-<h1>Candidats</h1>
 <%= link_to 'Recalculer l\'ordre des candidats',
             candidates_positionize_path,
             method: :post,

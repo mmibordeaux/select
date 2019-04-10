@@ -1,6 +1,8 @@
-<%= link_to_if @baccalaureat.parent, @baccalaureat.parent, @baccalaureat.parent %>
+<% content_for :title, @baccalaureat.title %>
 
-<h1><%= @baccalaureat.title %></h1>
+<div>
+	<%= link_to_if @baccalaureat.parent, @baccalaureat.parent, @baccalaureat.parent %>
+</div>
 
 <% if @baccalaureat.quota %>
   <p>Quota: <%= @baccalaureat.quota %></p>
