@@ -16,3 +16,85 @@
         } %>
     </div>
 </div>
+
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/sunburst.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+#container {
+  min-width: 310px;
+  max-width: 800px;
+  margin: 0 auto
+}
+</style>
+<script type="text/javascript">
+<%
+data = [
+    {
+    id: '0',
+    parent: '',
+    name: 'Candidats'
+    }
+]
+Baccalaureat.all.each { |baccalaureat|
+    data << {
+      id: baccalaureat.id.to_s,
+      parent: baccalaureat.parent_id ? baccalaureat.parent_id.to_s : '0',
+      name: baccalaureat.title,
+      value: baccalaureat.inherited_candidates.count
+    }
+}
+%>
+// Splice in transparent for the center circle
+Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+
+Highcharts.chart('container', {
+
+  chart: {
+    height: '100%'
+  },
+
+  title: {
+    text: 'Baccalauréats'
+  },
+  series: [{
+    type: "sunburst",
+    data: <%= data.to_json.html_safe %>,
+    allowDrillToNode: true,
+    cursor: 'pointer',
+    dataLabels: false,
+    levels: [{
+      level: 1,
+      levelIsConstant: false,
+      dataLabels: {
+        filter: {
+          property: 'outerArcLength',
+          operator: '>',
+          value: 64
+        }
+      }
+    }, {
+      level: 2,
+      colorByPoint: true
+    },
+    {
+      level: 3,
+      colorVariation: {
+        key: 'brightness',
+        to: -0.5
+      }
+    }, {
+      level: 4,
+      colorVariation: {
+        key: 'brightness',
+        to: 0.5
+      }
+    }]
+
+  }],
+  tooltip: {
+    headerFormat: "",
+    pointFormat: '{point.value} {point.name}'
+  }
+});
+</script>
