@@ -6,7 +6,8 @@
 //= require bootstrap
 //= require autolink
 //= require jquery.mark.min
-//= require Chart.bundle
+//= require highcharts
+//= require highcharts.sunburst
 //= require chartkick
 
 jQuery(function ($) {
