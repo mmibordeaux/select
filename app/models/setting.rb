@@ -10,4 +10,9 @@
 #
 
 class Setting < ApplicationRecord
+  after_save :recompute_evaluations
+
+  def recompute_evaluations
+    Candidate.recompute_evaluations
+  end
 end

@@ -20,6 +20,8 @@ class Baccalaureat < ApplicationRecord
 
   default_scope { order(:title) }
 
+  after_save :recompute_evaluations
+
   def self.with_title_and_parent(title, parent)
     where(title: title, parent: parent).first_or_create
   end
@@ -46,5 +48,11 @@ class Baccalaureat < ApplicationRecord
 
   def children_ids
     @children_ids ||= ([id] + children.pluck(:id) + children.collect(&:children_ids)).flatten
+  end
+
+  protected
+
+  def recompute_evaluations
+    Candidate.recompute_evaluations
   end
 end

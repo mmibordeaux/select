@@ -122,6 +122,11 @@ class Candidate < ApplicationRecord
     end
   end
 
+  def self.recompute_evaluations
+    find_each &:denormalize_evaluation_note!
+    positionize
+  end
+
   def parcoursup_synced?
     !parcoursup_formulaire.blank?
   end
