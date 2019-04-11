@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-md-6">
+        <%
+        scholarships = (100.0 * candidates.where(scholarship: true).count / candidates.count).round
+        non_scholarships = (100.0 * candidates.where(scholarship: false).count / candidates.count).round
+        %>
+        <h3><%= scholarships %>% boursiers</h3>
+        <%= pie_chart [
+            ['Boursiers', scholarships],
+            ['Non boursiers', non_scholarships]
+            ]%>
+    </div>
+    <div class="col-md-6">
+        <%
+        bac_tech = Baccalaureat.find_by(title: 'Bacheliers technologiques toutes séries')
+        bac_gen = Baccalaureat.find_by(title: 'Tous les candidats sauf les Bac technologiques')
+        techs_count = candidates.where(id: bac_tech.inherited_candidates).count
+        gens_count = candidates.where(id: bac_gen.inherited_candidates).count
+        techs = (100.0 * techs_count / candidates.count).round
+        gens = (100.0 * gens_count / candidates.count).round
+        %>
+        <h3><%= techs %>% bacs technologiques</h3>
+        <%= pie_chart [
+            [bac_tech.to_s, techs],
+            [bac_gen.to_s, gens]
+        ] %>
+    </div>
+</div>
+
+<div id="sunburst"></div>
+<script type="text/javascript">
+<%
+data = [
+    {
+    id: '0',
+    parent: '',
+    name: 'Candidats'
+    }
+]
+candidates_ids = candidates.pluck(:id)
+Baccalaureat.all.each { |baccalaureat|
+  inherited_candidates_ids = baccalaureat.inherited_candidates.pluck(:id)
+  candidates_in_bac = candidates_ids & inherited_candidates_ids
+  next if candidates_in_bac.none?
+  result = {
+    id: baccalaureat.id.to_s,
+    parent: baccalaureat.parent_id ? baccalaureat.parent_id.to_s : '0',
+    name: baccalaureat.title,
+    value: candidates_in_bac.count
+  }
+  result[:color] = 'rgb(96,153,208)' if baccalaureat.title == 'Bacheliers technologiques toutes séries'
+  result[:color] = 'rgb(92,92,97)' if baccalaureat.title == 'Tous les candidats sauf les Bac technologiques'
+  data << result
+}
+%>
+// Splice in transparent for the center circle
+Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+
+Highcharts.chart('sunburst', {
+
+  chart: {
+    height: '100%'
+  },
+
+  title: {
+    text: 'Baccalauréats'
+  },
+  series: [{
+    type: "sunburst",
+    data: <%= data.to_json.html_safe %>,
+    allowDrillToNode: true,
+    cursor: 'pointer',
+    dataLabels: false,
+    levels: [{
+      level: 1,
+      levelIsConstant: false,
+      dataLabels: {
+        filter: {
+          property: 'outerArcLength',
+          operator: '>',
+          value: 64
+        }
+      }
+    }, {
+      level: 2,
+      colorByPoint: true
+    },
+    {
+      level: 3,
+      colorVariation: {
+        key: 'brightness',
+        to: -0.5
+      }
+    }, {
+      level: 4,
+      colorVariation: {
+        key: 'brightness',
+        to: 0.5
+      }
+    }]
+
+  }],
+  tooltip: {
+    headerFormat: "",
+    pointFormat: '{point.value} {point.name}'
+  }
+});
+</script>
