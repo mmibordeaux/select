@@ -13,7 +13,7 @@ class Parcoursup
     'lettre-motivation',
     'groupe',
     'documents',
-    'question-reponse', # TODO add in database
+    # 'question-reponse', # TODO add in database
     'formulaire'
   ]
 
