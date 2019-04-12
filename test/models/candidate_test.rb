@@ -35,6 +35,15 @@
 #  production_analyzed                  :boolean          default(FALSE)
 #  attributed_to_id                     :bigint(8)
 #  evaluation_done                      :boolean          default(FALSE)
+#  interview_done                       :boolean          default(FALSE)
+#  interview_comment                    :text
+#  interview_position                   :integer
+#  interview_note                       :float
+#  interview_knowledge_id               :integer
+#  interview_project_id                 :integer
+#  interview_motivation_id              :integer
+#  interview_culture_id                 :integer
+#  interview_argument_id                :integer
 #
 
 require 'test_helper'

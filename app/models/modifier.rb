@@ -16,11 +16,21 @@ class Modifier < ApplicationRecord
   KIND_INTENTION = 'intention'
   KIND_PRODUCTION = 'production'
   KIND_LOCALIZATION = 'localization'
+  KIND_INTERVIEW_KNOWLEDGE = 'interview_knowledge'
+  KIND_INTERVIEW_PROJECT = 'interview_project'
+  KIND_INTERVIEW_MOTIVATION = 'interview_motivation'
+  KIND_INTERVIEW_CULTURE = 'interview_culture'
+  KIND_INTERVIEW_ARGUMENT = 'interview_argument'
+
   KINDS = [
     KIND_ATTITUDE,
     KIND_INTENTION,
     KIND_PRODUCTION,
-    KIND_LOCALIZATION
+    KIND_LOCALIZATION,
+    KIND_INTERVIEW_KNOWLEDGE,
+    KIND_INTERVIEW_PROJECT,
+    KIND_INTERVIEW_MOTIVATION,
+    KIND_INTERVIEW_ARGUMENT
   ]
 
   validates_presence_of :title, :value, :kind
@@ -29,6 +39,11 @@ class Modifier < ApplicationRecord
   scope :intention, -> { where(kind: KIND_INTENTION) }
   scope :production, -> { where(kind: KIND_PRODUCTION) }
   scope :localization, -> { where(kind: KIND_LOCALIZATION) }
+  scope :interview_knowledge, -> { where(kind: KIND_INTERVIEW_KNOWLEDGE) }
+  scope :interview_project, -> { where(kind: KIND_INTERVIEW_PROJECT) }
+  scope :interview_motivation, -> { where(kind: KIND_INTERVIEW_MOTIVATION) }
+  scope :interview_culture, -> { where(kind: KIND_INTERVIEW_CULTURE) }
+  scope :interview_argument, -> { where(kind: KIND_INTERVIEW_ARGUMENT) }
 
   default_scope -> { order(:kind, value: :desc) }
 

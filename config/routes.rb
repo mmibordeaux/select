@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     get 'stats' => 'stats#index', as: :stats
     scope :interviews do
       get 'stats' => 'interviews#stats', as: :interviews_stats
+      get ':id' => 'interviews#show', as: :interview
+      put ':id' => 'interviews#update', as: nil
+      patch ':id' => 'interviews#update', as: nil
       root to: 'interviews#index', as: :interviews
     end
   end

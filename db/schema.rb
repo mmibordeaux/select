@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_054211) do
+ActiveRecord::Schema.define(version: 2019_04_12_054401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,15 @@ ActiveRecord::Schema.define(version: 2019_04_09_054211) do
     t.boolean "production_analyzed", default: false
     t.bigint "attributed_to_id"
     t.boolean "evaluation_done", default: false
+    t.boolean "interview_done", default: false
+    t.text "interview_comment"
+    t.integer "interview_position"
+    t.float "interview_note"
+    t.integer "interview_knowledge_id"
+    t.integer "interview_project_id"
+    t.integer "interview_motivation_id"
+    t.integer "interview_culture_id"
+    t.integer "interview_argument_id"
     t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"

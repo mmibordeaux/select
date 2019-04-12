@@ -71,6 +71,7 @@ class CandidatesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def candidate_params
-      params.require(:candidate).permit(:attitude_id, :intention_id, :production_id, :localization_id, :evaluation_comment, :baccalaureat_id, :dossier_note)
+      params.require(:candidate)
+            .permit(:attitude_id, :intention_id, :production_id, :localization_id, :evaluation_comment, :baccalaureat_id, :dossier_note)
     end
 end

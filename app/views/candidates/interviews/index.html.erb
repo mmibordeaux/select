@@ -1,3 +1,30 @@
 <% content_for :title, 'Tous les entretiens' %>
 
-<%= render 'candidates/table', candidates: @candidates %>
+<p><%= page_entries_info @candidates %></p>
+<table class="table table-hover mt-5">
+<thead>
+  <tr>
+    <th width="30">#</th>
+    <th width="80">Numéro</th>
+    <th>Prénom</th>
+    <th>Nom</th>
+    <th width="400">Baccalaureat</th>
+    <th width="80">Boursier</th>
+    <th>Evaluation</th>
+  </tr>
+</thead>
+<tbody>
+  <% @candidates.each_with_index do |candidate, index| %>
+    <tr>
+      <td><%= candidate.interview_position %></td>
+      <td><%= link_to candidate.number, candidates_interview_path(candidate) %></td>
+      <td><%= candidate.first_name %></td>
+      <td><%= candidate.last_name %></td>
+      <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
+      <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
+      <td><%= candidate.evaluation_note.round(2) %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%= paginate @candidates, theme: 'twitter-bootstrap-4' %>

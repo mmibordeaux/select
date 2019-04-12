@@ -1,0 +1,126 @@
+<% content_for :title, @candidate %>
+
+<%= render 'candidates/header', candidate: @candidate %>
+
+<%= simple_form_for(@candidate, url: candidates_interview_path(@candidate)) do |f| %>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.association :attitude,
+                            as: :radio_buttons,
+                            collection: Modifier.interview_knowledge,
+                            label_method: :title_and_description,
+                            label: '1. Connaissance de la formation' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.association :intention,
+                            as: :radio_buttons,
+                            collection: Modifier.interview_project,
+                            label_method: :title_and_description,
+                            label: '2. Construction du projet professionnel' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.association :production,
+                            as: :radio_buttons,
+                            collection: Modifier.interview_motivation,
+                            label_method: :title_and_description,
+                            label: '3. Motivation' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.association :localization,
+                            as: :radio_buttons,
+                            collection: Modifier.interview_culture,
+                            label_method: :title_and_description,
+                            label: '4. Curiosité et culture générale / MMI' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.association :localization,
+                            as: :radio_buttons,
+                            collection: Modifier.interview_argument,
+                            label_method: :title_and_description,
+                            label: '5. Capacité d’argumentation et de conviction' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :interview_comment,
+                  label: 'Commentaire',
+                  input_html: { rows: 5 } %>
+      <%= f.submit 'Enregistrer l\'entretien', class: 'btn btn-primary align-right' %>
+    </div>
+  </div>
+<% end %>
+
+<hr/>
+
+<h2>Synthèse du dossier</h2>
+
+<div class="row synthesis">
+  <div class="col-md-4 marked">
+    <%= @candidate.parcoursup_synthesis_lettre_motivation.html_safe %>
+  </div>
+  <div class="col-md-6 marked">
+    <%= @candidate.parcoursup_synthesis_formulaire.html_safe %>
+  </div>
+  <div class="col-md-2">
+    <div class="progress mb-4" style="height: 30px">
+      <div  class="progress-bar bg-danger"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_negative %>%"></div>
+      <div  class="progress-bar bg-secondary"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_neutral %>%"></div>
+      <div  class="progress-bar bg-success"
+            role="progressbar"
+            style="width: <%= @bulletins_analyze.percent_positive %>%"></div>
+    </div>
+    <ul class="list-unstyled">
+      <% @bulletins_analyze.keywords.each do |keyword| %>
+        <% 
+        case keyword[:kind]
+        when 'positive'
+          color = 'success'
+        when 'neutral'
+          color = 'secondary'
+        when 'negative'
+          color = 'danger'
+        end
+        %>
+        <li>
+          <h5>
+            <span class="badge badge-xl badge-<%= color %>">
+              <%= keyword[:word] %>
+              <span class="small">x<%= keyword[:occurences] %></span>
+            </span>
+          </h5>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<hr />
+
+<h2>Dossier Parcoursup</h2>
+
+<div class="row">
+  <div class="col-md-3">
+    <ul class="nav nav-pills flex-column bg-light">
+      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
+        <li class="nav-item">
+          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="tab-content" id="parcoursup">
+      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
+        <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
+          <%= @candidate.parcoursup_clean(kind).html_safe %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

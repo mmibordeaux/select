@@ -35,6 +35,15 @@
 #  production_analyzed                  :boolean          default(FALSE)
 #  attributed_to_id                     :bigint(8)
 #  evaluation_done                      :boolean          default(FALSE)
+#  interview_done                       :boolean          default(FALSE)
+#  interview_comment                    :text
+#  interview_position                   :integer
+#  interview_note                       :float
+#  interview_knowledge_id               :integer
+#  interview_project_id                 :integer
+#  interview_motivation_id              :integer
+#  interview_culture_id                 :integer
+#  interview_argument_id                :integer
 #
 
 class Candidate < ApplicationRecord
@@ -59,7 +68,7 @@ class Candidate < ApplicationRecord
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
-  scope :selected_for_interviews, -> { where('position < ?', Setting.first.interview_number_of_candidates)}
+  scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
 
   before_save :denormalize_evaluation_note
 
