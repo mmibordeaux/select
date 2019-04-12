@@ -16,7 +16,7 @@
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
         <td><%= user.candidates_evaluated.count %></td>
-        <td><%= user.candidates_attributed.count %></td>
+        <td><%= user.candidates_attributed.todo.count %></td>
       </tr>
     <% end %>
   </tbody>
