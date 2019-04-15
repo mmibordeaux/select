@@ -4,7 +4,6 @@ class CandidatesController < ApplicationController
   # GET /candidates
   def index
     @candidates = Candidate.ordered_by_evaluation.includes(:baccalaureat)
-    @candidates_total = Candidate.count
     respond_to do |format|
       format.html do
         @candidates = @candidates.search params[:search] if params.has_key? :search
