@@ -1,0 +1,41 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: 'Candidats') do |sheet|
+  sheet.add_row [
+    'Classement',
+    'Numéro',
+    'Prénom',
+    'Nom',
+    'Moyenne du dossier',
+    'Qualité du parcours scolaire',
+    'Qualité du parcours scolaire (modificateur)',
+    'Projet de formation motivé',
+    'Projet de formation motivé (modificateur)',
+    'Intérêt du projet en ligne',
+    'Intérêt du projet en ligne (modificateur)',
+    'Motivation pour la spécialité',
+    'Motivation pour la spécialité (modificateur)',
+    'Commentaire',
+    'Evaluation',
+    'Evaluateur'
+  ]
+  @candidates.each do |candidate|
+    sheet.add_row [
+      candidate.position,
+      candidate.number,
+      candidate.first_name,
+      candidate.last_name,
+      candidate.dossier_note.round(2),
+      candidate.attitude,
+      candidate.attitude&.value,
+      candidate.intention,
+      candidate.intention&.value,
+      candidate.production,
+      candidate.production&.value,
+      candidate.localization,
+      candidate.localization&.value,
+      candidate.evaluation_comment,
+      candidate.evaluation_note.round(2),
+      candidate.evaluated_by
+    ]
+  end
+end

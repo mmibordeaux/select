@@ -7,11 +7,14 @@
     <%= @candidates_done %>
   </div>
 </div>
+<br/>
 <%= link_to 'Recalculer l\'ordre des candidats',
             candidates_positionize_path,
             method: :post,
-            class: 'btn btn-primary float-right' %>
+            class: 'btn btn-primary btn-sm' %>
+<%= link_to 'Exporter (.xlsx)',
+            candidates_path(format: :xlsx),
+            class: 'btn btn-primary btn-sm' %>
 
 <%= render 'table', candidates: @candidates, select_quantity: Setting.first.interview_number_of_candidates %>
-<%= link_to 'New Candidate', new_candidate_path %>
 <p><%= @candidates_synced.count %> candidats synchronisés avec Parcoursup</p>

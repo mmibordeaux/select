@@ -52,6 +52,14 @@ GEM
     arel (9.0.0)
     autoprefixer-rails (9.5.0)
       execjs
+    axlsx (3.0.0.pre)
+      htmlentities (~> 4.3, >= 4.3.4)
+      mimemagic (~> 0.3)
+      nokogiri (~> 1.8, >= 1.8.2)
+      rubyzip (~> 1.2, >= 1.2.1)
+    axlsx_rails (0.5.2)
+      actionpack (>= 3.1)
+      axlsx (>= 2.0.1)
     bcrypt (3.1.12)
     bindex (0.5.0)
     bootstrap (4.3.1)
@@ -96,6 +104,7 @@ GEM
       thor (~> 0.14)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http_logger (0.5.1)
@@ -240,6 +249,8 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  axlsx
+  axlsx_rails
   bootstrap
   bootstrap4-kaminari-views
   byebug
@@ -259,6 +270,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 5.2.2, >= 5.2.2.1)
   rest-client
+  rubyzip
   sassc-rails
   selenium-webdriver
   simple_form

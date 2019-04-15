@@ -50,4 +50,8 @@ class Modifier < ApplicationRecord
   def title_and_description
     "#{title} (#{description})"
   end
+
+  def to_s
+    title_and_description
+  end
 end
