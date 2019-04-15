@@ -8,9 +8,7 @@
     <th width="80">Numéro</th>
     <th>Prénom</th>
     <th>Nom</th>
-    <th width="400">Baccalaureat</th>
-    <th width="80">Boursier</th>
-    <th>Evaluation</th>
+    <th></th>
   </tr>
 </thead>
 <tbody>
@@ -20,9 +18,9 @@
       <td><%= link_to candidate.number, candidates_interview_path(candidate) %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
-      <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
-      <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
-      <td><%= candidate.evaluation_note.round(2) %></td>
+      <td><%= link_to 'Imprimer le PV',
+                      candidates_print_interview_path(candidate),
+                      class: 'btn btn-primary btn-sm' %></td>
     </tr>
   <% end %>
 </tbody>

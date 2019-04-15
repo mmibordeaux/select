@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     scope :interviews do
       get 'stats' => 'interviews#stats', as: :interviews_stats
       get ':id' => 'interviews#show', as: :interview
+      get ':id/print' => 'interviews#print', as: :print_interview
       put ':id' => 'interviews#update', as: nil
       patch ':id' => 'interviews#update', as: nil
       root to: 'interviews#index', as: :interviews

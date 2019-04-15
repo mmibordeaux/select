@@ -1,5 +1,5 @@
 class Candidates::InterviewsController < ApplicationController
-  before_action :set_candidate, only: [:show, :update]
+  before_action :set_candidate, only: [:show, :update, :print]
 
   def index
     @candidates = Candidate.selected_for_interviews.page params[:page]
@@ -12,6 +12,9 @@ class Candidates::InterviewsController < ApplicationController
   def show
     bulletins = @candidate.parcoursup_clean 'bulletins'
     @bulletins_analyze = BulletinsAnalyze.new bulletins
+  end
+
+  def print
   end
 
   def update

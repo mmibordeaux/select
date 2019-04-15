@@ -48,12 +48,21 @@
 
 class Candidate < ApplicationRecord
   belongs_to :baccalaureat
+
   belongs_to :evaluated_by, class_name: 'User', optional: true
   belongs_to :attributed_to, class_name: 'User', optional: true
+
   belongs_to :attitude, class_name: 'Modifier', optional: true
   belongs_to :intention, class_name: 'Modifier', optional: true
   belongs_to :production, class_name: 'Modifier', optional: true
   belongs_to :localization, class_name: 'Modifier', optional: true
+
+  belongs_to :interview_knowledge, class_name: 'Modifier', optional: true
+  belongs_to :interview_project, class_name: 'Modifier', optional: true
+  belongs_to :interview_motivation, class_name: 'Modifier', optional: true
+  belongs_to :interview_culture, class_name: 'Modifier', optional: true
+  belongs_to :interview_argument, class_name: 'Modifier', optional: true
+
 
   scope :search, -> (term) {
     where('unaccent(first_name) ILIKE unaccent(?)
