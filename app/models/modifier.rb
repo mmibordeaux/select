@@ -22,6 +22,13 @@ class Modifier < ApplicationRecord
   KIND_INTERVIEW_CULTURE = 'interview_culture'
   KIND_INTERVIEW_ARGUMENT = 'interview_argument'
 
+  KINDS_EVALUATION = [
+    KIND_ATTITUDE,
+    KIND_INTENTION,
+    KIND_PRODUCTION,
+    KIND_LOCALIZATION
+  ]
+
   KINDS = [
     KIND_ATTITUDE,
     KIND_INTENTION,

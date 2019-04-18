@@ -25,7 +25,15 @@ class User < ApplicationRecord
   scope :evaluators, -> { where(evaluator: true) }
 
   def evaluation_points_given
-    Modifier.where(id: candidates_evaluated).sum(:value)
+    points = 0
+    Modifier::KINDS_EVALUATION.each do |criterion|
+      points += evaluation_points_for criterion
+    end
+    points
+  end
+
+  def evaluation_points_for(criterion)
+    candidates_evaluated.includes(criterion).sum('modifiers.value')
   end
 
   def to_s

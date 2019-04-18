@@ -4,10 +4,9 @@
   <thead>
     <tr>
       <th>Email</th>
-      <th>Participe à l'évaluation</th>
-      <th>Points attribués lors de l'évaluation</th>
-      <th>Fait</th>
-      <th>A faire</th>
+      <th>Evaluateur</th>
+      <th>Evalué</th>
+      <th>A évaluer</th>
     </tr>
   </thead>
 
@@ -16,9 +15,38 @@
       <tr>
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
-        <td><%= user.evaluation_points_given %></td>
         <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_attributed.todo.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Détail de l'évaluation</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Moyenne des moyennes des dossiers</th>
+      <th>Qualité du parcours scolaire</th>
+      <th>Projet de formation motivé</th>
+      <th>Intérêt du projet en ligne</th>
+      <th>Motivation pour la spécialité</th>
+      <th>Total</td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.where(evaluator: true).each do |user| %>
+      <tr>
+        <td><%= link_to user, user %></td>
+        <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
+        <td><%= user.evaluation_points_for :attitude %></td>
+        <td><%= user.evaluation_points_for :intention %></td>
+        <td><%= user.evaluation_points_for :production %></td>
+        <td><%= user.evaluation_points_for :localization %></td>
+        <td><%= user.evaluation_points_given %></td>
       </tr>
     <% end %>
   </tbody>
