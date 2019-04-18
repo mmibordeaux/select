@@ -29,6 +29,7 @@
   <thead>
     <tr>
       <th>Email</th>
+      <th>Dossiers évalués</th>
       <th>Moyenne des moyennes des dossiers</th>
       <th>Qualité du parcours scolaire</th>
       <th>Projet de formation motivé</th>
@@ -42,6 +43,7 @@
     <% @users.where(evaluator: true).each do |user| %>
       <tr>
         <td><%= link_to user, user %></td>
+        <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
         <td><%= user.evaluation_points_for :attitude %></td>
         <td><%= user.evaluation_points_for :intention %></td>
