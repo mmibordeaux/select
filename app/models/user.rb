@@ -24,6 +24,10 @@ class User < ApplicationRecord
 
   scope :evaluators, -> { where(evaluator: true) }
 
+  def evaluation_points_given
+    Modifier.where(id: candidates_evaluated).sum(:value)
+  end
+
   def to_s
     "#{email}"
   end

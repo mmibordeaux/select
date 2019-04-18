@@ -5,6 +5,7 @@
     <tr>
       <th>Email</th>
       <th>Participe à l'évaluation</th>
+      <th>Points attribués lors de l'évaluation</th>
       <th>Fait</th>
       <th>A faire</th>
     </tr>
@@ -15,6 +16,7 @@
       <tr>
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
+        <td><%= user.evaluation_points_given %></td>
         <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_attributed.todo.count %></td>
       </tr>
