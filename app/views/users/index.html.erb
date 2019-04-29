@@ -29,20 +29,21 @@
   <thead>
     <tr>
       <th>Email</th>
-      <th>Dossiers évalués</th>
-      <th>Moyenne des moyennes des dossiers</th>
-      <th>Qualité du parcours scolaire</th>
-      <th>Projet de formation motivé</th>
-      <th>Intérêt du projet en ligne</th>
-      <th>Motivation pour la spécialité</th>
-      <th>Total</td>
+      <th class="small">Dossiers évalués</th>
+      <th class="small">Moyenne des moyennes des dossiers</th>
+      <th class="small">Qualité du parcours scolaire</th>
+      <th class="small">Projet de formation motivé</th>
+      <th class="small">Intérêt du projet en ligne</th>
+      <th class="small">Motivation pour la spécialité</th>
+      <th class="small">Total</td>
+      <th class="small">Total (/candidat)</td>
     </tr>
   </thead>
 
   <tbody>
     <% @users.where(evaluator: true).each do |user| %>
       <tr>
-        <td><%= link_to user, user %></td>
+        <td><%= user %></td>
         <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
         <td><%= user.evaluation_points_for :attitude %></td>
@@ -50,6 +51,7 @@
         <td><%= user.evaluation_points_for :production %></td>
         <td><%= user.evaluation_points_for :localization %></td>
         <td><%= user.evaluation_points_given %></td>
+        <td><%= user.evaluation_points_given_average.round(2) %></td>
       </tr>
     <% end %>
   </tbody>
