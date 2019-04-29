@@ -63,6 +63,7 @@ class Candidate < ApplicationRecord
   belongs_to :interview_culture, class_name: 'Modifier', optional: true
   belongs_to :interview_argument, class_name: 'Modifier', optional: true
 
+  has_and_belongs_to_many :interviewers, class_name: 'User'
 
   scope :search, -> (term) {
     where('unaccent(first_name) ILIKE unaccent(?)
@@ -80,6 +81,7 @@ class Candidate < ApplicationRecord
   scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
 
   before_save :denormalize_evaluation_note
+  before_save :denormalize_interview_note
 
   validates_length_of :evaluation_comment, minimum: 15, allow_blank: false, on: :evaluation
   validates_presence_of :attitude, on: :evaluation
@@ -238,6 +240,20 @@ class Candidate < ApplicationRecord
     note += attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
+    note
+  end
+
+  def denormalize_interview_note
+    self.interview_note = compute_interview_note
+  end
+
+  def compute_interview_note
+    note = evaluation_note
+    Modifier::KINDS_INTERVIEW.each do |kind|
+      property = send kind
+      next if property.nil?
+      note += property.value
+    end
     note
   end
 end

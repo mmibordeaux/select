@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_054401) do
+ActiveRecord::Schema.define(version: 2019_04_29_074429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,13 @@ ActiveRecord::Schema.define(version: 2019_04_12_054401) do
     t.index ["production_id"], name: "index_candidates_on_production_id"
   end
 
+  create_table "candidates_users", id: false, force: :cascade do |t|
+    t.bigint "candidate_id"
+    t.bigint "user_id"
+    t.index ["candidate_id"], name: "index_candidates_users_on_candidate_id"
+    t.index ["user_id"], name: "index_candidates_users_on_user_id"
+  end
+
   create_table "modifiers", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -102,6 +109,8 @@ ActiveRecord::Schema.define(version: 2019_04_12_054401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "evaluator"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -109,4 +118,6 @@ ActiveRecord::Schema.define(version: 2019_04_12_054401) do
   add_foreign_key "baccalaureats", "baccalaureats", column: "parent_id"
   add_foreign_key "candidates", "baccalaureats"
   add_foreign_key "candidates", "users", column: "evaluated_by_id"
+  add_foreign_key "candidates_users", "candidates"
+  add_foreign_key "candidates_users", "users"
 end

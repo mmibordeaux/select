@@ -11,6 +11,8 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  evaluator              :boolean
+#  first_name             :string
+#  last_name              :string
 #
 
 class User < ApplicationRecord
@@ -21,6 +23,8 @@ class User < ApplicationRecord
 
   has_many :candidates_evaluated, class_name: 'Candidate', foreign_key: :evaluated_by
   has_many :candidates_attributed, class_name: 'Candidate', foreign_key: :attributed_to_id
+
+  has_and_belongs_to_many :candidates_interviewed, class_name: 'Candidate'
 
   scope :evaluators, -> { where(evaluator: true) }
 
@@ -37,6 +41,7 @@ class User < ApplicationRecord
   end
 
   def to_s
-    "#{email}"
+    first_name.blank? ? "#{email}"
+                      : "#{first_name} #{last_name}"
   end
 end

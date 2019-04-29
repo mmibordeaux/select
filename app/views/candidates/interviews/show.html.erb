@@ -6,47 +6,25 @@
   <div class="row">
     <div class="col-md-8">
       <div class="row">
-        <div class="col-md-4">
-          <%= f.association :attitude,
-                            as: :radio_buttons,
-                            collection: Modifier.interview_knowledge,
-                            label_method: :title_and_description,
-                            label: '1. Connaissance de la formation' %>
-        </div>
-        <div class="col-md-4">
-          <%= f.association :intention,
-                            as: :radio_buttons,
-                            collection: Modifier.interview_project,
-                            label_method: :title_and_description,
-                            label: '2. Construction du projet professionnel' %>
-        </div>
-        <div class="col-md-4">
-          <%= f.association :production,
-                            as: :radio_buttons,
-                            collection: Modifier.interview_motivation,
-                            label_method: :title_and_description,
-                            label: '3. Motivation' %>
-        </div>
-        <div class="col-md-4">
-          <%= f.association :localization,
-                            as: :radio_buttons,
-                            collection: Modifier.interview_culture,
-                            label_method: :title_and_description,
-                            label: '4. Curiosité et culture générale / MMI' %>
-        </div>
-        <div class="col-md-4">
-          <%= f.association :localization,
-                            as: :radio_buttons,
-                            collection: Modifier.interview_argument,
-                            label_method: :title_and_description,
-                            label: '5. Capacité d’argumentation et de conviction' %>
-        </div>
+        <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
+          <div class="col-md-6">
+            <%= f.association kind,
+                              as: :radio_buttons,
+                              collection: Modifier.send(kind),
+                              label_method: :title_and_description,
+                              label: Modifier::KINDS_INTERVIEW_LABELS[index] %>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="col-md-4">
       <%= f.input :interview_comment,
                   label: 'Commentaire',
                   input_html: { rows: 5 } %>
+      <%= f.association :interviewers,
+                        as: :check_boxes,
+                        collection: User.evaluators,
+                        label: 'Entretien avec' %>
       <%= f.submit 'Enregistrer l\'entretien', class: 'btn btn-primary align-right' %>
     </div>
   </div>

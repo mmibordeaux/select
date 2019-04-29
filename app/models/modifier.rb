@@ -29,6 +29,22 @@ class Modifier < ApplicationRecord
     KIND_LOCALIZATION
   ]
 
+  KINDS_INTERVIEW = [
+    KIND_INTERVIEW_KNOWLEDGE,
+    KIND_INTERVIEW_PROJECT,
+    KIND_INTERVIEW_MOTIVATION,
+    KIND_INTERVIEW_CULTURE,
+    KIND_INTERVIEW_ARGUMENT
+  ]
+
+  KINDS_INTERVIEW_LABELS = [
+    '1. Connaissances de la formation',
+    '2. Construction du projet professionnel',
+    '3. Motivation',
+    '4. Curiosité et culture générale / MMI',
+    '5. Capacité d’argumentation et de conviction'
+  ]
+
   KINDS = [
     KIND_ATTITUDE,
     KIND_INTENTION,
@@ -37,6 +53,7 @@ class Modifier < ApplicationRecord
     KIND_INTERVIEW_KNOWLEDGE,
     KIND_INTERVIEW_PROJECT,
     KIND_INTERVIEW_MOTIVATION,
+    KIND_INTERVIEW_CULTURE,
     KIND_INTERVIEW_ARGUMENT
   ]
 
