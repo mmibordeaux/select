@@ -32,7 +32,7 @@
 <textarea disabled="disabled" class="form-control"><%= @candidate.interview_comment %></textarea>
 
 <br/>
-<h4>Note : <%= @candidate.interview_note.round(2) %></h4>
+<h4>Note : <%= @candidate.interview_note.to_f.round(2) %></h4>
 
 <p>Prénoms, noms et signatures des membres du jury</p>
 
