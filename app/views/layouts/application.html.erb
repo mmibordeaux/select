@@ -46,6 +46,16 @@
                 <%= link_to 'Statistiques des entretiens', candidates_interviews_stats_path, class: 'nav-link' %>
               </div>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sélections
+                <span class="badge badge-primary"><%= Setting.first&.selection_number_of_candidates %></span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px">
+                <%= link_to 'Tous les candidats sélectionnés', candidates_selections_path, class: 'nav-link' %>
+                <%= link_to 'Statistiques des sélections', candidates_selections_stats_path, class: 'nav-link' %>
+              </div>
+            </li>
             <li class="nav-item">
               <%= link_to 'Baccalauréats', baccalaureats_path, class: 'nav-link' %>
             </li>

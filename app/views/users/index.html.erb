@@ -39,7 +39,6 @@
       <th class="small">Total (/candidat)</td>
     </tr>
   </thead>
-
   <tbody>
     <% @users.where(evaluator: true).each do |user| %>
       <tr>
@@ -52,6 +51,37 @@
         <td><%= user.evaluation_points_for :localization %></td>
         <td><%= user.evaluation_points_given %></td>
         <td><%= user.evaluation_points_given_average.round(2) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Détail des entretiens</h2>
+<p>Somme des points distribués</p>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Entretiens</th>
+      <% Modifier::KINDS_INTERVIEW_LABELS.each do |label| %>
+        <th class="small"><%= label %></th>
+      <% end %>
+      <th>Total</th>
+      <th>Total (/candidat)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.where(evaluator: true).each do |user| %>
+      <tr>
+        <td><%= user %></td>
+        <td><%= user.candidates_interviewed.count %></td>
+        <% Modifier::KINDS_INTERVIEW.each do |criterion| %>
+          <td><%= user.interview_points_for criterion %></td>
+        <% end %>
+        <td><%= user.interview_points_given %></td>
+        <td><%= user.interview_points_given_average.round(2) %></td>
       </tr>
     <% end %>
   </tbody>

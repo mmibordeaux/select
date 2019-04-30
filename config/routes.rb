@@ -16,6 +16,10 @@ Rails.application.routes.draw do
       patch ':id' => 'interviews#update', as: nil
       root to: 'interviews#index', as: :interviews
     end
+    scope :selections do
+      get 'stats' => 'selections#stats', as: :selections_stats
+      root to: 'selections#index', as: :selections
+    end
   end
   resources :candidates do
     collection do

@@ -7,12 +7,14 @@
 #  interview_number_of_candidates :integer
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  interview_bonus                :float
+#  selection_number_of_candidates :integer
 #
 
 class Setting < ApplicationRecord
-  after_save :recompute_evaluations
+  after_save :recompute_notes
 
-  def recompute_evaluations
-    Candidate.recompute_evaluations
+  def recompute_notes
+    Candidate.recompute_notes
   end
 end

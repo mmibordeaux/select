@@ -7,6 +7,8 @@
 #  interview_number_of_candidates :integer
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
+#  interview_bonus                :float
+#  selection_number_of_candidates :integer
 #
 
 require 'test_helper'

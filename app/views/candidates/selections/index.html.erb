@@ -1,0 +1,26 @@
+<% content_for :title, 'Sélection' %>
+
+<p><%= page_entries_info @candidates %></p>
+<table class="table table-hover mt-5">
+<thead>
+  <tr>
+    <th width="30">#</th>
+    <th width="80">Numéro</th>
+    <th>Prénom</th>
+    <th>Nom</th>
+    <th>Note</th>
+  </tr>
+</thead>
+<tbody>
+  <% @candidates.each_with_index do |candidate, index| %>
+    <tr>
+      <td><%= candidate.selection_position %></td>
+      <td><%= candidate.number %></td>
+      <td><%= candidate.first_name %></td>
+      <td><%= candidate.last_name %></td>
+      <td><%= candidate.selection_note.to_f.round(2) %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%= paginate @candidates, theme: 'twitter-bootstrap-4' %>

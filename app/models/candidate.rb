@@ -44,6 +44,9 @@
 #  interview_motivation_id              :integer
 #  interview_culture_id                 :integer
 #  interview_argument_id                :integer
+#  interview_bonus                      :boolean          default(FALSE)
+#  selection_note                       :float
+#  selection_position                   :integer
 #
 
 class Candidate < ApplicationRecord
@@ -75,13 +78,15 @@ class Candidate < ApplicationRecord
   }
   scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
+  scope :ordered_by_interview, -> { order(interview_note: :desc) }
+  scope :ordered_by_selection, -> { order(selection_note: :desc) }
   scope :todo, -> { where(evaluation_done: false)}
   scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
   scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
+  scope :selected, -> { where('selection_position <= ?', Setting.first.selection_number_of_candidates)}
 
-  before_save :denormalize_evaluation_note
-  before_save :denormalize_interview_note
+  before_save :denormalize_notes
 
   validates_length_of :evaluation_comment, minimum: 15, allow_blank: false, on: :evaluation
   validates_presence_of :attitude, on: :evaluation
@@ -131,19 +136,13 @@ class Candidate < ApplicationRecord
   end
 
   def self.positionize
-    current_note = nil
-    current_position = 0
-    ordered_by_evaluation.each do |candidate|
-      if candidate.evaluation_note != current_note
-        current_note = candidate.evaluation_note
-        current_position += 1
-      end
-      candidate.update_column :position, current_position
-    end
+    set_positions_in_list_by_key(ordered_by_evaluation, :evaluation_note, :position)
+    set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
+    set_positions_in_list_by_key(ordered_by_selection, :selection_note, :selection_position)
   end
 
-  def self.recompute_evaluations
-    find_each &:denormalize_evaluation_note!
+  def self.recompute_notes
+    find_each &:save
     positionize
   end
 
@@ -217,22 +216,34 @@ class Candidate < ApplicationRecord
     doc.at('.divGlobalFormulaire').inner_html
   end
 
-  def denormalize_evaluation_note!
-    self.update_column :evaluation_note, compute_evaluation_note
-  end
-
   def to_s
     "#{first_name} #{last_name}"
   end
 
   protected
 
+  def self.set_positions_in_list_by_key(list, note_key, position_key)
+    current_note = nil
+    current_position = 0
+    list.each do |candidate|
+      candidate_note = candidate.send(note_key)
+      if candidate_note != current_note
+        current_note = candidate_note
+        current_position += 1
+      end
+      candidate.update_column position_key, current_position
+    end
+
+  end
+
   def parcoursup_part_to_key(part)
     "parcoursup_#{part.underscore}".to_sym
   end
 
-  def denormalize_evaluation_note
+  def denormalize_notes
     self.evaluation_note = compute_evaluation_note
+    self.interview_note = compute_interview_note
+    self.selection_note = self.evaluation_note + self.interview_note
   end
 
   def compute_evaluation_note
@@ -243,12 +254,9 @@ class Candidate < ApplicationRecord
     note
   end
 
-  def denormalize_interview_note
-    self.interview_note = compute_interview_note
-  end
-
   def compute_interview_note
-    note = evaluation_note
+    note = 0
+    note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|
       property = send kind
       next if property.nil?

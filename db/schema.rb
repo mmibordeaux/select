@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_29_074429) do
+ActiveRecord::Schema.define(version: 2019_04_30_054952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 2019_04_29_074429) do
     t.integer "interview_motivation_id"
     t.integer "interview_culture_id"
     t.integer "interview_argument_id"
+    t.boolean "interview_bonus", default: false
+    t.float "selection_note"
+    t.integer "selection_position"
     t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
@@ -98,6 +101,8 @@ ActiveRecord::Schema.define(version: 2019_04_29_074429) do
     t.integer "interview_number_of_candidates"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "interview_bonus"
+    t.integer "selection_number_of_candidates"
   end
 
   create_table "users", force: :cascade do |t|

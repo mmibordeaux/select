@@ -8,6 +8,8 @@
     <th width="80">Numéro</th>
     <th>Prénom</th>
     <th>Nom</th>
+    <th width="400">Baccalauréat</th>
+    <th>Entretien</th>
     <th></th>
   </tr>
 </thead>
@@ -18,6 +20,8 @@
       <td><%= link_to candidate.number, candidates_interview_path(candidate) %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
+      <td class="small"><%= candidate.baccalaureat %></td>
+      <td><%= candidate.interview_note.to_f.round(2) %></td>
       <td><%= link_to 'Imprimer le PV',
                       candidates_print_interview_path(candidate),
                       class: 'btn btn-primary btn-sm' %></td>

@@ -1,34 +1,33 @@
 <% content_for :title, @user %>
 
 <%= link_to 'Modifier', edit_user_path(@user), class: 'btn btn-primary btn-sm' %>
-<br/>
-<br/>
+<% if @user.evaluator %>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th>Moyenne des moyennes des dossiers</th>
+        <th>Qualité du parcours scolaire</th>
+        <th>Projet de formation motivé</th>
+        <th>Intérêt du projet en ligne</th>
+        <th>Motivation pour la spécialité</th>
+        <th>Total</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @user.candidates_evaluated.average(:dossier_note).round(2) %></td>
+        <td><%= @user.evaluation_points_for :attitude %></td>
+        <td><%= @user.evaluation_points_for :intention %></td>
+        <td><%= @user.evaluation_points_for :production %></td>
+        <td><%= @user.evaluation_points_for :localization %></td>
+        <td><%= @user.evaluation_points_given %></td>
+      </tr>
+    </tbody>
+  </table>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Moyenne des moyennes des dossiers</th>
-      <th>Qualité du parcours scolaire</th>
-      <th>Projet de formation motivé</th>
-      <th>Intérêt du projet en ligne</th>
-      <th>Motivation pour la spécialité</th>
-      <th>Total</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= @user.candidates_evaluated.average(:dossier_note).round(2) %></td>
-      <td><%= @user.evaluation_points_for :attitude %></td>
-      <td><%= @user.evaluation_points_for :intention %></td>
-      <td><%= @user.evaluation_points_for :production %></td>
-      <td><%= @user.evaluation_points_for :localization %></td>
-      <td><%= @user.evaluation_points_given %></td>
-    </tr>
-  </tbody>
-</table>
+  <h2>A évaluer</h2>
+  <%= render 'candidates/table', candidates: @candidates_todo, param_name: :page_todo %>
 
-<h2>A évaluer</h2>
-<%= render 'candidates/table', candidates: @candidates_todo, param_name: :page_todo %>
-
-<h2>Déjà évalués</h2>
-<%= render 'candidates/table', candidates: @candidates_done, param_name: :page_done %>
+  <h2>Déjà évalués</h2>
+  <%= render 'candidates/table', candidates: @candidates_done, param_name: :page_done %>
+<% end %>

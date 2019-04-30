@@ -2,7 +2,10 @@ class Candidates::InterviewsController < ApplicationController
   before_action :set_candidate, only: [:show, :update, :print]
 
   def index
-    @candidates = Candidate.selected_for_interviews.page params[:page]
+    @candidates =  Candidate.selected_for_interviews
+                            .ordered_by_interview
+                            .includes(:baccalaureat)
+                            .page params[:page]
   end
 
   def stats
@@ -36,8 +39,8 @@ class Candidates::InterviewsController < ApplicationController
 
   def candidate_params
     params.require(:candidate)
-          .permit(:interview_knowledge_id, :interview_project_id, :interview_motivation_id, 
-            :interview_culture_id, :interview_argument_id, :interview_comment,
+          .permit(:interview_knowledge_id, :interview_project_id, :interview_motivation_id,
+            :interview_culture_id, :interview_argument_id, :interview_comment, :interview_bonus,
             interviewer_ids: [])
   end
 end

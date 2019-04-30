@@ -44,6 +44,9 @@
 #  interview_motivation_id              :integer
 #  interview_culture_id                 :integer
 #  interview_argument_id                :integer
+#  interview_bonus                      :boolean          default(FALSE)
+#  selection_note                       :float
+#  selection_position                   :integer
 #
 
 require 'test_helper'

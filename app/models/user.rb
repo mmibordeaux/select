@@ -28,6 +28,8 @@ class User < ApplicationRecord
 
   scope :evaluators, -> { where(evaluator: true) }
 
+  # Evaluation
+
   def evaluation_points_given
     unless @evaluation_points_given
       @evaluation_points_given = 0
@@ -44,6 +46,27 @@ class User < ApplicationRecord
 
   def evaluation_points_given_average
     evaluation_points_given / candidates_evaluated.count
+  end
+
+  # Interview
+
+  def interview_points_given
+    unless @interview_points_given
+      @interview_points_given = 0
+      Modifier::KINDS_INTERVIEW.each do |criterion|
+        @interview_points_given += interview_points_for criterion
+      end
+    end
+    @interview_points_given
+  end
+
+  def interview_points_for(criterion)
+    candidates_interviewed.includes(criterion).sum('modifiers.value')
+  end
+
+  def interview_points_given_average
+    return 0.0 if candidates_interviewed.none?
+    1.0 * interview_points_given / candidates_interviewed.count
   end
 
   def to_s

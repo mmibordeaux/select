@@ -20,7 +20,7 @@ class Baccalaureat < ApplicationRecord
 
   default_scope { order(:title) }
 
-  after_save :recompute_evaluations
+  after_save :recompute_notes
 
   def self.with_title_and_parent(title, parent)
     where(title: title, parent: parent).first_or_create
@@ -52,7 +52,7 @@ class Baccalaureat < ApplicationRecord
 
   protected
 
-  def recompute_evaluations
-    Candidate.recompute_evaluations
+  def recompute_notes
+    Candidate.recompute_notes
   end
 end

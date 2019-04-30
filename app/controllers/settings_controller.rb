@@ -48,13 +48,15 @@ class SettingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_setting
-      @setting = Setting.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def setting_params
-      params.require(:setting).permit(:evaluation_scholarship_bonus, :interview_number_of_candidates)
-    end
+  def set_setting
+    @setting = Setting.find(params[:id])
+  end
+
+  def setting_params
+    params.require(:setting)
+          .permit(:evaluation_scholarship_bonus,
+            :interview_number_of_candidates, :interview_bonus,
+            :selection_number_of_candidates)
+  end
 end
