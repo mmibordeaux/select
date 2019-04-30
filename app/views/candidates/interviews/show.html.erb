@@ -4,19 +4,16 @@
 
 <%= simple_form_for(@candidate, url: candidates_interview_path(@candidate)) do |f| %>
   <div class="row">
-    <div class="col-md-8">
-      <div class="row">
-        <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
-          <div class="col-md-6">
-            <%= f.association kind,
-                              as: :radio_buttons,
-                              collection: Modifier.send(kind),
-                              label_method: :title_and_description,
-                              label: Modifier::KINDS_INTERVIEW_LABELS[index] %>
-          </div>
-        <% end %>
+    <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
+      <div class="col-md-4">
+        <%= f.association kind,
+                          as: :radio_buttons,
+                          collection: Modifier.send(kind),
+                          label_method: :title_and_description,
+                          label: Modifier::KINDS_INTERVIEW_LABELS[index] %>
+        <hr/>
       </div>
-    </div>
+    <% end %>
     <div class="col-md-4">
       <%= f.input :interview_bonus,
                   label: 'Excellent candidat (coup de cœur)' %>
