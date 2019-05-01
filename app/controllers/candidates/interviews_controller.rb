@@ -5,7 +5,8 @@ class Candidates::InterviewsController < ApplicationController
     @candidates =  Candidate.selected_for_interviews
                             .ordered_by_interview
                             .includes(:baccalaureat)
-                            .page params[:page]
+    @candidates = @candidates.search params[:search] if params.has_key? :search
+    @candidates = @candidates.page params[:page]
   end
 
   def stats

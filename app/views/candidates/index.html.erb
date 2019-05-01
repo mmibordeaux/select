@@ -1,13 +1,13 @@
 <% content_for :title, 'Tous les dossiers' %>
 
-<div class="progress" style="height: 30px;">
+<div class="progress mb-3" style="height: 30px;">
   <div  class="progress-bar bg-info"
         role="progressbar"
         style="width: <%= @candidates_percent %>%">
     <%= @candidates_done %>
   </div>
 </div>
-<br/>
+
 <%= link_to 'Recalculer l\'ordre des candidats',
             candidates_positionize_path,
             method: :post,
@@ -15,6 +15,14 @@
 <%= link_to 'Exporter (.xlsx)',
             candidates_path(format: :xlsx),
             class: 'btn btn-primary btn-sm' %>
+
+<form action="<%= candidates_path %>" class="mt-3 mb-3">
+  <input  class="form-control"
+          type="text"
+          placeholder="Recherche"
+          name="search"
+          value="<%= params[:search] %>">
+</form>
 
 <%= render 'table', candidates: @candidates, select_quantity: Setting.first.interview_number_of_candidates %>
 <p><%= @candidates_synced.count %> candidats synchronisés avec Parcoursup</p>
