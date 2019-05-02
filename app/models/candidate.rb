@@ -94,6 +94,14 @@ class Candidate < ApplicationRecord
   validates_presence_of :production, on: :evaluation
   validates_presence_of :localization, on: :evaluation
 
+  validates_presence_of :interview_knowledge, on: :interview
+  validates_presence_of :interview_project, on: :interview
+  validates_presence_of :interview_motivation, on: :interview
+  validates_presence_of :interview_culture, on: :interview
+  validates_presence_of :interview_argument, on: :interview
+  validates_presence_of :interview_comment, on: :interview
+  validates_presence_of :interviewers, on: :interview
+
   def self.import(csv)
     require 'csv'
     rows = CSV.parse csv, {
