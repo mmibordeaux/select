@@ -30,6 +30,23 @@
 
 <hr/>
 
+<h2>Evaluation du dossier</h2>
+
+<div class="row">
+  <% Modifier::KINDS_EVALUATION.each_with_index do |kind, index| %>
+    <div class="col-md-3">
+      <b><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></b><br/>
+      <%= @candidate.send(kind) %>
+    </div>
+  <% end %>
+</div>
+
+<div><%= simple_format @candidate.evaluation_comment %></div>
+
+<i><%= @candidate.evaluated_by %></i>
+
+<hr/>
+
 <h2>Synthèse du dossier</h2>
 
 <div class="row synthesis">

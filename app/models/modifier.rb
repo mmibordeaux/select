@@ -38,6 +38,13 @@ class Modifier < ApplicationRecord
   ]
 
   KINDS_INTERVIEW_LABELS = [
+    'Qualité du parcours scolaire',
+    'Projet de formation motivé',
+    'Intérêt du projet en ligne',
+    'Motivation pour la spécialité'
+  ]
+
+  KINDS_INTERVIEW_LABELS = [
     '1. Connaissances de la formation',
     '2. Construction du projet professionnel',
     '3. Motivation',
