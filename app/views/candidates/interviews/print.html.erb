@@ -29,7 +29,7 @@
 </table>
 
 <p>Remarques particulières - Profil et potentiel, points forts/points faibles :</p>
-<textarea disabled="disabled" class="form-control"><%= @candidate.interview_comment %></textarea>
+<%= simple_format @candidate.interview_comment %>
 
 <br/>
 <h4>Note : <%= @candidate.interview_note.to_f.round(2) %></h4>
