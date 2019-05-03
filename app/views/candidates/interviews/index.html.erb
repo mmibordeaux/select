@@ -9,16 +9,17 @@
 </form>
 
 <p><%= page_entries_info @candidates %></p>
-<table class="table table-hover mt-5">
+<table class="table table-hover table-striped mt-5">
 <thead>
   <tr>
-    <th width="80">#</th>
+    <th width="40">#</th>
     <th width="80">Numéro</th>
-    <th>Prénom</th>
-    <th>Nom</th>
-    <th width="400">Baccalauréat</th>
-    <th>Entretien</th>
+    <th width="120">Prénom</th>
+    <th width="200">Nom</th>
+    <th width="300">Baccalauréat</th>
     <th>Jury</th>
+    <th>Décile</th>
+    <th>Entretien</th>
     <th></th>
     <th></th>
   </tr>
@@ -26,19 +27,15 @@
 <tbody>
   <% @candidates.each_with_index do |candidate, index| %>
     <tr>
-      <td>
-        <span class="badge badge-info"><%= index + 1 %></span>
-        <%= candidate.interview_position %>
-      </td>
+      <td><%= candidate.interview_position %></td>
       <td><%= link_to candidate.number, candidates_interview_path(candidate) %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
       <td class="small"><%= candidate.baccalaureat %></td>
-      <td><%= candidate.interview_note.to_f.round %></td>
-      <td class="small"><%= candidate.interviewers.join(', ') %></td>
-      <td><%= link_to 'Imprimer le PV',
-                      candidates_print_interview_path(candidate),
-                      class: 'btn btn-primary btn-sm' %></td>
+      <td class="small">
+        <%= candidate.interviewers.join(', ') %><br/>
+        (dossier <%= candidate.evaluated_by %>)
+      </td>
       <td class="small
                 <%= 'bg-danger' if candidate.decile_bad_surprise? %>
                 <%= 'bg-success' if candidate.decile_good_surprise? %>
@@ -48,6 +45,11 @@
           <span class="badge badge-light">D<%= candidate.interview_decile %> entretien</span>
         <% end %>
       </td>
+      <td><b><%= candidate.interview_note.to_f.round %></b></td>
+      <td><%= link_to 'PV',
+                      candidates_print_interview_path(candidate),
+                      class: 'btn btn-primary btn-sm' %></td>
+      <td class="small"><span class="badge badge-light"><%= index + 1 %></span></td>
     </tr>
   <% end %>
 </tbody>
