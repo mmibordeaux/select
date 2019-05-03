@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <%
         scholarships = (100.0 * candidates.where(scholarship: true).count / candidates.count).round
         non_scholarships = (100.0 * candidates.where(scholarship: false).count / candidates.count).round
@@ -10,7 +10,7 @@
             ['Non boursiers', non_scholarships]
             ]%>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <%
         bac_tech = Baccalaureat.find_by(title: 'Bacheliers technologiques toutes séries')
         bac_gen = Baccalaureat.find_by(title: 'Tous les candidats sauf les Bac technologiques')
@@ -24,6 +24,10 @@
             [bac_tech.to_s, techs],
             [bac_gen.to_s, gens]
         ] %>
+    </div>
+    <div class="col-md-4">
+        <h3>Evaluateurs</h3>
+      <%= pie_chart User.evaluators.map { |u| [u.to_s, candidates.where(evaluated_by: u).count ] } %>
     </div>
 </div>
 
