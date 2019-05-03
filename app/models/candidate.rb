@@ -85,7 +85,7 @@ class Candidate < ApplicationRecord
   scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :ordered_by_interview, -> { order(interview_note: :desc) }
-  scope :ordered_by_selection, -> { order(selection_note: :desc) }
+  scope :ordered_by_selection, -> { order(selection_note: :desc, evaluation_note: :desc) }
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
   scope :evaluation_todo, -> { where(evaluation_done: false)}
   scope :evaluation_done, -> { where(evaluation_done: true)}
