@@ -298,7 +298,10 @@ class Candidate < ApplicationRecord
   def denormalize_notes
     self.evaluation_note = compute_evaluation_note
     self.interview_note = compute_interview_note
-    self.selection_note = self.evaluation_note + self.interview_note
+    # Should be that
+    # self.selection_note = self.evaluation_note + self.interview_note
+    # Is that
+    self.selection_note = self.interview_note
   end
 
   def compute_evaluation_note
