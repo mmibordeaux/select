@@ -1,10 +1,19 @@
+<%
+candidates_count = candidates.count
+candidates_ids = candidates.pluck(:id)
+candidates_concerned = Candidate.where(id: candidates_ids)
+%>
+
 <div class="row">
     <div class="col-md-4">
         <%
-        scholarships = (100.0 * candidates.where(scholarship: true).count / candidates.count).round
-        non_scholarships = (100.0 * candidates.where(scholarship: false).count / candidates.count).round
+        scholarships = candidates_concerned.where(scholarship: true).count
+        non_scholarships = candidates_concerned.where(scholarship: false).count
+        scholarships_percent = (100.0 * scholarships / candidates_count).round
+        non_scholarships_percent = (100.0 * non_scholarships / candidates_count).round
         %>
-        <h3><%= scholarships %>% boursiers</h3>
+        <h3><%= scholarships_percent %>% boursiers</h3>
+        <p><%= scholarships %> candidats</p>
         <%= pie_chart [
             ['Boursiers', scholarships],
             ['Non boursiers', non_scholarships]
@@ -14,19 +23,20 @@
         <%
         bac_tech = Baccalaureat.find_by(title: 'Bacheliers technologiques toutes séries')
         bac_gen = Baccalaureat.find_by(title: 'Tous les candidats sauf les Bac technologiques')
-        techs_count = candidates.where(id: bac_tech.inherited_candidates).count
-        gens_count = candidates.where(id: bac_gen.inherited_candidates).count
-        techs = (100.0 * techs_count / candidates.count).round
-        gens = (100.0 * gens_count / candidates.count).round
+        techs_count = candidates_concerned.where(baccalaureat_id: bac_tech.children_ids).count
+        gens_count = candidates_concerned.where(baccalaureat_id: bac_gen.children_ids).count
+        techs = (100.0 * techs_count / candidates_count).round
+        gens = (100.0 * gens_count / candidates_count).round
         %>
         <h3><%= techs %>% bacs technologiques</h3>
+        <p><%= techs_count %> candidats</p>
         <%= pie_chart [
             [bac_tech.to_s, techs],
             [bac_gen.to_s, gens]
         ] %>
     </div>
     <div class="col-md-4">
-        <h3>Evaluateurs</h3>
+      <h3>Evaluateurs</h3>
       <%= pie_chart User.evaluators.map { |u| [u.to_s, candidates.where(evaluated_by: u).count ] } %>
     </div>
 </div>
@@ -41,7 +51,6 @@ data = [
     name: 'Candidats'
     }
 ]
-candidates_ids = candidates.pluck(:id)
 Baccalaureat.all.each { |baccalaureat|
   inherited_candidates_ids = baccalaureat.inherited_candidates.pluck(:id)
   candidates_in_bac = candidates_ids & inherited_candidates_ids

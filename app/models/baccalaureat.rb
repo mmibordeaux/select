@@ -39,6 +39,7 @@ class Baccalaureat < ApplicationRecord
   def inherited_candidates
     Candidate.where(baccalaureat: children_ids)
   end
+
   def to_s
     s = ''
     s = "#{parent} / " if parent
