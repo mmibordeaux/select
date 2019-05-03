@@ -37,7 +37,7 @@ class Modifier < ApplicationRecord
     KIND_INTERVIEW_ARGUMENT
   ]
 
-  KINDS_INTERVIEW_LABELS = [
+  KINDS_EVALUATION_LABELS = [
     'Qualité du parcours scolaire',
     'Projet de formation motivé',
     'Intérêt du projet en ligne',

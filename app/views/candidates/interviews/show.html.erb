@@ -35,7 +35,7 @@
 <div class="row">
   <% Modifier::KINDS_EVALUATION.each_with_index do |kind, index| %>
     <div class="col-md-3">
-      <b><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></b><br/>
+      <b><%= Modifier::KINDS_EVALUATION_LABELS[index] %></b><br/>
       <%= @candidate.send(kind) %>
     </div>
   <% end %>
