@@ -36,7 +36,6 @@
       <th class="small">Intérêt du projet en ligne</th>
       <th class="small">Motivation pour la spécialité</th>
       <th class="small">Total</td>
-      <th class="small">Total (/candidat)</td>
     </tr>
   </thead>
   <tbody>
@@ -45,12 +44,16 @@
         <td><%= user %></td>
         <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
-        <td><%= user.evaluation_points_for :attitude %></td>
-        <td><%= user.evaluation_points_for :intention %></td>
-        <td><%= user.evaluation_points_for :production %></td>
-        <td><%= user.evaluation_points_for :localization %></td>
-        <td><%= user.evaluation_points_given %></td>
-        <td><%= user.evaluation_points_given_average.round(2) %></td>
+        <% Modifier::KINDS_EVALUATION.each do |kind| %>
+          <td>
+            <%= user.evaluation_points_for(kind).round %>
+            (<%= user.evaluation_points_average_for(kind).round(2) %>/c)
+          </td>
+        <% end %>
+        <td>
+          <%= user.evaluation_points_given.round %>
+          (<%= user.evaluation_points_given_average.round(2) %>/c)
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -77,8 +80,11 @@
       <tr>
         <td><%= user %></td>
         <td><%= user.candidates_interviewed.count %></td>
-        <% Modifier::KINDS_INTERVIEW.each do |criterion| %>
-          <td><%= user.interview_points_for criterion %></td>
+        <% Modifier::KINDS_INTERVIEW.each do |kind| %>
+          <td>
+            <%= user.interview_points_for(kind).round %>
+            (<%= user.interview_points_average_for(kind).round(2) %>/c)
+          </td>
         <% end %>
         <td><%= user.interview_points_given %></td>
         <td><%= user.interview_points_given_average.round(2) %></td>

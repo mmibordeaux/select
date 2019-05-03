@@ -44,8 +44,12 @@ class User < ApplicationRecord
     candidates_evaluated.includes(criterion).sum('modifiers.value')
   end
 
+  def evaluation_points_average_for(criterion)
+    1.0 * evaluation_points_for(criterion) / candidates_evaluated.count
+  end
+
   def evaluation_points_given_average
-    evaluation_points_given / candidates_evaluated.count
+    1.0 * evaluation_points_given / candidates_evaluated.count
   end
 
   # Interview
@@ -62,6 +66,11 @@ class User < ApplicationRecord
 
   def interview_points_for(criterion)
     candidates_interviewed.includes(criterion).sum('modifiers.value')
+  end
+
+  def interview_points_average_for(criterion)
+    return 0.0 if candidates_interviewed.none?
+    1.0 * interview_points_for(criterion) / candidates_interviewed.count
   end
 
   def interview_points_given_average
