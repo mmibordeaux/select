@@ -8,33 +8,31 @@
           value="<%= params[:search] %>">
 </form>
 
-<p><%= page_entries_info @candidates %></p>
-<table class="table table-hover mt-5">
-<thead>
-  <tr>
-    <th width="30">#</th>
-    <th width="80">Numéro</th>
-    <th>Prénom</th>
-    <th>Nom</th>
-    <th>Boursier</th>
-    <th width="300">Baccalauréat</th>
-    <th>Dossier</th>
-    <th>Entretien</th>
-  </tr>
-</thead>
-<tbody>
-  <% @candidates.each_with_index do |candidate, index| %>
+<table class="table table-hover table-striped mt-5">
+  <thead>
     <tr>
-      <td><%= candidate.selection_position %></td>
-      <td><%= candidate.number %></td>
-      <td><%= candidate.first_name %></td>
-      <td><%= candidate.last_name %></td>
-      <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
-      <td class="small"><%= candidate.baccalaureat %></td>
-      <td><%= candidate.evaluation_note.to_f.round(2) %></td>
-      <td><%= candidate.interview_note.to_f.round %></td>
+      <th width="30">#</th>
+      <th width="80">Numéro</th>
+      <th>Prénom</th>
+      <th>Nom</th>
+      <th>Boursier</th>
+      <th width="300">Baccalauréat</th>
+      <th>Dossier</th>
+      <th>Entretien</th>
     </tr>
-  <% end %>
-</tbody>
+  </thead>
+  <tbody>
+    <% @candidates.each_with_index do |candidate, index| %>
+      <tr>
+        <td><%= candidate.selection_position %></td>
+        <td><%= candidate.number %></td>
+        <td><%= candidate.first_name %></td>
+        <td><%= candidate.last_name %></td>
+        <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
+        <td class="small"><%= candidate.baccalaureat %></td>
+        <td><%= candidate.evaluation_note.to_f.round(2) %></td>
+        <td><%= candidate.interview_note.to_f.round %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-<%= paginate @candidates, theme: 'twitter-bootstrap-4' %>
