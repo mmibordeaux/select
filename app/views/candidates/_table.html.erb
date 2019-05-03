@@ -15,7 +15,7 @@
         <th width="80">Boursier</th>
         <th>Evaluation</th>
         <th>Evaluateur</th>
-        <th width="30">(#)</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -26,7 +26,10 @@
         selected = select_quantity.nil? || number_in_list <= select_quantity
         %>
         <tr class="<%= 'unselected' unless selected %>">
-          <td><%= candidate.position %></td>
+          <td>
+            <span class="badge badge-info"><%= number_in_list %></span>
+            <%= candidate.position %>
+          </td>
           <td><%= link_to candidate.number, candidate %></td>
           <td><%= candidate.first_name %></td>
           <td><%= candidate.last_name %></td>
@@ -42,8 +45,11 @@
               Pas d'évaluateur
             <% end %>
           </td>
-          <td>
-            <%= number_in_list %>
+          <td class="small">
+            <span class="badge badge-light">D<%= candidate.evaluation_decile %> dossier</span><br/>
+            <% if candidate.selected_for_interview_decile %>
+              <span class="badge badge-light">D<%= candidate.selected_for_interview_decile %> dossier sélectionnné</span>
+            <% end %>
           </td>
         </tr>
       <% end %>

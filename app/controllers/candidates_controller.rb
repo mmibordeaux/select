@@ -10,7 +10,7 @@ class CandidatesController < ApplicationController
         @candidates = @candidates.search params[:search] if params.has_key? :search
         @candidates = @candidates.page params[:page]
         @candidates_synced = Candidate.parcoursup_synced
-        @candidates_done = Candidate.done.count
+        @candidates_done = Candidate.evaluation_done.count
         @candidates_total = Candidate.count
         @candidates_percent = @candidates_total.zero? ? 0
                                                       : 100.0 * @candidates_done / @candidates_total
@@ -55,8 +55,8 @@ class CandidatesController < ApplicationController
     @candidate.evaluated_by = current_user
     @candidate.assign_attributes candidate_params
     if @candidate.save(context: :evaluation)
-      remaining = current_user.candidates_attributed.todo.count
-      next_candidate = current_user.candidates_attributed.todo.first
+      remaining = current_user.candidates_attributed.evaluation_todo.count
+      next_candidate = current_user.candidates_attributed.evaluation_todo.first
       if next_candidate
         redirect_to next_candidate, notice: "Evaluation enregistrée. Courage, plus que #{remaining} !"
       else

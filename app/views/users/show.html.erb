@@ -25,6 +25,15 @@
     </tbody>
   </table>
 
+  <h2>Sélectionnés pour les entretiens</h2>
+
+  <p>Nombre de candidats par décile (déciles calculés sur les dossiers sélectionnés)</p>
+  <%= column_chart @candidates_selected_for_interview.group(:selected_for_interview_decile).count %>
+
+  <%= render  'candidates/table',
+              candidates: @candidates_selected_for_interview,
+              param_name: :page_selected_for_interview %>
+
   <h2>A évaluer</h2>
   <%= render 'candidates/table', candidates: @candidates_todo, param_name: :page_todo %>
 

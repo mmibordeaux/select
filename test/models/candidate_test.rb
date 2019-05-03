@@ -47,6 +47,9 @@
 #  interview_bonus                      :boolean          default(FALSE)
 #  selection_note                       :float
 #  selection_position                   :integer
+#  evaluation_decile                    :integer
+#  selected_for_interview_decile        :integer
+#  interview_decile                     :integer
 #
 
 require 'test_helper'

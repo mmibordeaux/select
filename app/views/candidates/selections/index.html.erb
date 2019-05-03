@@ -16,6 +16,8 @@
     <th width="80">Numéro</th>
     <th>Prénom</th>
     <th>Nom</th>
+    <th>Dossier</th>
+    <th>Entretien</th>
     <th>Note</th>
   </tr>
 </thead>
@@ -26,6 +28,8 @@
       <td><%= candidate.number %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
+      <td><%= candidate.evaluation_note.to_f.round(2) %></td>
+      <td><%= candidate.interview_note.to_f.round %></td>
       <td><%= candidate.selection_note.to_f.round(2) %></td>
     </tr>
   <% end %>

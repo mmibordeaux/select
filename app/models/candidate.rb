@@ -47,9 +47,15 @@
 #  interview_bonus                      :boolean          default(FALSE)
 #  selection_note                       :float
 #  selection_position                   :integer
+#  evaluation_decile                    :integer
+#  selected_for_interview_decile        :integer
+#  interview_decile                     :integer
 #
 
 class Candidate < ApplicationRecord
+
+  DECILE_DELTA_THRESHOLD = 2
+
   belongs_to :baccalaureat
 
   belongs_to :evaluated_by, class_name: 'User', optional: true
@@ -80,11 +86,19 @@ class Candidate < ApplicationRecord
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :ordered_by_interview, -> { order(interview_note: :desc) }
   scope :ordered_by_selection, -> { order(selection_note: :desc) }
-  scope :todo, -> { where(evaluation_done: false)}
-  scope :done, -> { where(evaluation_done: true)}
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
-  scope :selected_for_interviews, -> { where('position <= ?', Setting.first.interview_number_of_candidates)}
-  scope :selected, -> { where('selection_position <= ?', Setting.first.selection_number_of_candidates)}
+  scope :evaluation_todo, -> { where(evaluation_done: false)}
+  scope :evaluation_done, -> { where(evaluation_done: true)}
+  scope :selected_for_interviews, -> {
+    where('position <= ?', Setting.first.interview_number_of_candidates)
+  }
+  scope :selected, -> {
+    selected_for_interviews
+    .interview_done
+    .where('selection_position <= ?', Setting.first.selection_number_of_candidates)
+  }
+  scope :interview_todo, -> { where(interview_done: false)}
+  scope :interview_done, -> { where(interview_done: true)}
 
   before_save :denormalize_notes
 
@@ -146,7 +160,10 @@ class Candidate < ApplicationRecord
   def self.positionize
     set_positions_in_list_by_key(ordered_by_evaluation, :evaluation_note, :position)
     set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
-    set_positions_in_list_by_key(ordered_by_selection, :selection_note, :selection_position)
+    set_positions_in_list_by_key(ordered_by_selection, :interview_note, :selection_position)
+    set_deciles(ordered_by_evaluation, :evaluation_decile)
+    set_deciles(selected_for_interviews.ordered_by_evaluation, :selected_for_interview_decile)
+    set_deciles(interview_done.ordered_by_interview, :interview_decile)
   end
 
   def self.recompute_notes
@@ -224,13 +241,30 @@ class Candidate < ApplicationRecord
     doc.at('.divGlobalFormulaire').inner_html
   end
 
+  def decile_delta
+    return 0 if interview_decile.nil?
+    interview_decile - selected_for_interview_decile
+  end
+
+  def large_decile_delta?
+    decile_delta.abs > DECILE_DELTA_THRESHOLD
+  end
+
+  def decile_good_surprise?
+    decile_delta > DECILE_DELTA_THRESHOLD
+  end
+
+  def decile_bad_surprise?
+    decile_delta < -DECILE_DELTA_THRESHOLD
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end
 
   protected
 
-  def self.set_positions_in_list_by_key(list, note_key, position_key)
+  def self.set_positions_in_list_by_key(list, note_key, position_key, decile_key = nil)
     current_note = nil
     current_position = 0
     list.each do |candidate|
@@ -241,7 +275,20 @@ class Candidate < ApplicationRecord
       end
       candidate.update_column position_key, current_position
     end
+  end
 
+  def self.set_deciles(list, decile_key)
+    current_decile = 10
+    current_decile_count = 0
+    quantity_per_decile = (list.count / 10.0).ceil
+    list.each do |candidate|
+      candidate.update_column decile_key, current_decile unless decile_key.nil?
+      current_decile_count += 1
+      if current_decile_count >= quantity_per_decile
+        current_decile_count= 0
+        current_decile -= 1
+      end
+    end
   end
 
   def parcoursup_part_to_key(part)
