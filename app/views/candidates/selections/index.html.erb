@@ -16,9 +16,10 @@
     <th width="80">Numéro</th>
     <th>Prénom</th>
     <th>Nom</th>
+    <th>Boursier</th>
+    <th width="300">Baccalauréat</th>
     <th>Dossier</th>
     <th>Entretien</th>
-    <th>Note</th>
   </tr>
 </thead>
 <tbody>
@@ -28,9 +29,10 @@
       <td><%= candidate.number %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
+      <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
+      <td class="small"><%= candidate.baccalaureat %></td>
       <td><%= candidate.evaluation_note.to_f.round(2) %></td>
       <td><%= candidate.interview_note.to_f.round %></td>
-      <td><%= candidate.selection_note.to_f.round(2) %></td>
     </tr>
   <% end %>
 </tbody>

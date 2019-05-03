@@ -95,7 +95,8 @@ class Candidate < ApplicationRecord
   scope :selected, -> {
     selected_for_interviews
     .interview_done
-    .where('selection_position <= ?', Setting.first.selection_number_of_candidates)
+    .ordered_by_selection
+    .limit(Setting.first.selection_number_of_candidates)
   }
   scope :interview_todo, -> { where(interview_done: false)}
   scope :interview_done, -> { where(interview_done: true)}
