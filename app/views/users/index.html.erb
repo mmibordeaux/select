@@ -23,7 +23,21 @@
 </table>
 
 <h2>Détail de l'évaluation</h2>
-<p>Somme des points distribués</p>
+
+<p>Somme des points distribués (moyenne par candidat)</p>
+
+<%= column_chart @users.where(evaluator: true).map { |user| 
+  array = []
+  Modifier::KINDS_EVALUATION.each_with_index { |kind, index|
+    label = Modifier::KINDS_EVALUATION_LABELS[index]
+    value = user.evaluation_points_average_for(kind).round(2)
+    array << [label, value]
+  }
+  {
+    name: user.to_s,
+    data: array
+  }
+} %>
 
 <table class="table">
   <thead>
@@ -60,8 +74,21 @@
 </table>
 
 <h2>Détail des entretiens</h2>
-<p>Somme des points distribués</p>
 
+<p>Somme des points distribués (moyenne par candidat)</p>
+
+<%= column_chart @users.where(evaluator: true).map { |user| 
+  array = []
+  Modifier::KINDS_INTERVIEW.each_with_index { |kind, index|
+    label = Modifier::KINDS_INTERVIEW_LABELS[index]
+    value = user.interview_points_average_for(kind).round(2)
+    array << [label, value]
+  }
+  {
+    name: user.to_s,
+    data: array
+  }
+} %>
 
 <table class="table">
   <thead>
