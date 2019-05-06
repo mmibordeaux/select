@@ -92,7 +92,7 @@
 
       <h3>Dossiers évalués</h3>
       <%= render  'candidates/table',
-                  candidates: @user.candidates_evaluated.page(params[:page_evaluated]),
+                  candidates: @user.candidates_evaluated.ordered_by_evaluation.page(params[:page_evaluated]),
                   param_name: :page_evaluated %>
 
       <h3>Dossiers à évaluer</h3>
@@ -119,7 +119,7 @@
       <%= column_chart @user.candidates_evaluated.evaluation_selected.group(:interview_decile).count %>
 
       <h3>Liste</h3>
-      <%= render 'candidates/table', candidates: @user.candidates_evaluated.evaluation_selected %>
+      <%= render 'candidates/table', candidates: @user.candidates_evaluated.ordered_by_selection.evaluation_selected %>
 
     </div>
 
@@ -140,7 +140,7 @@
       <%= render 'candidates/deciles', candidates: @user.candidates_evaluated.interview_selected, decile: :selection_decile %>
 
       <h3>Liste</h3>
-      <%= render 'candidates/table', candidates: @user.candidates_evaluated.interview_selected %>
+      <%= render 'candidates/table', candidates: @user.candidates_evaluated.interview_selected.ordered_by_selection %>
 
     </div>
 
@@ -183,7 +183,7 @@
       <%= render 'candidates/deciles', candidates: @user.candidates_interviewed, decile: :interview_decile %>
 
       <h3>Liste</h3>
-      <%= render  'candidates/table', candidates: @user.candidates_interviewed %>
+      <%= render  'candidates/table', candidates: @user.candidates_interviewed.ordered_by_selection %>
 
     </div>
     <div  class="tab-pane"
@@ -203,7 +203,7 @@
       <%= render 'candidates/deciles', candidates: @user.candidates_interviewed.selection_selected, decile: :selection_decile %>
 
       <h3>Liste</h3>
-      <%= render 'candidates/table', candidates: @user.candidates_interviewed.selection_selected %>
+      <%= render 'candidates/table', candidates: @user.candidates_interviewed.selection_selected.ordered_by_selection %>
 
     </div>
   </div>
