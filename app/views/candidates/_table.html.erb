@@ -16,7 +16,7 @@
       <tr>
         <th></th>
         <th colspan="5">Candidat</th>
-        <th colspan="3">Dossier</th>
+        <th colspan="4">Dossier</th>
         <th colspan="3">Entretien</th>
         <th colspan="2">Sélection</th>
       </tr>
@@ -54,6 +54,7 @@
           <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
           <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
           <!-- Dossier -->
+          <td><%= candidate.dossier_note.round(2) %></td>
           <td>
             <%= candidate.evaluation_note.round(2) %>
             <div class="small">
