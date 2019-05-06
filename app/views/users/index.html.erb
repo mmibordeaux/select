@@ -27,23 +27,29 @@
         <td>
           <% if user.candidates_evaluated.any? %>
             <% count = user.candidates_evaluated.evaluation_selected.count %>
-            <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
-            (<%= count %> candidats)
+            <%= count %>
+            <span class="badge badge-primary">
+              <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
+            </span>
           <% end %>
         </td>
         <td>
           <% if user.candidates_evaluated.any? %>
             <% count = user.candidates_evaluated.interview_selected.count %>
-            <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
-            (<%= count %> candidats)
+            <%= count %>
+            <span class="badge badge-primary">
+              <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
+            </span>
           <% end %>
         </td>
         <td><%= user.candidates_interviewed.count %></td>
         <td>
           <% if user.candidates_interviewed.any? %>
             <% count = user.candidates_interviewed.selection_selected.count %>
-            <%= number_to_percentage(100.0 * count / user.candidates_interviewed.count, precision: 0) %>
-            (<%= count %> candidats)
+            <%= count %>
+            <span class="badge badge-primary">
+              <%= number_to_percentage(100.0 * count / user.candidates_interviewed.count, precision: 0) %>
+            </span>
           <% end %>
         </td>
       </tr>
