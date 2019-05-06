@@ -11,4 +11,27 @@
 <%= link_to 'Modifier', edit_baccalaureat_path(@baccalaureat), class: 'btn btn-primary' %>
 <%= link_to 'Supprimer', baccalaureat_path(@baccalaureat), method: :delete, data: { confirm: 'Sûr ?' }, class: 'btn btn-danger' unless @candidates.any? %>
 
+<h3>Sélection des candidats</h3>
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th>Utilisateur</th>
+      <th>Candidats évalués</th>
+      <th>Candidats sélectionnés pour les entretiens</th>
+      <th>Candidats sélectionnés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% User.evaluators.each do |user| %>
+      <tr>
+        <td><%= user %></td>
+        <td><%= user.candidates_evaluated.where(baccalaureat_id: @baccalaureat.children_ids).count %></td>
+        <td><%= user.candidates_evaluated.where(baccalaureat_id: @baccalaureat.children_ids).evaluation_selected.count %></td>
+        <td><%= user.candidates_evaluated.where(baccalaureat_id: @baccalaureat.children_ids).interview_selected.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Liste</h3>
 <%= render 'candidates/table', candidates: @candidates %>
