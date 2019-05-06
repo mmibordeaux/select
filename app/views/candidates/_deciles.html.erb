@@ -1,0 +1,6 @@
+<% candidates_ids = candidates.pluck(:id) %>
+<%= column_chart 10.times.map { |index|
+  index += 1
+  count = Candidate.where(id: candidates_ids, decile => index).count
+  ["D#{index}", count]
+} %>
