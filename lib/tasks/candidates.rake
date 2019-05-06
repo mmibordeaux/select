@@ -25,4 +25,9 @@ namespace :candidates do
       candidates_for_user.update_all(attributed_to_id: user.id)
     end
   end
+
+  desc "Positionize"
+  task positionize: :environment do
+    Candidate.positionize
+  end
 end
