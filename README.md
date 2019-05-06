@@ -6,6 +6,8 @@
 
     rake candidates:split
 
+    rake candidates:positionize
+
 ## Phases
 
 ### Evaluation
