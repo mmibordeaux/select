@@ -160,23 +160,25 @@ class Candidate < ApplicationRecord
   end
 
   def self.positionize
+    # Positions
     set_positions_in_list_by_key(ordered_by_evaluation, :evaluation_note, :position)
     set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
-    set_positions_in_list_by_key(ordered_by_selection, :interview_note, :selection_position)
-    set_deciles(ordered_by_evaluation, :evaluation_decile)
-    set_deciles(evaluation_selected.ordered_by_evaluation, :interview_decile)
-    set_deciles(interview_selected.ordered_by_interview, :selection_decile)
+    set_positions_in_list_by_key(ordered_by_selection, :selection_note, :selection_position)
     # Selections
     find_each do |candidate|
       evaluation_selected = candidate.position < Setting.first.interview_number_of_candidates
       candidate.update_column :evaluation_selected, evaluation_selected
     end
-    ordered_by_interview.each_with_index do |candidate, index|
+    all.reload.evaluation_selected.ordered_by_interview.each_with_index do |candidate, index|
       interview_selected = candidate.evaluation_selected && index < Setting.first.selection_number_of_candidates
       selection_selected = interview_selected
       candidate.update_columns  interview_selected: interview_selected,
                                 selection_selected: selection_selected
     end
+    # Deciles
+    set_deciles(ordered_by_evaluation, :evaluation_decile)
+    set_deciles(evaluation_selected.ordered_by_interview, :interview_decile)
+    set_deciles(interview_selected.ordered_by_selection, :selection_decile)
   end
 
   def self.recompute_notes
@@ -295,7 +297,7 @@ class Candidate < ApplicationRecord
     current_decile = 10
     current_decile_count = 0
     quantity_per_decile = (list.count / 10.0).ceil
-    list.each do |candidate|
+    list.reload.each do |candidate|
       candidate.update_column decile_key, current_decile
       current_decile_count += 1
       if current_decile_count >= quantity_per_decile
@@ -312,10 +314,7 @@ class Candidate < ApplicationRecord
   def denormalize_notes
     self.evaluation_note = compute_evaluation_note
     self.interview_note = compute_interview_note
-    # Should be that
-    # self.selection_note = self.evaluation_note + self.interview_note
-    # Is that
-    self.selection_note = self.interview_note
+    self.selection_note = compute_selection_note
   end
 
   def compute_evaluation_note
@@ -335,5 +334,12 @@ class Candidate < ApplicationRecord
       note += property.value
     end
     note
+  end
+
+  def compute_selection_note
+    # Should be that
+    # self.evaluation_note + self.interview_note
+    # Is that
+    self.interview_note
   end
 end
