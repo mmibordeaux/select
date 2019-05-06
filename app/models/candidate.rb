@@ -176,6 +176,7 @@ class Candidate < ApplicationRecord
                                 selection_selected: selection_selected
     end
     # Deciles
+    reset_deciles
     set_deciles(ordered_by_evaluation, :evaluation_decile)
     set_deciles(evaluation_selected.ordered_by_interview, :interview_decile)
     set_deciles(interview_selected.ordered_by_selection, :selection_decile)
@@ -305,6 +306,12 @@ class Candidate < ApplicationRecord
         current_decile -= 1
       end
     end
+  end
+
+  def self.reset_deciles
+    update_all  evaluation_decile: nil,
+                interview_decile: nil,
+                selection_decile: nil
   end
 
   def parcoursup_part_to_key(part)
