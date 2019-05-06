@@ -2,7 +2,7 @@ class Candidates::InterviewsController < ApplicationController
   before_action :set_candidate, only: [:show, :update, :print]
 
   def index
-    @candidates =  Candidate.selected_for_interviews
+    @candidates =  Candidate.evaluation_selected
                             .ordered_by_interview
                             .includes(:baccalaureat)
     @candidates = @candidates.search params[:search] if params.has_key? :search
@@ -10,7 +10,7 @@ class Candidates::InterviewsController < ApplicationController
   end
 
   def stats
-    @candidates = Candidate.selected_for_interviews
+    @candidates = Candidate.evaluation_selected
   end
 
   def show

@@ -48,13 +48,16 @@
 #  selection_note                       :float
 #  selection_position                   :integer
 #  evaluation_decile                    :integer
-#  selected_for_interview_decile        :integer
 #  interview_decile                     :integer
+#  selection_decile                     :integer
+#  evaluation_selected                  :boolean          default(FALSE)
+#  interview_selected                   :boolean          default(FALSE)
+#  selection_selected                   :boolean          default(FALSE)
 #
 
 class Candidate < ApplicationRecord
 
-  DECILE_DELTA_THRESHOLD = 2
+  DECILE_DELTA_THRESHOLD = 3
 
   belongs_to :baccalaureat
 
@@ -84,22 +87,20 @@ class Candidate < ApplicationRecord
   }
   scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
-  scope :ordered_by_interview, -> { order(interview_note: :desc) }
-  scope :ordered_by_selection, -> { order(selection_note: :desc, evaluation_note: :desc) }
+  scope :ordered_by_interview, -> { order(interview_note: :desc, evaluation_note: :desc) }
+  scope :ordered_by_selection, -> { order(selection_note: :desc, interview_note: :desc, evaluation_note: :desc) }
+
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
+
   scope :evaluation_todo, -> { where(evaluation_done: false)}
   scope :evaluation_done, -> { where(evaluation_done: true)}
-  scope :selected_for_interviews, -> {
-    where('position <= ?', Setting.first.interview_number_of_candidates)
-  }
-  scope :selected, -> {
-    selected_for_interviews
-    .interview_done
-    .ordered_by_selection
-    .limit(Setting.first.selection_number_of_candidates)
-  }
+  scope :evaluation_selected, -> { where(evaluation_selected: true) }
+
   scope :interview_todo, -> { where(interview_done: false)}
   scope :interview_done, -> { where(interview_done: true)}
+  scope :interview_selected, -> { where(interview_selected: true) }
+
+  scope :selection_selected, -> { where(selection_selected: true) }
 
   before_save :denormalize_notes
 
@@ -163,8 +164,19 @@ class Candidate < ApplicationRecord
     set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
     set_positions_in_list_by_key(ordered_by_selection, :interview_note, :selection_position)
     set_deciles(ordered_by_evaluation, :evaluation_decile)
-    set_deciles(selected_for_interviews.ordered_by_evaluation, :selected_for_interview_decile)
-    set_deciles(interview_done.ordered_by_interview, :interview_decile)
+    set_deciles(evaluation_selected.ordered_by_evaluation, :interview_decile)
+    set_deciles(interview_selected.ordered_by_interview, :selection_decile)
+    # Selections
+    find_each do |candidate|
+      evaluation_selected = candidate.position < Setting.first.interview_number_of_candidates
+      candidate.update_column :evaluation_selected, evaluation_selected
+    end
+    ordered_by_interview.each_with_index do |candidate, index|
+      interview_selected = candidate.evaluation_selected && index < Setting.first.selection_number_of_candidates
+      selection_selected = interview_selected
+      candidate.update_columns  interview_selected: interview_selected,
+                                selection_selected: selection_selected
+    end
   end
 
   def self.recompute_notes
@@ -243,8 +255,8 @@ class Candidate < ApplicationRecord
   end
 
   def decile_delta
-    return 0 if interview_decile.nil?
-    interview_decile - selected_for_interview_decile
+    return 0 if selection_decile.nil?
+    selection_decile - interview_decile
   end
 
   def large_decile_delta?

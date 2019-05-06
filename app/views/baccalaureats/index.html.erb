@@ -17,7 +17,7 @@
         <td><%= link_to baccalaureat, baccalaureat %></td>
         <td><%= "#{baccalaureat.inherited_quota.round}%" if baccalaureat.inherited_quota %></td>
         <td><%= baccalaureat.inherited_candidates.count %></td>
-        <td><%= baccalaureat.inherited_candidates.selected_for_interviews.count %></td>
+        <td><%= baccalaureat.inherited_candidates.evaluation_selected.count %></td>
         <td>0</td>
       </tr>
     <% end %>

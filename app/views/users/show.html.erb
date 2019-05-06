@@ -1,42 +1,212 @@
 <% content_for :title, @user %>
 
-<%= link_to 'Modifier', edit_user_path(@user), class: 'btn btn-primary btn-sm' %>
+<%= link_to 'Modifier', edit_user_path(@user), class: 'btn btn-light btn-sm' %>
+
 <% if @user.evaluator %>
-  <table class="table mt-4">
-    <thead>
-      <tr>
-        <th>Moyenne des moyennes des dossiers</th>
-        <th>Qualité du parcours scolaire</th>
-        <th>Projet de formation motivé</th>
-        <th>Intérêt du projet en ligne</th>
-        <th>Motivation pour la spécialité</th>
-        <th>Total</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%= @user.candidates_evaluated.average(:dossier_note).round(2) %></td>
-        <td><%= @user.evaluation_points_for :attitude %></td>
-        <td><%= @user.evaluation_points_for :intention %></td>
-        <td><%= @user.evaluation_points_for :production %></td>
-        <td><%= @user.evaluation_points_for :localization %></td>
-        <td><%= @user.evaluation_points_given %></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <h2>Sélectionnés pour les entretiens</h2>
+  <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a  class="nav-link active"
+          data-toggle="tab"
+          href="#evaluation"
+          role="tab"
+          aria-controls="evaluation"
+          aria-selected="true">Dossiers</a>
+    </li>
+    <li class="nav-item">
+      <a  class="nav-link"
+          data-toggle="tab"
+          href="#evaluation-selected-for-interview"
+          role="tab"
+          aria-controls="evaluation-selected-for-interview"
+          aria-selected="false">Dossiers sélectionnés pour les entretiens</a>
+    </li>
+    <li class="nav-item">
+      <a  class="nav-link"
+          data-toggle="tab"
+          href="#evaluation-selected"
+          role="tab"
+          aria-controls="evaluation-selected"
+          aria-selected="false">Dossiers sélectionnés</a>
+    </li>
+    <li class="nav-item">
+      <a  class="nav-link"
+          data-toggle="tab"
+          href="#interview"
+          role="tab"
+          aria-controls="interview"
+          aria-selected="false">Entretien</a>
+    </li>
+    <li class="nav-item">
+      <a  class="nav-link"
+          data-toggle="tab"
+          href="#selection"
+          role="tab"
+          aria-controls="selection"
+          aria-selected="false">Sélection</a>
+    </li>
+  </ul>
+  <div class="tab-content pt-4">
 
-  <p>Nombre de candidats par décile (déciles calculés sur les dossiers sélectionnés)</p>
-  <%= column_chart @candidates_selected_for_interview.group(:selected_for_interview_decile).count %>
+    <div  class="tab-pane show active"
+          id="evaluation"
+          role="tabpanel"
+          aria-labelledby="evaluation-tab">
 
-  <%= render  'candidates/table',
-              candidates: @candidates_selected_for_interview,
-              param_name: :page_selected_for_interview %>
+      <h2><%= @user.candidates_evaluated.count %> dossiers évalués</h2>
 
-  <h2>A évaluer</h2>
-  <%= render 'candidates/table', candidates: @candidates_todo, param_name: :page_todo %>
+      <h3>Modificateurs attribués</h3>
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th width="200"></th>
+            <th class="small">Moyenne des moyennes des dossiers</th>
+            <% Modifier::KINDS_EVALUATION_LABELS.each do |label| %>
+              <th class="small"><%= label %></th>
+            <% end %>
+            <th>Total</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <% Modifier::KINDS_EVALUATION.each do |kind| %>
+              <td><%= @user.evaluation_points_for kind %></td>
+            <% end %>
+            <td><%= @user.evaluation_points_given %></td>
+          </tr>
+          <tr>
+            <td>Par candidat</td>
+            <td><%= @user.candidates_evaluated.average(:dossier_note).round(2) %></td>
+            <% Modifier::KINDS_EVALUATION.each do |kind| %>
+              <td><%= @user.evaluation_points_average_for(kind).round(2) %></td>
+            <% end %>
+            <td><%= @user.evaluation_points_given_average.round(2) %></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <h2>Déjà évalués</h2>
-  <%= render 'candidates/table', candidates: @candidates_done, param_name: :page_done %>
+      <h3>Nombre de candidats par décile de dossier</h3>
+      <%= render 'candidates/deciles', candidates: @user.candidates_evaluated, decile: :evaluation_decile %>
+
+      <h3>Dossiers évalués</h3>
+      <%= render  'candidates/table',
+                  candidates: @user.candidates_evaluated.page(params[:page_evaluated]),
+                  param_name: :page_evaluated %>
+
+      <h3>Dossiers à évaluer</h3>
+      <%= render  'candidates/table',
+                  candidates: @user.candidates_attributed.evaluation_todo.page(params[:page_evaluation_todo]),
+                  param_name: :page_evaluation_todo %>
+
+    </div>
+
+    <div  class="tab-pane"
+          id="evaluation-selected-for-interview"
+          role="tabpanel"
+          aria-labelledby="evaluation-selected-for-interview-tab">
+      <% count = @user.candidates_evaluated.evaluation_selected.count %>
+
+      <h2>
+        <%= count %> dossiers évalués sélectionnés pour les entretiens
+        <span class="badge badge-primary">
+          <%= number_to_percentage(100.0 * count / @user.candidates_evaluated.count, precision: 2) %>
+        </span>
+      </h2>
+
+      <h3>Candidats par décile d'entretien</h3>
+      <%= column_chart @user.candidates_evaluated.evaluation_selected.group(:interview_decile).count %>
+
+      <h3>Liste</h3>
+      <%= render 'candidates/table', candidates: @user.candidates_evaluated.evaluation_selected %>
+
+    </div>
+
+    <div  class="tab-pane"
+          id="evaluation-selected"
+          role="tabpanel"
+          aria-labelledby="evaluation-selected">
+      <% count = @user.candidates_evaluated.interview_selected.count %>
+
+      <h2>
+        <%= count %> dossiers évalués sélectionnés
+        <span class="badge badge-primary">
+          <%= number_to_percentage(100.0 * count / @user.candidates_evaluated.count, precision: 2) %>
+        </span>
+      </h2>
+
+      <h3>Candidats par décile de sélection</h3>
+      <%= render 'candidates/deciles', candidates: @user.candidates_evaluated.interview_selected, decile: :selection_decile %>
+
+      <h3>Liste</h3>
+      <%= render 'candidates/table', candidates: @user.candidates_evaluated.interview_selected %>
+
+    </div>
+
+    <div  class="tab-pane"
+          id="interview"
+          role="tabpanel"
+          aria-labelledby="interview-tab">
+
+      <h2><%= @user.candidates_interviewed.count %> entretiens</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th width="200"></th>
+            <% Modifier::KINDS_INTERVIEW_LABELS.each do |label| %>
+              <th class="small"><%= label %></th>
+            <% end %>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total</td>
+            <% Modifier::KINDS_INTERVIEW.each do |kind| %>
+              <td><%= @user.interview_points_for(kind).round %></td>
+            <% end %>
+            <td><%= @user.interview_points_given %></td>
+          </tr>
+          <tr>
+            <td>Par candidat</td>
+            <% Modifier::KINDS_INTERVIEW.each do |kind| %>
+              <td><%= @user.interview_points_average_for(kind).round(2) %></td>
+            <% end %>
+            <td><%= @user.interview_points_given_average.round(2) %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Candidats par décile</h3>
+      <%= render 'candidates/deciles', candidates: @user.candidates_interviewed, decile: :interview_decile %>
+
+      <h3>Liste</h3>
+      <%= render  'candidates/table', candidates: @user.candidates_interviewed %>
+
+    </div>
+    <div  class="tab-pane"
+          id="selection"
+          role="tabpanel"
+          aria-labelledby="selection-tab">
+      <% count = @user.candidates_interviewed.selection_selected.count %>
+
+      <h2>
+        <%= count %> candidats vus en entretien sélectionnés
+        <span class="badge badge-primary">
+          <%= number_to_percentage(100.0 * count / @user.candidates_evaluated.count, precision: 2) %>
+        </span>
+      </h2>
+
+      <h3>Candidats par décile de sélection</h3>
+      <%= render 'candidates/deciles', candidates: @user.candidates_interviewed.selection_selected, decile: :selection_decile %>
+
+      <h3>Liste</h3>
+      <%= render 'candidates/table', candidates: @user.candidates_interviewed.selection_selected %>
+
+    </div>
+  </div>
+
+
 <% end %>

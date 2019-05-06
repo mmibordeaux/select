@@ -48,8 +48,11 @@
 #  selection_note                       :float
 #  selection_position                   :integer
 #  evaluation_decile                    :integer
-#  selected_for_interview_decile        :integer
 #  interview_decile                     :integer
+#  selection_decile                     :integer
+#  evaluation_selected                  :boolean          default(FALSE)
+#  interview_selected                   :boolean          default(FALSE)
+#  selection_selected                   :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

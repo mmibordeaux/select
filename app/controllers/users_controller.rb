@@ -8,9 +8,6 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    @candidates_done = @user.candidates_evaluated.page params[:page_done]
-    @candidates_todo = @user.candidates_attributed.evaluation_todo.page params[:page_todo]
-    @candidates_selected_for_interview = @user.candidates_evaluated.selected_for_interviews.page(params[:page_selected_for_interview])
   end
 
   # GET /users/new

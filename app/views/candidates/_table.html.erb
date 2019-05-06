@@ -2,60 +2,116 @@
   <%
   param_name ||= :page
   select_quantity ||= nil
+  paginated = candidates.respond_to?(:entry_name)
   %>
-  <p><%= page_entries_info candidates %></p>
-  <table class="table table-hover mt-5">
+  <p>
+    <% if paginated %>
+      <%= page_entries_info candidates %>
+    <% else %>
+      <%= candidates.count %> candidats
+    <% end %>
+  </p>
+  <table class="table table-bordered table-hover table-fix-head mt-5">
     <thead>
       <tr>
-        <th width="30">#</th>
+        <th></th>
+        <th colspan="5">Candidat</th>
+        <th colspan="3">Dossier</th>
+        <th colspan="3">Entretien</th>
+        <th colspan="2">Sélection</th>
+      </tr>
+      <tr>
+        <th></th>
         <th width="80">Numéro</th>
         <th>Prénom</th>
         <th>Nom</th>
-        <th width="400">Baccalaureat</th>
+        <th width="300">Baccalauréat</th>
         <th width="80">Boursier</th>
-        <th>Evaluation</th>
-        <th>Evaluateur</th>
-        <th></th>
+        <th>Note</th>
+        <th>#</th>
+        <th>?</th>
+        <th>Note</th>
+        <th>#</th>
+        <th>?</th>
+        <th>Note</th>
+        <th>#</th>
       </tr>
     </thead>
 
     <tbody>
       <% candidates.each_with_index do |candidate, index| %>
         <%
-        number_in_list = 1 + index + ((candidates.current_page-1) * candidates.current_per_page)
+        number_in_list = 1 + index
+        number_in_list += ((candidates.current_page-1) * candidates.current_per_page) if paginated
         selected = select_quantity.nil? || number_in_list <= select_quantity
         %>
         <tr class="<%= 'unselected' unless selected %>">
-          <td>
-            <span class="badge badge-info"><%= number_in_list %></span>
-            <%= candidate.position %>
-          </td>
+          <td class="small"><%= number_in_list %></td>
+          <!-- Candidat -->
           <td><%= link_to candidate.number, candidate %></td>
           <td><%= candidate.first_name %></td>
           <td><%= candidate.last_name %></td>
           <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
           <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
-          <td><%= candidate.evaluation_note.round(2) %></td>
-          <td class="small">
-            <% if candidate.evaluated_by %>
-              <%= link_to candidate.evaluated_by, candidate.evaluated_by %>
-            <% elsif candidate.attributed_to %>
-              <%= link_to candidate.attributed_to, candidate.attributed_to %>
-            <% else %>
-              Pas d'évaluateur
+          <!-- Dossier -->
+          <td>
+            <%= candidate.evaluation_note.round(2) %>
+            <div class="small">
+              <% if candidate.evaluated_by %>
+                <%= candidate.evaluated_by %>
+              <% elsif candidate.attributed_to %>
+                <%= candidate.attributed_to %>
+              <% else %>
+                Pas d'évaluateur
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <span class="badge badge-info"><%= candidate.position %></span><br/>
+            <span class="badge badge-light">D<%= candidate.evaluation_decile %></span><br/>
+          </td>
+          <td><%= candidate.evaluation_selected? ? 'Oui' : 'Non' %></td>
+          <!-- Entretien -->
+          <td>
+            <% if candidate.interview_done %>
+              <%= candidate.interview_note.round %>
+              <div class="small">
+                <%= simple_format candidate.interviewers.join("\n") %>
+              </div>
             <% end %>
           </td>
-          <td class="small">
-            <span class="badge badge-light">D<%= candidate.evaluation_decile %> dossier</span><br/>
-            <% if candidate.selected_for_interview_decile %>
-              <span class="badge badge-light">D<%= candidate.selected_for_interview_decile %> dossier sélectionnné</span>
+          <td>
+            <% if candidate.interview_done %>
+              <span class="badge badge-info"><%= candidate.interview_position %></span><br/>
+              <% if candidate.interview_decile %>
+                <span class="badge badge-light">D<%= candidate.interview_decile %></span>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if candidate.interview_done %>
+              <%= candidate.interview_selected? ? 'Oui' : 'Non' %>
+            <% end %>
+          </td>
+          <!-- Sélection -->
+          <td>
+            <% if candidate.interview_selected? %>
+              <%= candidate.selection_note.round %>
+            <% end %>
+          </td>
+          <td>
+            <% if candidate.interview_selected? %>
+              <span class="badge badge-info"><%= candidate.selection_position %></span><br/>
+              <% if candidate.selection_decile %>
+                <span class="badge badge-light">D<%= candidate.selection_decile %></span>
+              <% end %>
             <% end %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= paginate candidates, theme: 'twitter-bootstrap-4', param_name: param_name %>
+  <%= paginate candidates, theme: 'twitter-bootstrap-4', param_name: param_name if paginated %>
 <% else %>
   <p>Aucun candidat</p>
 <% end %>

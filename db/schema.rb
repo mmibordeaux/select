@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_03_054040) do
+ActiveRecord::Schema.define(version: 2019_05_06_062645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,8 +72,11 @@ ActiveRecord::Schema.define(version: 2019_05_03_054040) do
     t.float "selection_note"
     t.integer "selection_position"
     t.integer "evaluation_decile"
-    t.integer "selected_for_interview_decile"
     t.integer "interview_decile"
+    t.integer "selection_decile"
+    t.boolean "evaluation_selected", default: false
+    t.boolean "interview_selected", default: false
+    t.boolean "selection_selected", default: false
     t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"

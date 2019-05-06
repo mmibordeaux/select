@@ -9,25 +9,25 @@
 </form>
 
 <p><%= page_entries_info @candidates %></p>
-<table class="table table-hover table-striped mt-5">
+<table class="table table-hover table-bordered mt-5">
 <thead>
   <tr>
-    <th width="40">#</th>
+    <th></th>
     <th width="80">Numéro</th>
     <th width="120">Prénom</th>
     <th width="200">Nom</th>
     <th width="300">Baccalauréat</th>
     <th>Jury</th>
     <th>Décile</th>
-    <th>Entretien</th>
-    <th></th>
-    <th></th>
+    <th width="40">Note</th>
+    <th>#</th>
+    <th>PV</th>
   </tr>
 </thead>
 <tbody>
   <% @candidates.each_with_index do |candidate, index| %>
     <tr>
-      <td><%= candidate.interview_position %></td>
+      <td class="small"><%= index + 1 %></td>
       <td><%= link_to candidate.number, candidates_interview_path(candidate) %></td>
       <td><%= candidate.first_name %></td>
       <td><%= candidate.last_name %></td>
@@ -40,16 +40,16 @@
                 <%= 'bg-danger' if candidate.decile_bad_surprise? %>
                 <%= 'bg-success' if candidate.decile_good_surprise? %>
                 ">
-        <span class="badge badge-light">D<%= candidate.selected_for_interview_decile %> dossier sélectionné</span><br/>
-        <% if candidate.interview_decile %>
-          <span class="badge badge-light">D<%= candidate.interview_decile %> entretien</span>
+        <span class="badge badge-light">D<%= candidate.interview_decile %> entretien</span><br/>
+        <% if candidate.selection_decile %>
+          <span class="badge badge-light">D<%= candidate.selection_decile %> sélection</span>
         <% end %>
       </td>
       <td><b><%= candidate.interview_note.to_f.round %></b></td>
+      <td><span class="badge badge-info"><%= candidate.interview_position %></span></td>
       <td><%= link_to 'PV',
                       candidates_print_interview_path(candidate),
                       class: 'btn btn-primary btn-sm' %></td>
-      <td class="small"><span class="badge badge-light"><%= index + 1 %></span></td>
     </tr>
   <% end %>
 </tbody>

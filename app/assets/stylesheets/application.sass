@@ -1,15 +1,18 @@
 @import "bootstrap"
 
+mark
+    background: yellow
+    color: black
+
+h3
+    margin-top: 30px
+
 .synthesis
     .niveau3
         display: none
     .titreCkeditor, .divLabelText
         font-size: 12px
         margin-top: 10px
-
-mark
-    background: yellow
-    color: black
 
 .unselected
     text-decoration: line-through
@@ -19,6 +22,18 @@ mark
   min-width: 310px
   max-width: 800px
   margin: 0 auto
+
+
+.table-fix-head
+  overflow-y: auto
+  height: 100px
+  thead
+    th
+      position: sticky
+      top: 30px
+      background: white
+    tr:first-child th
+      top: -7px
 
 @media print
   body
