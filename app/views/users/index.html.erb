@@ -5,8 +5,11 @@
     <tr>
       <th>Utilisateur</th>
       <th>Evaluateur</th>
-      <th>Evalué</th>
-      <th>A évaluer</th>
+      <th>Dossiers</th>
+      <th>Taux d'entretien (dossier)</th>
+      <th>Taux de sélection (dossier)</th>
+      <th>Entretiens</th>
+      <th>Taux de sélection (entretien)</th>
     </tr>
   </thead>
 
@@ -15,8 +18,34 @@
       <tr>
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
-        <td><%= user.candidates_evaluated.count %></td>
-        <td><%= user.candidates_attributed.evaluation_todo.count %></td>
+        <td>
+          <%= user.candidates_evaluated.count %>
+          <% if user.candidates_attributed.evaluation_todo.any? %>
+            (<%= user.candidates_attributed.evaluation_todo.count %> restant à évaluer)
+          <% end %>
+        </td>
+        <td>
+          <% if user.candidates_evaluated.any? %>
+            <% count = user.candidates_evaluated.evaluation_selected.count %>
+            <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
+            (<%= count %> candidats)
+          <% end %>
+        </td>
+        <td>
+          <% if user.candidates_evaluated.any? %>
+            <% count = user.candidates_evaluated.interview_selected.count %>
+            <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
+            (<%= count %> candidats)
+          <% end %>
+        </td>
+        <td><%= user.candidates_interviewed.count %></td>
+        <td>
+          <% if user.candidates_interviewed.any? %>
+            <% count = user.candidates_interviewed.selection_selected.count %>
+            <%= number_to_percentage(100.0 * count / user.candidates_interviewed.count, precision: 0) %>
+            (<%= count %> candidats)
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
