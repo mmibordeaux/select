@@ -35,13 +35,47 @@ candidates_concerned = Candidate.where(id: candidates_ids)
             [bac_gen.to_s, gens]
         ] %>
     </div>
-    <div class="col-md-6">
-      <h3>Répartition par évaluateur du dossier</h3>
-      <%= pie_chart User.evaluators.map { |u| [u.to_s, candidates.where(evaluated_by: u).count ] } %>
+</div>
+
+<h3>Répartition par évaluateur du dossier</h3>
+<div class="row">
+    <div class="col-md-4">
+      <%= pie_chart User.evaluators.map { |u|
+        [u.to_s, candidates.where(evaluated_by: u).count ]
+      } %>
     </div>
-    <div class="col-md-6">
-      <h3>Répartition par jury d'entretien</h3>
-      <%= pie_chart User.evaluators.map { |u| [u.to_s, u.candidates_interviewed.where(id: candidates).count ] } %>
+    <div class="col-md-8">
+      <%= column_chart User.evaluators.map { |u|
+        {
+          name: u.to_s,
+          data: 10.times.map { |index|
+            index += 1
+            count = candidates.where(evaluated_by: u, decile => index).count
+            ["D#{index}", count]
+          }
+        }
+      }, stacked: true %>
+    </div>
+</div>
+
+<h3>Répartition par jury d'entretien</h3>
+<div class="row">
+    <div class="col-md-4">
+      <%= pie_chart User.evaluators.map { |u|
+        [u.to_s, u.candidates_interviewed.where(id: candidates).count ]
+      } %>
+    </div>
+    <div class="col-md-8">
+      <%= column_chart User.evaluators.map { |u|
+        {
+          name: u.to_s,
+          data: 10.times.map { |index|
+            index += 1
+            count = u.candidates_interviewed.where(id: candidates_ids, decile => index).count
+            ["D#{index}", count]
+          }
+        }
+      }, stacked: true %>
     </div>
 </div>
 

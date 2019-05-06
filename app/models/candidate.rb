@@ -291,14 +291,15 @@ class Candidate < ApplicationRecord
   end
 
   def self.set_deciles(list, decile_key)
+    return if decile_key.nil?
     current_decile = 10
     current_decile_count = 0
     quantity_per_decile = (list.count / 10.0).ceil
     list.each do |candidate|
-      candidate.update_column decile_key, current_decile unless decile_key.nil?
+      candidate.update_column decile_key, current_decile
       current_decile_count += 1
       if current_decile_count >= quantity_per_decile
-        current_decile_count= 0
+        current_decile_count = 0
         current_decile -= 1
       end
     end
