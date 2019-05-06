@@ -1,15 +1,23 @@
 <% content_for :title, 'Utilisateurs' %>
 
-<table class="table">
+<table class="table table-bordered">
   <thead>
+    <tr>
+      <th colspan="2"></th>
+      <th colspan="5">Dossier</th>
+      <th colspan="3">Entretien</th>
+    </tr>
     <tr>
       <th>Utilisateur</th>
       <th>Evaluateur</th>
       <th>Dossiers</th>
       <th>Taux d'entretien (dossier)</th>
+      <th>%</th>
       <th>Taux de sélection (dossier)</th>
+      <th>%</th>
       <th>Entretiens</th>
       <th>Taux de sélection (entretien)</th>
+      <th>%</th>
     </tr>
   </thead>
 
@@ -28,6 +36,10 @@
           <% if user.candidates_evaluated.any? %>
             <% count = user.candidates_evaluated.evaluation_selected.count %>
             <%= count %>
+          <% end %>
+        </td>
+        <td>
+          <% if user.candidates_evaluated.any? %>
             <span class="badge badge-primary">
               <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
             </span>
@@ -37,6 +49,10 @@
           <% if user.candidates_evaluated.any? %>
             <% count = user.candidates_evaluated.interview_selected.count %>
             <%= count %>
+          <% end %>
+        </td>
+        <td>
+          <% if user.candidates_evaluated.any? %>
             <span class="badge badge-primary">
               <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
             </span>
@@ -47,6 +63,10 @@
           <% if user.candidates_interviewed.any? %>
             <% count = user.candidates_interviewed.selection_selected.count %>
             <%= count %>
+          <% end %>
+        </td>
+        <td>
+          <% if user.candidates_interviewed.any? %>
             <span class="badge badge-primary">
               <%= number_to_percentage(100.0 * count / user.candidates_interviewed.count, precision: 0) %>
             </span>
