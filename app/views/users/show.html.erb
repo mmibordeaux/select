@@ -78,7 +78,7 @@
           </tr>
           <tr>
             <td>Par candidat</td>
-            <td><%= @user.candidates_evaluated.average(:dossier_note).round(2) %></td>
+            <td><%= @user.candidates_evaluated.average(:dossier_note).to_f.round(2) %></td>
             <% Modifier::KINDS_EVALUATION.each do |kind| %>
               <td><%= @user.evaluation_points_average_for(kind).round(2) %></td>
             <% end %>
