@@ -134,6 +134,18 @@
 
 <% Modifier::KINDS_EVALUATION.each_with_index do |kind, index| %>
   <h4 class="mt-4"><%= Modifier::KINDS_EVALUATION_LABELS[index] %></h4>
+  <%= column_chart Modifier.send(kind).map { |m| 
+    array = []
+    @users.where(evaluator: true).each { |user|
+      label = user.to_s
+      value = user.evaluation_modifier_used(m)
+      array << [label, value]
+    }
+    {
+      name: m.title,
+      data: array
+    }
+  } %>
   <table class="table table-sm table-hover">
     <thead>
       <tr>
@@ -148,7 +160,7 @@
         <tr>
           <td><%= user %></td>
           <% Modifier.send(kind).each do |m| %>
-            <td><%= user.modifier_used(m) %></td>
+            <td><%= user.evaluation_modifier_used(m) %></td>
           <% end %>
         </tr>
       <% end %>
@@ -209,6 +221,18 @@
 
 <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
   <h4 class="mt-4"><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></h4>
+  <%= column_chart Modifier.send(kind).map { |m|
+    array = []
+    @users.where(evaluator: true).each { |user| 
+      label = user.to_s
+      value = user.interview_modifier_used(m)
+      array << [label, value]
+    }
+    {
+      name: m.title,
+      data: array
+    }
+  } %>
   <table class="table table-sm table-hover">
     <thead>
       <tr>
@@ -223,7 +247,7 @@
         <tr>
           <td><%= user %></td>
           <% Modifier.send(kind).each do |m| %>
-            <td><%= user.modifier_used(m) %></td>
+            <td><%= user.interview_modifier_used(m) %></td>
           <% end %>
         </tr>
       <% end %>

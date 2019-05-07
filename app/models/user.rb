@@ -28,10 +28,6 @@ class User < ApplicationRecord
 
   scope :evaluators, -> { where(evaluator: true) }
 
-  def modifier_used(modifier)
-    candidates_evaluated.where("#{modifier.kind}_id" => modifier.id).count
-  end
-
   # Evaluation
 
   def evaluation_points_given
@@ -58,6 +54,10 @@ class User < ApplicationRecord
     1.0 * evaluation_points_given / candidates_evaluated.count
   end
 
+  def evaluation_modifier_used(modifier)
+    candidates_evaluated.where("#{modifier.kind}_id" => modifier.id).count
+  end
+
   # Interview
 
   def interview_points_given
@@ -82,6 +82,10 @@ class User < ApplicationRecord
   def interview_points_given_average
     return 0.0 if candidates_interviewed.none?
     1.0 * interview_points_given / candidates_interviewed.count
+  end
+
+  def interview_modifier_used(modifier)
+    candidates_interviewed.where("#{modifier.kind}_id" => modifier.id).count
   end
 
   def to_s
