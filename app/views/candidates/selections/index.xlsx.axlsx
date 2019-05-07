@@ -11,7 +11,7 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
     '#',
     'Entretien',
     '#',
-    'Sélection'
+    'Sélection',
     '#'
   ]
   @candidates.each do |candidate|
@@ -23,7 +23,7 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
       candidate.scholarship,
       candidate.dossier_note.round(2),
       candidate.evaluation_note.round(2),
-      candidate.evaluation_position,
+      candidate.position,
       candidate.interview_note.round(2),
       candidate.interview_position,
       candidate.selection_note.round(2),
