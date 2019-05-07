@@ -9,12 +9,8 @@
 #  updated_at                     :datetime         not null
 #  interview_bonus                :float
 #  selection_number_of_candidates :integer
+#  selection_scholarship_bonus    :float
 #
 
 class Setting < ApplicationRecord
-  after_save :recompute_notes
-
-  def recompute_notes
-    Candidate.recompute_notes
-  end
 end

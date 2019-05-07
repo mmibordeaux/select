@@ -33,7 +33,7 @@ class BaccalaureatsController < ApplicationController
   # PATCH/PUT /baccalaureats/1
   def update
     if @baccalaureat.update(baccalaureat_params)
-      redirect_to @baccalaureat, notice: 'Baccalaureat was successfully updated.'
+      redirect_to @baccalaureat, notice: 'Baccalaureat was successfully updated. Don\'t forget to recompute notes.'
     else
       render :edit
     end
@@ -53,6 +53,6 @@ class BaccalaureatsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def baccalaureat_params
-      params.require(:baccalaureat).permit(:title, :parent_id, :quota, :evaluation_bonus)
+      params.require(:baccalaureat).permit(:title, :parent_id, :quota, :evaluation_bonus, :selection_bonus)
     end
 end

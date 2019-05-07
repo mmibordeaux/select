@@ -9,6 +9,7 @@
 #  updated_at                     :datetime         not null
 #  interview_bonus                :float
 #  selection_number_of_candidates :integer
+#  selection_scholarship_bonus    :float
 #
 
 require 'test_helper'

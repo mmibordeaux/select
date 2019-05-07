@@ -170,10 +170,13 @@ class Candidate < ApplicationRecord
       candidate.update_column :evaluation_selected, evaluation_selected
     end
     all.reload.evaluation_selected.ordered_by_interview.each_with_index do |candidate, index|
-      interview_selected = candidate.evaluation_selected && index < Setting.first.selection_number_of_candidates
-      selection_selected = interview_selected
-      candidate.update_columns  interview_selected: interview_selected,
-                                selection_selected: selection_selected
+      # There probably should be a specific selection method for interview
+      interview_selected = candidate.evaluation_selected
+      candidate.update_column :interview_selected, interview_selected
+    end
+    all.reload.evaluation_selected.ordered_by_selection.each_with_index do |candidate, index|
+      selection_selected = candidate.evaluation_selected && index < Setting.first.selection_number_of_candidates
+      candidate.update_column :selection_selected, selection_selected
     end
     # Deciles
     reset_deciles
@@ -344,9 +347,12 @@ class Candidate < ApplicationRecord
   end
 
   def compute_selection_note
-    # Should be that
+    # Should be based on that
     # self.evaluation_note + self.interview_note
-    # Is that
-    self.interview_note
+    # But, well, no.
+    note = self.interview_note
+    note += Setting.first.selection_scholarship_bonus.to_f if scholarship
+    note += baccalaureat.inherited_selection_bonus if baccalaureat.inherited_selection_bonus
+    note
   end
 end

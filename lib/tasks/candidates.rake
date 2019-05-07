@@ -30,4 +30,9 @@ namespace :candidates do
   task positionize: :environment do
     Candidate.positionize
   end
+
+  desc "Recompute notes"
+  task recompute_notes: :environment do
+    Candidate.recompute_notes
+  end
 end

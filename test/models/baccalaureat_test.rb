@@ -9,6 +9,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  evaluation_bonus :float
+#  selection_bonus  :float
 #
 
 require 'test_helper'

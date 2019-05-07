@@ -9,6 +9,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  evaluation_bonus :float
+#  selection_bonus  :float
 #
 
 class Baccalaureat < ApplicationRecord
@@ -19,8 +20,6 @@ class Baccalaureat < ApplicationRecord
   scope :root, -> { where(parent: nil) }
 
   default_scope { order(:title) }
-
-  after_save :recompute_notes
 
   def self.with_title_and_parent(title, parent)
     where(title: title, parent: parent).first_or_create
@@ -36,6 +35,11 @@ class Baccalaureat < ApplicationRecord
     return parent.inherited_evaluation_bonus if parent
   end
 
+  def inherited_selection_bonus
+    return selection_bonus if selection_bonus
+    return parent.inherited_selection_bonus if parent
+  end
+
   def inherited_candidates
     Candidate.where(baccalaureat: children_ids)
   end
@@ -49,11 +53,5 @@ class Baccalaureat < ApplicationRecord
 
   def children_ids
     @children_ids ||= ([id] + children.pluck(:id) + children.collect(&:children_ids)).flatten
-  end
-
-  protected
-
-  def recompute_notes
-    Candidate.recompute_notes
   end
 end

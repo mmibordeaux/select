@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_062645) do
+ActiveRecord::Schema.define(version: 2019_05_07_063619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_05_06_062645) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "evaluation_bonus"
+    t.float "selection_bonus"
     t.index ["parent_id"], name: "index_baccalaureats_on_parent_id"
   end
 
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_05_06_062645) do
     t.datetime "updated_at", null: false
     t.float "interview_bonus"
     t.integer "selection_number_of_candidates"
+    t.float "selection_scholarship_bonus"
   end
 
   create_table "users", force: :cascade do |t|

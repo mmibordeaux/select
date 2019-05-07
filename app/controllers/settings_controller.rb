@@ -35,7 +35,7 @@ class SettingsController < ApplicationController
   # PATCH/PUT /settings/1
   def update
     if @setting.update(setting_params)
-      redirect_to @setting, notice: 'Setting was successfully updated.'
+      redirect_to @setting, notice: 'Setting was successfully updated. Don\'t forget to recompute notes.'
     else
       render :edit
     end
@@ -57,6 +57,6 @@ class SettingsController < ApplicationController
     params.require(:setting)
           .permit(:evaluation_scholarship_bonus,
             :interview_number_of_candidates, :interview_bonus,
-            :selection_number_of_candidates)
+            :selection_number_of_candidates, :selection_scholarship_bonus)
   end
 end

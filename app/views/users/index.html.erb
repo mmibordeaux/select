@@ -8,7 +8,7 @@
       <th colspan="3">Entretien</th>
     </tr>
     <tr>
-      <th>Utilisateur</th>
+      <th width="200">Utilisateur</th>
       <th>Evaluateur</th>
       <th>Evalués</th>
       <th>Entretien</th>
@@ -94,10 +94,10 @@
   }
 } %>
 
-<table class="table">
+<table class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Utilisateur</th>
+      <th width="200">Utilisateur</th>
       <th class="small">Dossiers évalués</th>
       <th class="small">Moyenne des moyennes des dossiers</th>
       <th class="small">Qualité du parcours scolaire</th>
@@ -114,15 +114,18 @@
         <td><%= user.candidates_evaluated.count %></td>
         <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
         <% Modifier::KINDS_EVALUATION.each do |kind| %>
-          <td>
-            <%= user.evaluation_points_for(kind).round %>
-            (<%= user.evaluation_points_average_for(kind).round(2) %>/c)
-          </td>
+          <td><%= user.evaluation_points_for(kind).round if user.candidates_evaluated.any? %></td>
         <% end %>
-        <td>
-          <%= user.evaluation_points_given.round %>
-          (<%= user.evaluation_points_given_average.round(2) %>/c)
-        </td>
+        <td><%= user.evaluation_points_given.round if user.candidates_evaluated.any? %></td>
+      </tr>
+      <tr class="text-muted">
+        <td class="small">Moyenne/candidat</td>
+        <td></td>
+        <td></td>
+        <% Modifier::KINDS_EVALUATION.each do |kind| %>
+          <td><%= user.evaluation_points_average_for(kind).round(2) if user.candidates_evaluated.any? %></td>
+        <% end %>
+        <td><%= user.evaluation_points_given_average.round(2) if user.candidates_evaluated.any? %></td>
       </tr>
     <% end %>
   </tbody>
@@ -145,16 +148,15 @@
   }
 } %>
 
-<table class="table">
+<table class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Utilisateur</th>
+      <th width="200">Utilisateur</th>
       <th>Entretiens</th>
       <% Modifier::KINDS_INTERVIEW_LABELS.each do |label| %>
         <th class="small"><%= label %></th>
       <% end %>
       <th>Total</th>
-      <th>Total (/candidat)</th>
     </tr>
   </thead>
   <tbody>
@@ -163,12 +165,16 @@
         <td><%= user %></td>
         <td><%= user.candidates_interviewed.count %></td>
         <% Modifier::KINDS_INTERVIEW.each do |kind| %>
-          <td>
-            <%= user.interview_points_for(kind).round %>
-            (<%= user.interview_points_average_for(kind).round(2) %>/c)
-          </td>
+          <td><%= user.interview_points_for(kind).round %></td>
         <% end %>
         <td><%= user.interview_points_given %></td>
+      </tr>
+      <tr class="text-muted">
+        <td class="small">Moyenne/candidat</td>
+        <td></td>
+        <% Modifier::KINDS_INTERVIEW.each do |kind| %>
+          <td><%= user.interview_points_average_for(kind).round(2) %></td>
+        <% end %>
         <td><%= user.interview_points_given_average.round(2) %></td>
       </tr>
     <% end %>

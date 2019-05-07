@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     get 'my' => 'my#index'
     get 'import' => 'operations#import'
     post 'import' => 'operations#import'
-    post 'positionize' => 'operations#positionize', as: :positionize
     get 'production/:production' => 'production#index', as: :production
     get 'stats' => 'stats#index', as: :stats
     scope :interviews do

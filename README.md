@@ -8,6 +8,8 @@
 
     rake candidates:positionize
 
+    rake candidates:recompute_notes
+
 ## Phases
 
 ### Evaluation

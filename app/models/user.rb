@@ -45,10 +45,12 @@ class User < ApplicationRecord
   end
 
   def evaluation_points_average_for(criterion)
+    return 0 if candidates_evaluated.none?
     1.0 * evaluation_points_for(criterion) / candidates_evaluated.count
   end
 
   def evaluation_points_given_average
+    return 0 if candidates_evaluated.none?
     1.0 * evaluation_points_given / candidates_evaluated.count
   end
 
