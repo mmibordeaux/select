@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th colspan="2"></th>
-      <th colspan="5">Dossier</th>
+      <th colspan="7">Dossier</th>
       <th colspan="3">Entretien</th>
     </tr>
     <tr>
@@ -13,8 +13,8 @@
       <th>Evalués</th>
       <th class="small">Boursiers</th>
       <th>Entretien</th>
-      <th class="small">Boursiers</th>
       <th>%</th>
+      <th class="small">Boursiers</th>
       <th>Sélection</th>
       <th>%</th>
       <th>Effectués</th>
@@ -45,16 +45,16 @@
             <%= count %>
           <% end %>
         </td>
-        <td class="small">
-          <% if user.candidates_evaluated.any? %>
-            <%= user.candidates_evaluated.evaluation_selected.scholars.count %>
-          <% end %>
-        </td>
         <td>
           <% if user.candidates_evaluated.any? %>
             <span class="badge badge-primary">
               <%= number_to_percentage(100.0 * count / user.candidates_evaluated.count, precision: 0) %>
             </span>
+          <% end %>
+        </td>
+        <td class="small">
+          <% if user.candidates_evaluated.any? %>
+            <%= user.candidates_evaluated.evaluation_selected.scholars.count %>
           <% end %>
         </td>
         <td>
