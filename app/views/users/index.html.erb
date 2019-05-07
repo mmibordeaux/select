@@ -11,7 +11,9 @@
       <th width="200">Utilisateur</th>
       <th>Evaluateur</th>
       <th>Evalués</th>
+      <th class="small">Boursiers</th>
       <th>Entretien</th>
+      <th class="small">Boursiers</th>
       <th>%</th>
       <th>Sélection</th>
       <th>%</th>
@@ -32,10 +34,20 @@
             (<%= user.candidates_attributed.evaluation_todo.count %> restant à évaluer)
           <% end %>
         </td>
+        <td class="small">
+          <% if user.candidates_evaluated.any? %>
+            <%= user.candidates_evaluated.scholars.count %>
+          <% end %>
+        </td>
         <td>
           <% if user.candidates_evaluated.any? %>
             <% count = user.candidates_evaluated.evaluation_selected.count %>
             <%= count %>
+          <% end %>
+        </td>
+        <td class="small">
+          <% if user.candidates_evaluated.any? %>
+            <%= user.candidates_evaluated.evaluation_selected.scholars.count %>
           <% end %>
         </td>
         <td>

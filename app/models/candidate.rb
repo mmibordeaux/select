@@ -85,6 +85,7 @@ class Candidate < ApplicationRecord
       "%#{term}%",
       "%#{term}%")
   }
+  scope :scholars, -> { where(scholarship: true) }
   scope :ordered_by_date, -> { order(updated_at: :desc) }
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :ordered_by_interview, -> { order(interview_note: :desc, evaluation_note: :desc) }
