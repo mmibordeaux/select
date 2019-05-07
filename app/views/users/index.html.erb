@@ -47,7 +47,7 @@
         </td>
         <td>
           <% if user.candidates_evaluated.any? %>
-            <% count = user.candidates_evaluated.interview_selected.count %>
+            <% count = user.candidates_evaluated.selection_selected.count %>
             <%= count %>
           <% end %>
         </td>
