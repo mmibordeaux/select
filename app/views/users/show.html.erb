@@ -137,10 +137,10 @@
       </h2>
 
       <h3>Candidats par décile de sélection</h3>
-      <%= render 'candidates/deciles', candidates: @user.candidates_evaluated.interview_selected, decile: :selection_decile %>
+      <%= render 'candidates/deciles', candidates: @user.candidates_evaluated.selection_selected, decile: :selection_decile %>
 
       <h3>Liste</h3>
-      <%= render 'candidates/table', candidates: @user.candidates_evaluated.interview_selected.ordered_by_selection %>
+      <%= render 'candidates/table', candidates: @user.candidates_evaluated.selection_selected.ordered_by_selection %>
 
     </div>
 
