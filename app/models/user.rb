@@ -28,6 +28,10 @@ class User < ApplicationRecord
 
   scope :evaluators, -> { where(evaluator: true) }
 
+  def modifier_used(modifier)
+    candidates_evaluated.where("#{modifier.kind}_id" => modifier.id).count
+  end
+
   # Evaluation
 
   def evaluation_points_given

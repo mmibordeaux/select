@@ -102,10 +102,9 @@
       <th width="200">Utilisateur</th>
       <th class="small">Dossiers évalués</th>
       <th class="small">Moyenne des moyennes des dossiers</th>
-      <th class="small">Qualité du parcours scolaire</th>
-      <th class="small">Projet de formation motivé</th>
-      <th class="small">Intérêt du projet en ligne</th>
-      <th class="small">Motivation pour la spécialité</th>
+      <% Modifier::KINDS_EVALUATION_LABELS.each do |label| %>
+        <th class="small"><%= label %></th>
+      <% end %>
       <th class="small">Total</td>
     </tr>
   </thead>
@@ -132,6 +131,30 @@
     <% end %>
   </tbody>
 </table>
+
+<% Modifier::KINDS_EVALUATION.each_with_index do |kind, index| %>
+  <h4 class="mt-4"><%= Modifier::KINDS_EVALUATION_LABELS[index] %></h4>
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th width="200">Utilisateur</th>
+        <% Modifier.send(kind).each do |m| %>
+          <th class="small"><%= m.title %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.where(evaluator: true).each do |user| %>
+        <tr>
+          <td><%= user %></td>
+          <% Modifier.send(kind).each do |m| %>
+            <td><%= user.modifier_used(m) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <h2>Détail des entretiens</h2>
 
@@ -182,3 +205,28 @@
     <% end %>
   </tbody>
 </table>
+
+
+<% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
+  <h4 class="mt-4"><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></h4>
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th width="200">Utilisateur</th>
+        <% Modifier.send(kind).each do |m| %>
+          <th class="small"><%= m.title %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.where(evaluator: true).each do |user| %>
+        <tr>
+          <td><%= user %></td>
+          <% Modifier.send(kind).each do |m| %>
+            <td><%= user.modifier_used(m) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
