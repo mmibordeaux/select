@@ -55,6 +55,11 @@
         <td class="small">
           <% if user.candidates_evaluated.any? %>
             <%= user.candidates_evaluated.evaluation_selected.scholars.count %>
+            <% if user.candidates_evaluated.scholars.count > 0 %>
+              <span class="badge badge-primary">
+                <%= number_to_percentage(100.0 * user.candidates_evaluated.evaluation_selected.scholars.count / user.candidates_evaluated.scholars.count, precision: 0) %>
+              </span>
+            <% end %>
           <% end %>
         </td>
         <td>
