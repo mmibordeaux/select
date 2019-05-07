@@ -1,7 +1,6 @@
 class BulletinsAnalyze
 
   POSITIVE_WORDS = [
-    'sérieu',
     'bon travail',
     'motivé',
     'enthousiaste',
