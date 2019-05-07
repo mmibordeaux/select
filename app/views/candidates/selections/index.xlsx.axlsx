@@ -1,7 +1,6 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: 'Candidats') do |sheet|
   sheet.add_row [
-    'Classement',
     'Numéro',
     'Prénom',
     'Nom',
@@ -9,12 +8,14 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
     'Boursier',
     'Moyenne du dossier',
     'Evaluation',
+    '#',
     'Entretien',
+    '#',
     'Sélection'
+    '#'
   ]
   @candidates.each do |candidate|
     sheet.add_row [
-      candidate.position,
       candidate.number,
       candidate.first_name,
       candidate.last_name,
@@ -22,8 +23,11 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
       candidate.scholarship,
       candidate.dossier_note.round(2),
       candidate.evaluation_note.round(2),
+      candidate.evaluation_position,
       candidate.interview_note.round(2),
-      candidate.selection_note.round(2)
+      candidate.interview_position,
+      candidate.selection_note.round(2),
+      candidate.selection_position
     ]
   end
 end
