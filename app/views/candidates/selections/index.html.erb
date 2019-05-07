@@ -8,4 +8,6 @@
           value="<%= params[:search] %>">
 </form>
 
+<%= link_to 'Export (xlsx)', candidates_selections_path(format: :xlsx), class: 'btn btn-primary btn-sm' %>
+
 <%= render 'candidates/table', candidates: @candidates %>
