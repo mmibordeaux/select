@@ -1,0 +1,33 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: 'Candidats') do |sheet|
+  sheet.add_row [
+    'Numéro',
+    'Prénom',
+    'Nom',
+    'Baccalauréat',
+    'Boursier',
+    'Moyenne du dossier',
+    'Evaluation',
+    '#',
+    'Entretien',
+    '#',
+    'Sélection',
+    '#'
+  ]
+  @candidates.each do |candidate|
+    sheet.add_row [
+      candidate.number,
+      candidate.first_name,
+      candidate.last_name,
+      candidate.baccalaureat,
+      candidate.scholarship,
+      candidate.dossier_note.round(2),
+      candidate.evaluation_note.round(2),
+      candidate.position,
+      candidate.interview_note.round(2),
+      candidate.interview_position,
+      candidate.selection_note.round(2),
+      candidate.selection_position
+    ]
+  end
+end

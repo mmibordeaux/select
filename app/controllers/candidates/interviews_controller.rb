@@ -6,7 +6,11 @@ class Candidates::InterviewsController < ApplicationController
                             .ordered_by_interview
                             .includes(:baccalaureat)
     @candidates = @candidates.search params[:search] if params.has_key? :search
-    @candidates = @candidates.page params[:page]
+    respond_to do |format|
+      format.html { @candidates = @candidates.page params[:page] }
+      format.xlsx {}
+    end
+    
   end
 
   def stats
