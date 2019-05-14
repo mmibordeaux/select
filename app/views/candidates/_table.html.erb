@@ -16,9 +16,10 @@
       <tr>
         <th></th>
         <th colspan="5">Candidat</th>
-        <th colspan="4">Dossier</th>
-        <th colspan="3">Entretien</th>
+        <th colspan="3">Dossier</th>
+        <th colspan="2">Entretien</th>
         <th colspan="2">Sélection</th>
+        <th>Promotion</th>
       </tr>
       <tr>
         <th></th>
@@ -30,12 +31,11 @@
         <th>Moyenne</th>
         <th>Note</th>
         <th>#</th>
-        <th>?</th>
         <th>Note</th>
         <th>#</th>
-        <th>?</th>
         <th>Note</th>
         <th>#</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -71,8 +71,8 @@
           <td>
             <span class="badge badge-info"><%= candidate.position %></span><br/>
             <span class="badge badge-light">D<%= candidate.evaluation_decile %></span><br/>
+            <%= candidate.evaluation_selected? ? 'OK' : 'KO' %>
           </td>
-          <td><%= candidate.evaluation_selected? ? 'Oui' : 'Non' %></td>
           <!-- Entretien -->
           <td>
             <% if candidate.interview_done %>
@@ -89,10 +89,8 @@
                 <span class="badge badge-light">D<%= candidate.interview_decile %></span>
               <% end %>
             <% end %>
-          </td>
-          <td>
             <% if candidate.interview_done %>
-              <%= candidate.interview_selected? ? 'Oui' : 'Non' %>
+              <%= candidate.interview_selected? ? 'OK' : 'KO' %>
             <% end %>
           </td>
           <!-- Sélection -->
@@ -106,6 +104,19 @@
               <span class="badge badge-info"><%= candidate.selection_position %></span><br/>
               <% if candidate.selection_decile %>
                 <span class="badge badge-light">D<%= candidate.selection_decile %></span>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if candidate.promotion_selected %>
+              <%= form_for(candidate) do |f| %>
+                <%= hidden_field_tag 'candidate[promotion_selected]', false %>
+                <%= submit_tag '-', class: 'btn btn-sm btn-primary' %>
+              <% end %>
+            <% else %>
+              <%= form_for(candidate) do |f| %>
+                <%= hidden_field_tag 'candidate[promotion_selected]', true %>
+                <%= submit_tag '+', class: 'btn btn-sm btn-primary' %>
               <% end %>
             <% end %>
           </td>

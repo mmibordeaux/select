@@ -53,6 +53,9 @@
 #  evaluation_selected                  :boolean          default(FALSE)
 #  interview_selected                   :boolean          default(FALSE)
 #  selection_selected                   :boolean          default(FALSE)
+#  promotion_selected                   :boolean          default(FALSE)
+#  promotion_decile                     :integer
+#  promotion_position                   :integer
 #
 
 require 'test_helper'

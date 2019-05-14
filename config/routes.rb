@@ -19,6 +19,10 @@ Rails.application.routes.draw do
       get 'stats' => 'selections#stats', as: :selections_stats
       root to: 'selections#index', as: :selections
     end
+    scope :promotion do
+      get 'stats' => 'promotion#stats', as: :promotion_stats
+      root to: 'promotion#index', as: :promotion
+    end
   end
   resources :candidates do
     collection do

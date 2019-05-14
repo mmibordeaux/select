@@ -53,6 +53,9 @@
 #  evaluation_selected                  :boolean          default(FALSE)
 #  interview_selected                   :boolean          default(FALSE)
 #  selection_selected                   :boolean          default(FALSE)
+#  promotion_selected                   :boolean          default(FALSE)
+#  promotion_decile                     :integer
+#  promotion_position                   :integer
 #
 
 class Candidate < ApplicationRecord
@@ -90,6 +93,7 @@ class Candidate < ApplicationRecord
   scope :ordered_by_evaluation, -> { order(evaluation_note: :desc) }
   scope :ordered_by_interview, -> { order(interview_note: :desc, evaluation_note: :desc) }
   scope :ordered_by_selection, -> { order(selection_note: :desc, interview_note: :desc, evaluation_note: :desc) }
+  scope :ordered_by_promotion, -> { order(selection_note: :desc, interview_note: :desc, evaluation_note: :desc) }
 
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
 
@@ -102,6 +106,8 @@ class Candidate < ApplicationRecord
   scope :interview_selected, -> { where(interview_selected: true) }
 
   scope :selection_selected, -> { where(selection_selected: true) }
+
+  scope :promotion_selected, -> { where(promotion_selected: true) }
 
   before_save :denormalize_notes
 
