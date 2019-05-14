@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
     scope :promotion do
       get 'stats' => 'promotion#stats', as: :promotion_stats
+      put 'select/:candidate_id' => 'promotion#select', as: :promotion_select
+      put 'unselect/:candidate_id' => 'promotion#unselect', as: :promotion_unselect
       root to: 'promotion#index', as: :promotion
     end
   end

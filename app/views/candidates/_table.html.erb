@@ -109,15 +109,15 @@
           </td>
           <td>
             <% if candidate.promotion_selected %>
-              <%= form_for(candidate) do |f| %>
-                <%= hidden_field_tag 'candidate[promotion_selected]', false %>
-                <%= submit_tag '-', class: 'btn btn-sm btn-primary' %>
-              <% end %>
+              <%= link_to '-',
+                          candidates_promotion_unselect_path(candidate_id: candidate.id),
+                          method: :put,
+                          class: 'btn btn-sm btn-primary' %>
             <% else %>
-              <%= form_for(candidate) do |f| %>
-                <%= hidden_field_tag 'candidate[promotion_selected]', true %>
-                <%= submit_tag '+', class: 'btn btn-sm btn-primary' %>
-              <% end %>
+              <%= link_to '+',
+                          candidates_promotion_select_path(candidate_id: candidate.id),
+                          method: :put,
+                          class: 'btn btn-sm btn-primary' %>
             <% end %>
           </td>
         </tr>
