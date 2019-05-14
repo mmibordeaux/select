@@ -171,6 +171,7 @@ class Candidate < ApplicationRecord
     set_positions_in_list_by_key(ordered_by_evaluation, :evaluation_note, :position)
     set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
     set_positions_in_list_by_key(ordered_by_selection, :selection_note, :selection_position)
+    set_positions_in_list_by_key(ordered_by_promotion, :selection_note, :promotion_position)
     # Selections
     find_each do |candidate|
       evaluation_selected = candidate.position < Setting.first.interview_number_of_candidates
@@ -190,6 +191,7 @@ class Candidate < ApplicationRecord
     set_deciles(ordered_by_evaluation, :evaluation_decile)
     set_deciles(evaluation_selected.ordered_by_interview, :interview_decile)
     set_deciles(interview_selected.ordered_by_selection, :selection_decile)
+    set_deciles(promotion_selected.ordered_by_promotion, :promotion_decile)
   end
 
   def self.recompute_notes
