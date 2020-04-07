@@ -1,7 +1,6 @@
 class Note
   def self.average(row)
-    # Avoid row[96..97]
-    notes = [row[18]] + row[21..95] + row[98..1000]
+    notes = row[71..220] + row[223..663] + row[666..1106]
     notes_quantity = 0
     notes_sum = 0.0
     notes.each do |note|

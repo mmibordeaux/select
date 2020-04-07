@@ -1,6 +1,6 @@
 <h1>Import de candidats</h1>
 
 <%= form_tag do %>
-  <%= text_area_tag :csv %><br/>
-  <%= submit_tag 'Importer' %>
+  <textarea name="csv" rows="8" class="form-control mb-3"></textarea>
+  <%= submit_tag 'Importer', class: 'btn btn-primary' %>
 <% end %>

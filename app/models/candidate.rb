@@ -134,31 +134,39 @@ class Candidate < ApplicationRecord
     rows.each do |row|
       title = row[6]
       baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
-      title = row[13]
+      title = row[45]
       unless title.blank?
         baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
-        title = row[15]
+        title = row[47]
         unless title.blank?
           baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
         end
       end
 
       number = "#{row[3]}"
-      validated = row[17].to_s == 'Oui'
+      validated = row[60].to_s == 'Oui'
       if validated
         first_name = "#{row[5]}"
         last_name = "#{row[4]}"
-        level = "#{row[10]} - #{row[11]}"
-        scholarship = row[8].to_s == 'Oui'
+        gender = "#{row[9]}"
+        baccalaureat_mention = "#{row[48]}"
+        level = "#{row[34]} - #{row[38]}"
+        scholarship = row[15].to_s == 'Oui'
         candidate = Candidate.where(number: number).first_or_create
+        candidate.gender = gender
         candidate.first_name = first_name
         candidate.last_name = last_name
+        candidate.baccalaureat_mention = baccalaureat_mention
         candidate.baccalaureat = baccalaureat
         candidate.level = level
         candidate.scholarship = scholarship
         candidate.dossier_note = Note.average(row)
-        candidate.save
-        puts "Created candidate #{number}"
+        if candidate.valid?
+          puts "Created candidate #{number}"
+          candidate.save
+        else
+          byebug
+        end
       else
         Candidate.where(number: number).destroy_all
         puts "Deleted candidate #{number}"

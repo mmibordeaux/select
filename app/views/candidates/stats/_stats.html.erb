@@ -5,7 +5,7 @@ candidates_concerned = Candidate.where(id: candidates_ids)
 %>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <%
         scholarships = candidates_concerned.where(scholarship: true).count
         non_scholarships = candidates_concerned.where(scholarship: false).count
@@ -19,7 +19,7 @@ candidates_concerned = Candidate.where(id: candidates_ids)
             ['Non boursiers', non_scholarships]
             ]%>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <%
         bac_tech = Baccalaureat.find_by(title: 'Bacheliers technologiques toutes séries')
         bac_gen = Baccalaureat.find_by(title: 'Tous les candidats sauf les Bac technologiques')
@@ -34,6 +34,10 @@ candidates_concerned = Candidate.where(id: candidates_ids)
             [bac_tech.to_s, techs],
             [bac_gen.to_s, gens]
         ] %>
+    </div>
+    <div class="col-md-3">
+        <h3>Genre</h3>
+        <%= pie_chart candidates_concerned.group(:gender).count %>
     </div>
 </div>
 
