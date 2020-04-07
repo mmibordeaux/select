@@ -1,9 +1,9 @@
 namespace :candidates do
   desc "Reset all candidates and baccalaureats database"
   task reset: :environment do
-    User.where(id: [11, 9, ]).destroy_all
     Candidate.destroy_all
     Baccalaureat.destroy_all
+    User.where(id: [11, 9, ]).destroy_all
   end
 
   desc "Sync all candidates"
