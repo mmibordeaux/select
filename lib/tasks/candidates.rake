@@ -1,4 +1,10 @@
 namespace :candidates do
+  desc "Reset all candidates and baccalaureats database"
+  task reset: :environment do
+    Candidate.destroy_all
+    Baccalaureat.destroy_all
+  end
+
   desc "Sync all candidates"
   task sync: :environment do
     Candidate.find_each do |candidate|

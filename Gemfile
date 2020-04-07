@@ -11,8 +11,8 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'rest-client'
 gem 'rubyzip'
-gem 'axlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
-gem 'axlsx_rails'
+gem 'caxlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'caxlsx_rails'
 
 # Front
 gem 'sassc-rails'
