@@ -59,12 +59,10 @@
           <td>
             <%= candidate.evaluation_note.round(2) %>
             <div class="small">
-              <% if candidate.evaluated_by %>
-                <%= candidate.evaluated_by %>
-              <% elsif candidate.attributed_to %>
-                <%= candidate.attributed_to %>
+              <% if candidate.evaluations.any? %>
+                Evaluations: <%= candidate.evaluations.map { |e| e.user.to_s }.join(', ') %>
               <% else %>
-                Pas d'évaluateur
+                Pas évalué
               <% end %>
             </div>
           </td>
