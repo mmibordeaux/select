@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_07_115333) do
+ActiveRecord::Schema.define(version: 2020_04_08_120333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,10 +39,6 @@ ActiveRecord::Schema.define(version: 2020_04_07_115333) do
     t.text "evaluation_comment", default: ""
     t.bigint "evaluated_by_id"
     t.text "level"
-    t.bigint "attitude_id"
-    t.bigint "intention_id"
-    t.bigint "production_id"
-    t.bigint "localization_id"
     t.integer "position"
     t.text "parcoursup_entete"
     t.text "parcoursup_scolarite"
@@ -83,13 +79,9 @@ ActiveRecord::Schema.define(version: 2020_04_07_115333) do
     t.integer "promotion_position"
     t.string "gender"
     t.string "baccalaureat_mention"
-    t.index ["attitude_id"], name: "index_candidates_on_attitude_id"
     t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
     t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"
-    t.index ["intention_id"], name: "index_candidates_on_intention_id"
-    t.index ["localization_id"], name: "index_candidates_on_localization_id"
-    t.index ["production_id"], name: "index_candidates_on_production_id"
   end
 
   create_table "candidates_users", id: false, force: :cascade do |t|
@@ -97,6 +89,25 @@ ActiveRecord::Schema.define(version: 2020_04_07_115333) do
     t.bigint "user_id"
     t.index ["candidate_id"], name: "index_candidates_users_on_candidate_id"
     t.index ["user_id"], name: "index_candidates_users_on_user_id"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.bigint "candidate_id"
+    t.bigint "user_id"
+    t.bigint "attitude_id"
+    t.bigint "intention_id"
+    t.bigint "production_id"
+    t.bigint "localization_id"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "note"
+    t.index ["attitude_id"], name: "index_evaluations_on_attitude_id"
+    t.index ["candidate_id"], name: "index_evaluations_on_candidate_id"
+    t.index ["intention_id"], name: "index_evaluations_on_intention_id"
+    t.index ["localization_id"], name: "index_evaluations_on_localization_id"
+    t.index ["production_id"], name: "index_evaluations_on_production_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
   end
 
   create_table "modifiers", force: :cascade do |t|
@@ -138,4 +149,10 @@ ActiveRecord::Schema.define(version: 2020_04_07_115333) do
   add_foreign_key "candidates", "users", column: "evaluated_by_id"
   add_foreign_key "candidates_users", "candidates"
   add_foreign_key "candidates_users", "users"
+  add_foreign_key "evaluations", "candidates"
+  add_foreign_key "evaluations", "modifiers", column: "attitude_id"
+  add_foreign_key "evaluations", "modifiers", column: "intention_id"
+  add_foreign_key "evaluations", "modifiers", column: "localization_id"
+  add_foreign_key "evaluations", "modifiers", column: "production_id"
+  add_foreign_key "evaluations", "users"
 end

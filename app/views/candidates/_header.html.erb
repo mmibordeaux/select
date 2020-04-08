@@ -9,13 +9,9 @@
       <div class="col-md-4">
         <p><%= candidate.level %></p>
         <p>
-          <% if candidate.evaluation_done %>
-            Evalué 
-            <% if candidate.evaluated_by %>
-              par <%= link_to candidate.evaluated_by, candidate.evaluated_by %>
-            <% else %>
-              automatiquement
-            <% end %>
+          <% if candidate.evaluations.reload.any? %>
+            Evaluations:
+            <%= candidate.evaluations.map { |e| e.user.to_s }.join ', ' %>
           <% else %>
             Non évalué
           <% end %>

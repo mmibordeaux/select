@@ -25,7 +25,7 @@
     </div>
     <ul class="list-unstyled">
       <% @bulletins_analyze.keywords.each do |keyword| %>
-        <% 
+        <%
         case keyword[:kind]
         when 'positive'
           color = 'success'
@@ -50,7 +50,13 @@
 
 <hr />
 
-<%= render 'form', candidate: @candidate %>
+<% @candidate.evaluations.each do |evaluation| %>
+  <% if evaluation.user == current_user %>
+    <%= render 'evaluations/form', evaluation: evaluation %>
+  <% else %>
+    <%= render evaluation %>
+  <% end %>
+<% end %>
 
 <hr />
 

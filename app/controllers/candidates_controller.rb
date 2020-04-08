@@ -25,8 +25,10 @@ class CandidatesController < ApplicationController
 
   # GET /candidates/1
   def show
+    @candidate.parcoursup_sync! unless @candidate.parcoursup_synced?
     bulletins = @candidate.parcoursup_clean 'bulletins'
     @bulletins_analyze = BulletinsAnalyze.new bulletins
+    @evaluation = @candidate.evaluations.where(user: current_user).first_or_initialize
   end
 
   # GET /candidates/new

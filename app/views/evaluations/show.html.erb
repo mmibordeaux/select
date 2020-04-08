@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Candidate:</strong>
+  <%= @evaluation.candidate %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @evaluation.user %>
+</p>
+
+<p>
+  <strong>Attitude:</strong>
+  <%= @evaluation.attitude %>
+</p>
+
+<p>
+  <strong>Intention:</strong>
+  <%= @evaluation.intention %>
+</p>
+
+<p>
+  <strong>Production:</strong>
+  <%= @evaluation.production %>
+</p>
+
+<p>
+  <strong>Localization:</strong>
+  <%= @evaluation.localization %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @evaluation.comment %>
+</p>
+
+<%= link_to 'Edit', edit_evaluation_path(@evaluation) %> |
+<%= link_to 'Back', evaluations_path %>

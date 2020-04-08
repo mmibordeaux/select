@@ -1,4 +1,7 @@
-<%= simple_form_for(candidate) do |f| %>
+<h4>Evaluation de <%= evaluation.user %></h4>
+<%= simple_form_for(evaluation) do |f| %>
+  <%= f.association :user, as: :hidden %>
+  <%= f.association :candidate, as: :hidden %>
   <div class="row">
     <div class="col-md-3">
       <%= f.association :attitude,
@@ -31,8 +34,10 @@
   </div>
   <div class="row">
     <div class="col-md-9">
-      <%= f.input :evaluation_comment,
-                  label: 'Commentaire' %>
+      <%= f.input :comment,
+                  as: :text,
+                  label: 'Commentaire',
+                  hint: 'Au moins 15 signes' %>
     </div>
     <div class="col-md-3">
       <label>&nbsp;</label><br/>

@@ -63,22 +63,14 @@ class Candidate < ApplicationRecord
   DECILE_DELTA_THRESHOLD = 3
 
   belongs_to :baccalaureat
-
-  belongs_to :evaluated_by, class_name: 'User', optional: true
-  belongs_to :attributed_to, class_name: 'User', optional: true
-
-  belongs_to :attitude, class_name: 'Modifier', optional: true
-  belongs_to :intention, class_name: 'Modifier', optional: true
-  belongs_to :production, class_name: 'Modifier', optional: true
-  belongs_to :localization, class_name: 'Modifier', optional: true
+  has_many :evaluations
+  has_and_belongs_to_many :interviewers, class_name: 'User'
 
   belongs_to :interview_knowledge, class_name: 'Modifier', optional: true
   belongs_to :interview_project, class_name: 'Modifier', optional: true
   belongs_to :interview_motivation, class_name: 'Modifier', optional: true
   belongs_to :interview_culture, class_name: 'Modifier', optional: true
   belongs_to :interview_argument, class_name: 'Modifier', optional: true
-
-  has_and_belongs_to_many :interviewers, class_name: 'User'
 
   scope :search, -> (term) {
     where('unaccent(first_name) ILIKE unaccent(?)
@@ -110,12 +102,6 @@ class Candidate < ApplicationRecord
   scope :promotion_selected, -> { where(promotion_selected: true) }
 
   before_save :denormalize_notes
-
-  validates_length_of :evaluation_comment, minimum: 15, allow_blank: false, on: :evaluation
-  validates_presence_of :attitude, on: :evaluation
-  validates_presence_of :intention, on: :evaluation
-  validates_presence_of :production, on: :evaluation
-  validates_presence_of :localization, on: :evaluation
 
   validates_presence_of :interview_knowledge, on: :interview
   validates_presence_of :interview_project, on: :interview
@@ -346,7 +332,7 @@ class Candidate < ApplicationRecord
 
   def compute_evaluation_note
     note = dossier_note
-    note += attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
+    note += evaluations.average :note
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
     note

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  candidate: one
+  user: one
+  attitude: one
+  intention: one
+  production: one
+  localization: one
+  comment: MyString
+
+two:
+  candidate: two
+  user: two
+  attitude: two
+  intention: two
+  production: two
+  localization: two
+  comment: MyString

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :evaluations
   devise_for :users
   resources :modifiers, :baccalaureats, :users, :settings
   namespace :candidates do
