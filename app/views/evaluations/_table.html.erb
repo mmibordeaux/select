@@ -1,4 +1,6 @@
 <% if evaluations.any? %>
+  <p><%= evaluations.respond_to?(:total_count)  ? evaluations.total_count
+                                                : evaluations.count %> candidats</p>
   <table class="table">
     <thead>
       <tr>
@@ -7,9 +9,8 @@
         <th>Commentaire</th>
       </tr>
     </thead>
-
     <tbody>
-      <% @evaluations.each do |evaluation| %>
+      <% evaluations.each do |evaluation| %>
         <tr>
           <td><%= link_to evaluation.candidate, evaluation.candidate %></td>
           <td><%= link_to evaluation.user, evaluation.user %></td>

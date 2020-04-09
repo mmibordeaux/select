@@ -30,7 +30,7 @@
         <td>
           <%= user.evaluations.done.count %>
           <% if user.evaluations.todo.any? %>
-            (<%= user.evaluations.todo.count %> restant à évaluer)
+            <p class="small text-muted"><%= user.evaluations.todo.count %> restant à évaluer</p>
           <% end %>
         </td>
         <td class="small">
