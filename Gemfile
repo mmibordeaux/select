@@ -13,6 +13,7 @@ gem 'rest-client'
 gem 'rubyzip'
 gem 'caxlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
+gem 'breadcrumbs_on_rails'
 
 # Front
 gem 'sassc-rails'
@@ -25,6 +26,7 @@ gem 'kaminari-i18n'
 gem 'bootstrap4-kaminari-views'
 gem 'jquery-rails'
 gem 'chartkick'
+gem 'font-awesome-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

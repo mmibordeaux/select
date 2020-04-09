@@ -45,7 +45,7 @@ candidates_concerned = Candidate.where(id: candidates_ids)
 <div class="row">
     <div class="col-md-4">
       <%= pie_chart User.evaluators.map { |u|
-        [u.to_s, candidates.where(evaluated_by: u).count ]
+        [u.to_s, u.evaluations.done.count ]
       } %>
     </div>
     <div class="col-md-8">
@@ -54,7 +54,8 @@ candidates_concerned = Candidate.where(id: candidates_ids)
           name: u.to_s,
           data: 10.times.map { |index|
             index += 1
-            count = candidates.where(evaluated_by: u, decile => index).count
+            candidate_ids = u.evaluations.done.pluck(:candidate_id)
+            count = candidates.where(id: candidate_ids, decile => index).count
             ["D#{index}", count]
           }
         }
