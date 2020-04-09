@@ -1,4 +1,4 @@
-fr: 
+fr:
   activerecord:
     models:
       candidate:
@@ -6,7 +6,7 @@ fr:
         other: 'Candidats'
     errors:
       models:
-        candidate:
+        evaluation:
           attributes:
             attitude:
               blank: 'doit être rempli'
@@ -16,5 +16,6 @@ fr:
               blank: 'doit être rempli'
             localization:
               blank: 'doit être rempli'
-            evaluation_comment:
+            comment:
+              blank: 'doit être rempli'
               too_short: 'trop court'

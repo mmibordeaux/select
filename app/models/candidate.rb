@@ -89,8 +89,9 @@ class Candidate < ApplicationRecord
 
   scope :parcoursup_synced, -> { where.not(parcoursup_formulaire: nil)}
 
-  scope :evaluation_todo, -> { where(evaluation_done: false)}
-  scope :evaluation_done, -> { where(evaluation_done: true)}
+  scope :with_no_evaluation, -> { includes(:evaluations).where(evaluations: {id: nil}) }
+  scope :evaluation_todo, -> { where(evaluations_count: 0)}
+  scope :evaluation_done, -> { where.not(evaluations_count: 0)}
   scope :evaluation_selected, -> { where(evaluation_selected: true) }
 
   scope :interview_todo, -> { where(interview_done: false)}
@@ -325,6 +326,7 @@ class Candidate < ApplicationRecord
   end
 
   def denormalize_notes
+    self.evaluations_count = evaluations.done.count
     self.evaluation_note = compute_evaluation_note
     self.interview_note = compute_interview_note
     self.selection_note = compute_selection_note
@@ -332,7 +334,7 @@ class Candidate < ApplicationRecord
 
   def compute_evaluation_note
     note = dossier_note
-    note += evaluations.average :note
+    note += evaluations.done.average :note if evaluations.done.any?
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
     note

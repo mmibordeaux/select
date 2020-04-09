@@ -3,35 +3,40 @@
     <% if candidate.scholarship %>
       <span class="badge badge-dark float-right">Boursier</span>
     <% end %>
-    <%= link_to 'Modifier', edit_candidate_path(@candidate), class: 'btn btn-light btn-sm float-right' %>
     <p><%= candidate.number %></p>
     <div class="row">
       <div class="col-md-4">
-        <p><%= candidate.level %></p>
-        <p>
-          <% if candidate.evaluations.reload.any? %>
-            Evaluations:
-            <%= candidate.evaluations.map { |e| e.user.to_s }.join ', ' %>
-          <% else %>
-            Non évalué
-          <% end %>
-        </p>
+        <dl>
+          <dt class="small text-muted">Niveau</dt>
+          <dd><%= candidate.level %></dd>
+        </dl>
+        <dl>
+          <dt class="small text-muted">Evaluations</dt>
+          <dd>
+            <% if candidate.evaluations.done.any? %>
+              <%= candidate.evaluations.done.map { |e| e.user.to_s }.join ', ' %>
+            <% else %>
+              Non évalué
+            <% end %>
+          </dd>
+        </dl>
+        <%= link_to 'Modifier', edit_candidate_path(@candidate), class: 'btn btn-light btn-sm' %>
       </div>
       <div class="col-md-4">
-        <p>
-          <strong>Baccalaureat:</strong>
-          <%= link_to candidate.baccalaureat, candidate.baccalaureat %>
-        </p>
+        <dl>
+          <dt class="small text-muted">Baccalauréat</dt>
+          <dd><%= link_to candidate.baccalaureat, candidate.baccalaureat %></dd>
+        </dl>
       </div>
       <div class="col-md-4">
-        <p>
-          <strong>Moyenne:</strong>
-          <%= candidate.dossier_note.round(2) %>
-        </p>
-        <p>
-          <strong>Evaluation:</strong>
-          <%= candidate.evaluation_note.round(2) %>
-        </p>
+        <dl>
+          <dt class="small text-muted">Moyenne du dossier</dt>
+          <dd><strong><%= candidate.dossier_note.round(2) %></strong></dd>
+        </dl>
+        <dl>
+          <dt class="small text-muted">Moyenne après évaluation</dt>
+          <dd><strong><%= candidate.evaluation_note.round(2) %></strong></dd>
+        </dl>
       </div>
     </div>
   </div>

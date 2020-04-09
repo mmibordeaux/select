@@ -1,6 +1,17 @@
 <%= simple_form_for(@user) do |f| %>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :evaluator %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.input :email %>
+      <%= f.input :first_name %>
+      <%= f.input :last_name %>
+      <%= f.input :evaluator %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :first_evaluation_baccalaureats %>
+      <%= f.input :first_evaluation_quota %>
+      <%= f.input :second_evaluation_baccalaureats %>
+      <%= f.input :second_evaluation_quota %>
+    </div>
+  </div>
   <%= f.button :submit, 'Enregistrer', class: 'btn btn-primary' %>
 <% end %>

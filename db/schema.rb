@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_120333) do
+ActiveRecord::Schema.define(version: 2020_04_09_052126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 2020_04_08_120333) do
     t.float "dossier_note", default: 0.0
     t.float "evaluation_note", default: 0.0
     t.text "evaluation_comment", default: ""
-    t.bigint "evaluated_by_id"
     t.text "level"
     t.integer "position"
     t.text "parcoursup_entete"
@@ -54,7 +53,6 @@ ActiveRecord::Schema.define(version: 2020_04_08_120333) do
     t.boolean "production_in_formulaire", default: false
     t.boolean "production_somewhere_else", default: false
     t.boolean "production_analyzed", default: false
-    t.bigint "attributed_to_id"
     t.boolean "evaluation_done", default: false
     t.boolean "interview_done", default: false
     t.text "interview_comment"
@@ -79,9 +77,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_120333) do
     t.integer "promotion_position"
     t.string "gender"
     t.string "baccalaureat_mention"
-    t.index ["attributed_to_id"], name: "index_candidates_on_attributed_to_id"
+    t.integer "evaluations_count", default: 0
     t.index ["baccalaureat_id"], name: "index_candidates_on_baccalaureat_id"
-    t.index ["evaluated_by_id"], name: "index_candidates_on_evaluated_by_id"
   end
 
   create_table "candidates_users", id: false, force: :cascade do |t|
@@ -140,13 +137,16 @@ ActiveRecord::Schema.define(version: 2020_04_08_120333) do
     t.boolean "evaluator"
     t.string "first_name"
     t.string "last_name"
+    t.string "first_evaluation_baccalaureats"
+    t.integer "first_evaluation_quota"
+    t.string "second_evaluation_baccalaureats"
+    t.integer "second_evaluation_quota"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "baccalaureats", "baccalaureats", column: "parent_id"
   add_foreign_key "candidates", "baccalaureats"
-  add_foreign_key "candidates", "users", column: "evaluated_by_id"
   add_foreign_key "candidates_users", "candidates"
   add_foreign_key "candidates_users", "users"
   add_foreign_key "evaluations", "candidates"

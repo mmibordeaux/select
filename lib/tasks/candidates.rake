@@ -22,16 +22,47 @@ namespace :candidates do
     # Candidate.first.find_production!
   end
 
-  desc "Split between users"
-  task split: :environment do
-    # # Random
-    # users = User.evaluators
-    # candidates = Candidate.todo.order(:id)
-    # candidates_per_user = (1.0 * candidates.count / users.count).ceil
-    # users.each_with_index do |user, index|
-    #   candidates_for_user = candidates.limit(candidates_per_user).offset(candidates_per_user * index)
-    #   candidates_for_user.update_all(attributed_to_id: user.id)
-    # end
+  desc "Split randomly between users"
+  task split_random: :environment do
+    users = User.evaluators
+    candidates = Candidate.todo.order(:id)
+    candidates_per_user = (1.0 * candidates.count / users.count).ceil
+    users.each_with_index do |user, index|
+      candidates_for_user = candidates.limit(candidates_per_user).offset(candidates_per_user * index)
+      candidates_for_user.update_all(attributed_to_id: user.id)
+    end
+  end
+
+  desc "Split first evaluation with quotas"
+  task split_first_evaluation: :environment do
+    candidates_left = Candidate.with_no_evaluation.count
+    if candidates_left.zero?
+      puts "All candidates split"
+      next # https://stackoverflow.com/questions/2316475/how-do-i-return-early-from-a-rake-task
+    end
+    users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
+    users_left = users.count
+    users.each do |user|
+      unless user.first_evaluation_baccalaureats.blank?
+        baccalaureats = Baccalaureat.where(id: user.first_evaluation_baccalaureats.split(','))
+        baccalaureats_ids = baccalaureats.map { |b| b.children_ids }.flatten
+        candidates = Candidate.where(baccalaureat: baccalaureats_ids)
+      else
+        candidates = Candidate.with_no_evaluation
+      end
+      quantity = user.first_evaluation_quota  ? user.first_evaluation_quota
+                                              : (1.0 * candidates_left / users_left).ceil
+      attribute_evaluations user, candidates, quantity
+      candidates_left -= quantity
+      users_left -= 1
+    end
+  end
+
+  def attribute_evaluations(user, candidates, quantity)
+    puts "Attributing #{quantity} candidates to #{user} from #{candidates.count} possible candidates"
+    candidates.order("RANDOM()").limit(quantity).each do |candidate|
+      user.evaluations.where(candidate: candidate).first_or_create
+    end
   end
 
   desc "Positionize"

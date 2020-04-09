@@ -28,9 +28,9 @@
         <td><%= link_to user, user %></td>
         <td><%= user.evaluator ? 'Oui' : 'Non' %></td>
         <td>
-          <%= user.candidates_evaluated.count %>
-          <% if user.candidates_attributed.evaluation_todo.any? %>
-            (<%= user.candidates_attributed.evaluation_todo.count %> restant à évaluer)
+          <%= user.evaluations.done.count %>
+          <% if user.evaluations.todo.any? %>
+            (<%= user.evaluations.todo.count %> restant à évaluer)
           <% end %>
         </td>
         <td class="small">
@@ -103,7 +103,7 @@
 
 <p>Somme des points distribués (moyenne par candidat)</p>
 
-<%= column_chart @users.where(evaluator: true).map { |user| 
+<%= column_chart @users.where(evaluator: true).map { |user|
   array = []
   Modifier::KINDS_EVALUATION.each_with_index { |kind, index|
     label = Modifier::KINDS_EVALUATION_LABELS[index]
@@ -125,14 +125,14 @@
       <% Modifier::KINDS_EVALUATION_LABELS.each do |label| %>
         <th class="small"><%= label %></th>
       <% end %>
-      <th class="small">Total</td>
+      <th class="small">Total</th>
     </tr>
   </thead>
   <tbody>
     <% @users.where(evaluator: true).each do |user| %>
       <tr>
         <td><%= user %></td>
-        <td><%= user.candidates_evaluated.count %></td>
+        <td><%= user.evaluations.done.count %></td>
         <td><%= user.candidates_evaluated.average(:dossier_note).round(2) unless user.candidates_evaluated.none? %></td>
         <% Modifier::KINDS_EVALUATION.each do |kind| %>
           <td><%= user.evaluation_points_for(kind).round if user.candidates_evaluated.any? %></td>
@@ -154,7 +154,7 @@
 
 <% Modifier::KINDS_EVALUATION.each_with_index do |kind, index| %>
   <h4 class="mt-4"><%= Modifier::KINDS_EVALUATION_LABELS[index] %></h4>
-  <%= column_chart Modifier.send(kind).map { |m| 
+  <%= column_chart Modifier.send(kind).map { |m|
     array = []
     @users.where(evaluator: true).each { |user|
       label = user.to_s
@@ -192,7 +192,7 @@
 
 <p>Somme des points distribués (moyenne par candidat)</p>
 
-<%= column_chart @users.where(evaluator: true).map { |user| 
+<%= column_chart @users.where(evaluator: true).map { |user|
   array = []
   Modifier::KINDS_INTERVIEW.each_with_index { |kind, index|
     label = Modifier::KINDS_INTERVIEW_LABELS[index]
@@ -243,7 +243,7 @@
   <h4 class="mt-4"><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></h4>
   <%= column_chart Modifier.send(kind).map { |m|
     array = []
-    @users.where(evaluator: true).each { |user| 
+    @users.where(evaluator: true).each { |user|
       label = user.to_s
       value = user.interview_modifier_used(m)
       array << [label, value]

@@ -15,17 +15,15 @@
     <thead>
       <tr>
         <th></th>
-        <th colspan="5">Candidat</th>
+        <th colspan="3">Candidat</th>
         <th colspan="3">Dossier</th>
         <th colspan="2">Entretien</th>
         <th colspan="2">Sélection</th>
         <th>Promotion</th>
       </tr>
-      <tr>
+      <tr class="small">
         <th></th>
-        <th width="80">Numéro</th>
-        <th>Prénom</th>
-        <th>Nom</th>
+        <th>Identité</th>
         <th width="300">Baccalauréat</th>
         <th width="80">Boursier</th>
         <th>Moyenne</th>
@@ -49,9 +47,10 @@
         <tr class="<%= 'unselected' unless selected %>">
           <td class="small"><%= number_in_list %></td>
           <!-- Candidat -->
-          <td><%= link_to candidate.number, candidate %></td>
-          <td><%= candidate.first_name %></td>
-          <td><%= candidate.last_name %></td>
+          <td>
+            <%= link_to candidate.number, candidate %><br>
+            <%= candidate.first_name %> <%= candidate.last_name %>
+          </td>
           <td class="small"><%= link_to candidate.baccalaureat, candidate.baccalaureat %></td>
           <td><%= candidate.scholarship ? 'Oui' : 'Non' %></td>
           <!-- Dossier -->
@@ -59,10 +58,9 @@
           <td>
             <%= candidate.evaluation_note.round(2) %>
             <div class="small">
-              <% if candidate.evaluations.any? %>
-                Evaluations: <%= candidate.evaluations.map { |e| e.user.to_s }.join(', ') %>
-              <% else %>
-                Pas évalué
+              <%= candidate.evaluations_count %> évaluation<%= 's' if candidate.evaluations.done.count > 1 %>
+              <% if candidate.evaluations.done.any? %>
+                <br>(<%= candidate.evaluations.done.map { |e| e.user.to_s }.join(', ') %>)
               <% end %>
             </div>
           </td>

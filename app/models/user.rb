@@ -21,27 +21,31 @@ class User < ApplicationRecord
   devise :database_authenticatable, #:registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :candidates_evaluated, class_name: 'Candidate', foreign_key: :evaluated_by
-  has_many :candidates_attributed, class_name: 'Candidate', foreign_key: :attributed_to_id
+  has_many :evaluations
+  has_many  :candidates,
+            class_name: 'Candidate',
+            through: :evaluations
 
   has_and_belongs_to_many :candidates_interviewed, class_name: 'Candidate'
 
   scope :evaluators, -> { where(evaluator: true) }
 
+  def candidates_evaluated
+    Candidate.where(id: evaluations.done.pluck(:candidate_id))
+  end
+
+  def candidates_attributed
+    Candidate.where(id: evaluations.pluck(:candidate_id))
+  end
+
   # Evaluation
 
   def evaluation_points_given
-    unless @evaluation_points_given
-      @evaluation_points_given = 0
-      Modifier::KINDS_EVALUATION.each do |criterion|
-        @evaluation_points_given += evaluation_points_for criterion
-      end
-    end
-    @evaluation_points_given
+    evaluations.sum :note
   end
 
   def evaluation_points_for(criterion)
-    candidates_evaluated.includes(criterion).sum('modifiers.value')
+    evaluations.includes(criterion).sum('modifiers.value')
   end
 
   def evaluation_points_average_for(criterion)
@@ -55,7 +59,7 @@ class User < ApplicationRecord
   end
 
   def evaluation_modifier_used(modifier)
-    candidates_evaluated.where("#{modifier.kind}_id" => modifier.id).count
+    evaluations.where("#{modifier.kind}_id" => modifier.id).count
   end
 
   # Interview

@@ -1,0 +1,7 @@
+<% content_for :title, 'Mes candidats' %>
+
+<h2>A évaluer</h2>
+<%= render 'evaluations/table', evaluations: @evaluations_todo, param_name: :page_todo %>
+
+<h2>Déjà évalués</h2>
+<%= render 'evaluations/table', evaluations: @evaluations_done, param_name: :page_done %>

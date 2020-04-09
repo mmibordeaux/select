@@ -1,0 +1,21 @@
+<h4 class="mb-4">Evaluation de <%= evaluation.user %></h4>
+<div class="row">
+  <div class="col-md-3">
+    <h5>Qualité du parcours scolaire</h5>
+    <p><%= evaluation.attitude %></p>
+  </div>
+  <div class="col-md-3">
+    <h5>Qualité du parcours scolaire</h5>
+    <p><%= evaluation.intention %></p>
+  </div>
+  <div class="col-md-3">
+    <h5>Qualité du parcours scolaire</h5>
+    <p><%= evaluation.production %></p>
+  </div>
+  <div class="col-md-3">
+    <h5>Qualité du parcours scolaire</h5>
+    <p><%= evaluation.localization %></p>
+  </div>
+</div>
+<h5>Commentaire</h5>
+<%= simple_format evaluation.comment %>

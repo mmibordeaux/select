@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  resources :evaluations
   devise_for :users
   resources :modifiers, :baccalaureats, :users, :settings
   namespace :candidates do
-    get 'my' => 'my#index'
     get 'import' => 'operations#import'
     post 'import' => 'operations#import'
     get 'production/:production' => 'production#index', as: :production
@@ -32,5 +30,8 @@ Rails.application.routes.draw do
       get :scholarship
     end
   end
-  root to: 'candidates/my#index'
+  resources :evaluations do
+    get 'my' => 'my#index'
+  end
+  root to: 'evaluations/my#index'
 end

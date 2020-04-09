@@ -10,10 +10,13 @@ class CandidatesController < ApplicationController
         @candidates = @candidates.search params[:search] if params.has_key? :search
         @candidates = @candidates.page params[:page]
         @candidates_synced = Candidate.parcoursup_synced
-        @candidates_done = Candidate.evaluation_done.count
+        @candidates_single_done = Candidate.where(evaluations_count: 1).count
+        @candidates_multiple_done = Candidate.where('evaluations_count > ?', 1).count
         @candidates_total = Candidate.count
-        @candidates_percent = @candidates_total.zero? ? 0
-                                                      : 100.0 * @candidates_done / @candidates_total
+        @candidates_single_percent = @candidates_total.zero?    ? 0
+                                                                : 100.0 * @candidates_single_done / @candidates_total
+        @candidates_multiple_percent = @candidates_total.zero?  ? 0
+                                                                : 100.0 * @candidates_multiple_done / @candidates_total
       end
       format.xlsx
     end
@@ -28,7 +31,7 @@ class CandidatesController < ApplicationController
     @candidate.parcoursup_sync! unless @candidate.parcoursup_synced?
     bulletins = @candidate.parcoursup_clean 'bulletins'
     @bulletins_analyze = BulletinsAnalyze.new bulletins
-    @evaluation = @candidate.evaluations.where(user: current_user).first_or_initialize
+    @candidate.evaluations.where(user: current_user).first_or_initialize
   end
 
   # GET /candidates/new
@@ -57,8 +60,8 @@ class CandidatesController < ApplicationController
     @candidate.evaluated_by = current_user
     @candidate.assign_attributes candidate_params
     if @candidate.save(context: :evaluation)
-      remaining = current_user.candidates_attributed.evaluation_todo.count
-      next_candidate = current_user.candidates_attributed.evaluation_todo.first
+      remaining = current_user.evaluations.todo.count
+      next_candidate = current_user.evaluations.todo.first
       if next_candidate
         redirect_to next_candidate, notice: "Evaluation enregistrée. Courage, plus que #{remaining} !"
       else
