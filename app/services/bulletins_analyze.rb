@@ -6,8 +6,8 @@ class BulletinsAnalyze
     'enthousiaste',
     'dynamique',
     'potentiel',
-    'félicitations',
-    'encouragements',
+    'félicitation',
+    'encouragement',
     'excellent',
     'compliment',
     'volontaire'
@@ -20,7 +20,7 @@ class BulletinsAnalyze
   ]
 
   NEGATIVE_WORDS = [
-    'difficultés',
+    'difficulté',
     'insuffisant',
     'décevant',
     'fragil',
@@ -54,7 +54,7 @@ class BulletinsAnalyze
   end
 
   def neutral
-    @neutral ||= find(NEUTRAL_WORDS, 'neutral') 
+    @neutral ||= find(NEUTRAL_WORDS, 'neutral')
   end
 
   def negative
