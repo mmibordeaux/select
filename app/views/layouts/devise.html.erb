@@ -11,16 +11,13 @@
     <%= javascript_include_tag 'application' %>
   </head>
   <body>
-    <%= render 'nav' %>
-    <div class="jumbotron">
-      <div>
-        <h1><%= yield(:title).presence %></h1>
-      </div>
-    </div>
     <main class="container-fluid">
-      <p><%= notice %></p>
-      <%= render 'breadcrumb' %>
-      <%= yield %>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <p><%= notice %></p>
+          <%= yield %>
+        </div>
+      </div>
     </main>
     <%= render 'footer' %>
   </body>
