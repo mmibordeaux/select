@@ -3,15 +3,29 @@ class CandidatesController < ApplicationController
 
   # GET /candidates
   def index
+    @title = 'Tous les dossiers'
     @candidates =  Candidate.ordered_by_evaluation
                             .includes(:baccalaureat)
     respond_to do |format|
       format.html do
+        if params.has_key? :evaluations
+          case params[:evaluations].to_i
+          when 0
+            @title = '0 évaluation'
+            @candidates = @candidates.where(evaluations_count: 0)
+          when 1
+            @title = '1 évaluation'
+            @candidates = @candidates.where(evaluations_count: 1)
+          when 2
+            @title = '2 évaluations'
+            @candidates = @candidates.where('candidates.evaluations_count > 1')
+          end
+        end
         @candidates = @candidates.search params[:search] if params.has_key? :search
         @candidates = @candidates.page params[:page]
         @candidates_synced = Candidate.parcoursup_synced
         @candidates_single_done = Candidate.where(evaluations_count: 1).count
-        @candidates_multiple_done = Candidate.where('evaluations_count > ?', 1).count
+        @candidates_multiple_done = Candidate.where('evaluations_count > 1').count
         @candidates_total = Candidate.count
         @candidates_single_percent = @candidates_total.zero?    ? 0
                                                                 : 100.0 * @candidates_single_done / @candidates_total

@@ -42,6 +42,7 @@ namespace :candidates do
     end
     users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
     users_left = users.count
+    # TODO memorize already planned users, to avoid doubles
     users.each do |user|
       unless user.first_evaluation_baccalaureats.blank?
         baccalaureats = Baccalaureat.where(id: user.first_evaluation_baccalaureats.split(','))

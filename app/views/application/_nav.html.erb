@@ -19,12 +19,13 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px">
             <%= link_to 'Tous les dossiers', candidates_path, class: 'nav-link' %>
+            <div class="dropdown-divider"></div>
+            <%= link_to '0 évaluation', candidates_path(evaluations: 0), class: 'nav-link' %>
+            <%= link_to '1 évaluation', candidates_path(evaluations: 1), class: 'nav-link' %>
+            <%= link_to '2 évaluations', candidates_path(evaluations: 2), class: 'nav-link' %>
+            <div class="dropdown-divider"></div>
             <%= link_to 'Candidats boursiers', scholarship_candidates_path, class: 'nav-link' %>
             <%= link_to 'Statistiques des dossiers', candidates_stats_path, class: 'nav-link' %>
-            <%= link_to 'Candidats avec production', candidates_production_path('yes'), class: 'nav-link' %>
-            <%= link_to 'Candidats avec possible production', candidates_production_path('maybe'), class: 'nav-link' %>
-            <%= link_to 'Candidats sans production', candidates_production_path('no'), class: 'nav-link' %>
-            <%= link_to 'Candidats à production non analysée', candidates_production_path('not-analyzed'), class: 'nav-link' %>
           </div>
         </li>
         <li class="nav-item dropdown">
