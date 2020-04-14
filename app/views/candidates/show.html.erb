@@ -67,7 +67,12 @@
     <ul class="nav nav-pills flex-column bg-light">
       <% Parcoursup::PARTS.each_with_index do |kind, index| %>
         <li class="nav-item">
-          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
+          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" >
+            <%= kind.titleize %>
+            <% if kind == 'documents' && @candidate.is_there_a_document? %>
+              <span class="badge badge-danger">attention!</span>
+            <% end %>
+          </a>
         </li>
       <% end %>
     </ul>

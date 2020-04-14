@@ -264,6 +264,10 @@ class Candidate < ApplicationRecord
     doc.at('.divGlobalFormulaire').inner_html
   end
 
+  def is_there_a_document?
+    ! 'Le candidat n\'a pas téléversé de document'.in?(parcoursup_documents)
+  end
+
   def decile_delta
     return 0 if selection_decile.nil?
     selection_decile - interview_decile
