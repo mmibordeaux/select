@@ -14,7 +14,6 @@ class BulletinsAnalyze
   ]
 
   NEUTRAL_WORDS = [
-    'moyen',
     'convenable',
     'correct'
   ]
