@@ -356,8 +356,8 @@ class Candidate < ApplicationRecord
   end
 
   def compute_selection_note
-    note = evaluation_note
-    note += interview_note
+    note = self.evaluation_note
+    note += self.interview_note
     note += Setting.first.selection_scholarship_bonus.to_f if scholarship
     note += baccalaureat.inherited_selection_bonus if baccalaureat.inherited_selection_bonus
     note
