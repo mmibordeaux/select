@@ -169,15 +169,15 @@ class Candidate < ApplicationRecord
     set_positions_in_list_by_key(ordered_by_promotion, :selection_note, :promotion_position)
     # Selections
     find_each do |candidate|
-      evaluation_selected = candidate.position < Setting.first.interview_number_of_candidates
+      evaluation_selected = candidate.position <= Setting.first.interview_number_of_candidates
       candidate.update_column :evaluation_selected, evaluation_selected
     end
-    all.reload.evaluation_selected.ordered_by_interview.each_with_index do |candidate, index|
+    all.reload.ordered_by_interview.each_with_index do |candidate, index|
       # There probably should be a specific selection method for interview
       interview_selected = candidate.evaluation_selected
       candidate.update_column :interview_selected, interview_selected
     end
-    all.reload.evaluation_selected.ordered_by_selection.each_with_index do |candidate, index|
+    all.reload.ordered_by_selection.each_with_index do |candidate, index|
       selection_selected = candidate.evaluation_selected && index <= Setting.first.selection_number_of_candidates
       candidate.update_column :selection_selected, selection_selected
     end

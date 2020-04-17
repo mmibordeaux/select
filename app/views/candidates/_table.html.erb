@@ -72,7 +72,7 @@
           <!-- Entretien -->
           <td>
             <% if candidate.interview_done %>
-              <%= candidate.interview_note.round %>
+              <%= candidate.interview_note.round(2) %>
               <div class="small">
                 <%= simple_format candidate.interviewers.join("\n") %>
               </div>
@@ -92,7 +92,7 @@
           <!-- Sélection -->
           <td>
             <% if candidate.interview_selected? %>
-              <%= candidate.selection_note.round %>
+              <%= candidate.selection_note.round(2) %>
             <% end %>
           </td>
           <td>

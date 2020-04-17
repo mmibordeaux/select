@@ -7,11 +7,10 @@ namespace :app do
         begin
           sh 'heroku pg:backups capture'
           sh 'curl -o db/latest.dump `heroku pg:backups public-url`'
-          sh 'bundle exec rake db:drop'
+          sh 'DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:drop'
           sh 'bundle exec rake db:create'
           sh "pg_restore --verbose --clean --no-acl --no-owner -h localhost -U postgres -d select_development db/latest.dump"
           sh 'bundle exec rake db:migrate'
-          # sh 'rm db/latest.dump'
         rescue
           'There was warnings/errors while restoring'
         end
