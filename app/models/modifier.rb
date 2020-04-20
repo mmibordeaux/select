@@ -78,8 +78,24 @@ class Modifier < ApplicationRecord
 
   default_scope -> { order(:kind, value: :desc) }
 
+  def self.label(kind)
+    if kind.in? KINDS_EVALUATION
+      KINDS_EVALUATION_LABELS[KINDS_EVALUATION.find_index(kind)]
+    elsif kind.in? KINDS_INTERVIEW
+      KINDS_INTERVIEW_LABELS[KINDS_INTERVIEW.find_index(kind)]
+    end
+  end
+
   def title_and_description
     "#{title} (#{description})"
+  end
+
+  def candidates
+    unless @candidates
+      @candidates = Candidate.joins(:evaluations)
+      @candidates = @candidates.where("evaluations.#{kind}_id = #{id}") if kind.in? KINDS_EVALUATION
+    end
+    @candidates
   end
 
   def to_s

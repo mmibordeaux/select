@@ -1,22 +1,11 @@
-<p>
-  <strong>Title:</strong>
-  <%= @modifier.title %>
-</p>
+<% content_for :title, @modifier.title %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @modifier.description %>
-</p>
+<div class="row">
+  <div class="col-md-2"><%= @modifier.kind %></div>
+  <div class="col-md-7"><%= @modifier.description %></div>
+  <div class="col-md-2"><%= @modifier.value %></div>
+  <div class="col-md-1"><%= link_to 'Edit', edit_modifier_path(@modifier), class: 'btn btn-primary btn-block btn-sm' %></div>
+</div>
 
-<p>
-  <strong>Value:</strong>
-  <%= @modifier.value %>
-</p>
-
-<p>
-  <strong>Kind:</strong>
-  <%= @modifier.kind %>
-</p>
-
-<%= link_to 'Edit', edit_modifier_path(@modifier) %> |
-<%= link_to 'Back', modifiers_path %>
+<h2 class="mt-5">Candidats</h2>
+<%= render 'candidates/table', candidates: @modifier.candidates %>

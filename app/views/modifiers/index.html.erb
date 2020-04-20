@@ -1,30 +1,37 @@
-<h1>Modificateur</h1>
+<% content_for :title, 'Modificateurs' %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Value</th>
-      <th>Kind</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% Modifier::KINDS.each do |kind| %>
+  <h2><%= Modifier.label kind %></h2>
 
-  <tbody>
-    <% @modifiers.each do |modifier| %>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= modifier.title %></td>
-        <td><%= modifier.description %></td>
-        <td><%= modifier.value %></td>
-        <td><%= modifier.kind %></td>
-        <td><%= link_to 'Show', modifier %></td>
-        <td><%= link_to 'Edit', edit_modifier_path(modifier) %></td>
-        <td><%= link_to 'Destroy', modifier, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th width="200">Titre</th>
+        <th width="600">Description</th>
+        <th>Valeur</th>
+        <th>Candidats</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @modifiers.where(kind: kind).order(:value).each do |modifier| %>
+        <tr>
+          <td><%= link_to modifier.title, modifier %></td>
+          <td class="small"><%= modifier.description %></td>
+          <td><%= modifier.value.round %></td>
+          <td><%= modifier.candidates.count %></td>
+          <td>
+            <%= link_to 'Edit', edit_modifier_path(modifier), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Destroy', modifier, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>
+
 
 <br>
 
