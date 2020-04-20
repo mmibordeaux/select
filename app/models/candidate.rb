@@ -330,7 +330,7 @@ class Candidate < ApplicationRecord
   end
 
   def denormalize_notes
-    self.evaluations_count = evaluations.done.count
+    self.evaluations_count = evaluations.reload.done.count
     self.evaluation_note = compute_evaluation_note
     self.interview_note = compute_interview_note
     self.selection_note = compute_selection_note
