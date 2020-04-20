@@ -42,7 +42,7 @@ namespace :candidates do
     end
     users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
     users_left = users.count
-    # TODO memorize already planned users, to avoid doubles
+    candidates_planned_ids = []
     users.each do |user|
       unless user.first_evaluation_baccalaureats.blank?
         baccalaureats = Baccalaureat.where(id: user.first_evaluation_baccalaureats.split(','))
@@ -51,19 +51,26 @@ namespace :candidates do
       else
         candidates = Candidate.with_no_evaluation
       end
-      quantity = user.first_evaluation_quota  ? user.first_evaluation_quota
-                                              : (1.0 * candidates_left / users_left).ceil
-      attribute_evaluations user, candidates, quantity
-      candidates_left -= quantity
+      candidates = candidates.where.not(id: candidates_planned_ids)
+      max_candidates = (1.0 * candidates_left / users_left).ceil
+      quantity = user.first_evaluation_quota  ? [max_candidates, user.first_evaluation_quota].min
+                                              : max_candidates
+      byebug
+      ids = attribute_evaluations user, candidates, quantity
+      candidates_planned_ids += ids
+      candidates_left -= ids.count
       users_left -= 1
     end
   end
 
   def attribute_evaluations(user, candidates, quantity)
     puts "Attributing #{quantity} candidates to #{user} from #{candidates.count} possible candidates"
+    candidates_planned_ids = []
     candidates.order("RANDOM()").limit(quantity).each do |candidate|
       user.evaluations.where(candidate: candidate).first_or_create
+      candidates_planned_ids << candidate.id
     end
+    candidates_planned_ids
   end
 
   desc "Positionize"
