@@ -55,7 +55,6 @@ namespace :candidates do
       max_candidates = (1.0 * candidates_left / users_left).ceil
       quantity = user.first_evaluation_quota  ? [max_candidates, user.first_evaluation_quota].min
                                               : max_candidates
-      byebug
       ids = attribute_evaluations user, candidates, quantity
       candidates_planned_ids += ids
       candidates_left -= ids.count
