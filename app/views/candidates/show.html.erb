@@ -50,7 +50,7 @@
 
 <hr />
 
-<% @candidate.evaluations.each do |evaluation| %>
+<% @candidate.evaluations.done.each do |evaluation| %>
   <% if evaluation.user == current_user %>
     <%= render 'evaluations/form', evaluation: evaluation %>
   <% else %>
