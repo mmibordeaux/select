@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :candidates_interviewed, class_name: 'Candidate'
 
   scope :evaluators, -> { where(evaluator: true) }
+  scope :ordered, -> { order(:last_name, :first_name) }
 
   def candidates_evaluated
     Candidate.where(id: evaluations.done.pluck(:candidate_id))
