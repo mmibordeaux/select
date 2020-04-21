@@ -20,6 +20,10 @@ class Evaluation < ApplicationRecord
   scope :todo, -> { where(note: nil) }
   scope :done, -> { where.not(note: nil) }
 
+  def done?
+    !note.nil?
+  end
+
   protected
 
   def compute_note
