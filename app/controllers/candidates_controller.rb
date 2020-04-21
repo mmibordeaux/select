@@ -12,7 +12,7 @@ class CandidatesController < ApplicationController
           case params[:evaluations].to_i
           when 0
             @title = '0 évaluation'
-            @candidates = @candidates.not_evaluated
+            @candidates = @candidates.evaluation_todo
           when 1
             @title = '1 évaluation'
             @candidates = @candidates.evaluated_once_or_more

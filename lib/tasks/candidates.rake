@@ -62,6 +62,14 @@ namespace :candidates do
     end
   end
 
+  desc "Split second evaluation"
+  task split_second_evaluation: :environment do
+    candidates_ids = []
+    Candidate.each do |candidate|
+
+    end
+  end
+
   def attribute_evaluations(user, candidates, quantity)
     puts "Attributing #{quantity} candidates to #{user} from #{candidates.count} possible candidates"
     candidates_planned_ids = []
