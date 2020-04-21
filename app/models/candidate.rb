@@ -69,7 +69,6 @@ class Candidate < ApplicationRecord
 
   belongs_to :baccalaureat
   has_many :evaluations
-  has_many :modifiers, through: :evaluations
   has_and_belongs_to_many :interviewers, class_name: 'User'
 
   belongs_to :interview_knowledge, class_name: 'Modifier', optional: true

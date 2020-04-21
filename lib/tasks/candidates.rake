@@ -64,9 +64,52 @@ namespace :candidates do
 
   desc "Split second evaluation"
   task split_second_evaluation: :environment do
-    candidates_ids = []
-    Candidate.each do |candidate|
-
+    candidate_with_production_ids = []
+    Candidate.all.each do |candidate|
+      ok = true
+      candidate.evaluations.each do |evaluation|
+        ok = false if evaluation.production_id == 5 # No production
+      end
+      candidate_with_production_ids << candidate.id if ok
+    end
+    candidates_left = candidate_with_production_ids.count
+    users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
+    users_left = users.count
+    puts "#{candidates_left} candidats à évaluer (avec production)"
+    candidates_planned_ids = []
+    mapping = []
+    mapping[1] = [5, 7, 8] #AL
+    mapping[3] = [1, 4, 5, 6, 7, 8] #MD
+    mapping[4] = [5, 7, 10] #EE
+    mapping[5] = [1, 3, 4, 6] #JS
+    mapping[6] = [3, 5, 8, 10] #EC
+    mapping[7] = [1, 4, 5, 6] #MB
+    mapping[8] = [1, 3, 4] #DR
+    mapping[10] = [4, 5, 6] #JL
+    users.each do |user|
+      unless user.second_evaluation_baccalaureats.blank?
+        baccalaureats = Baccalaureat.where(id: user.second_evaluation_baccalaureats.split(','))
+        baccalaureats_ids = baccalaureats.map { |b| b.children_ids }.flatten
+        candidates = Candidate.where(baccalaureat: baccalaureats_ids)
+      else
+        candidates = Candidate.all
+      end
+      candidates_mapped_ids = []
+      mapping[user.id].each do |id|
+        u = User.find id
+        candidates_mapped_ids += u.candidates_evaluated.pluck(:id)
+      end
+      candidates = candidates.where.not(id: user.candidates_evaluated)
+                              .where.not(id: candidates_planned_ids)
+                              .where(id: candidates_mapped_ids)
+      max_candidates = (1.0 * candidates_left / users_left).ceil
+      quantity = user.second_evaluation_quota ? [max_candidates, user.second_evaluation_quota].min
+                                              : max_candidates
+      # puts "#{quantity} candidats pour #{user}"
+      ids = attribute_evaluations user, candidates, quantity
+      candidates_planned_ids += ids
+      candidates_left -= ids.count
+      users_left -= 1
     end
   end
 
@@ -77,6 +120,7 @@ namespace :candidates do
       user.evaluations.where(candidate: candidate).first_or_create
       candidates_planned_ids << candidate.id
     end
+    puts "-> #{candidates_planned_ids.count} attributed"
     candidates_planned_ids
   end
 
