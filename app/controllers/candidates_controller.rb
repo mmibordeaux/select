@@ -12,20 +12,20 @@ class CandidatesController < ApplicationController
           case params[:evaluations].to_i
           when 0
             @title = '0 évaluation'
-            @candidates = @candidates.where(evaluations_count: 0)
+            @candidates = @candidates.not_evaluated
           when 1
             @title = '1 évaluation'
-            @candidates = @candidates.where(evaluations_count: 1)
+            @candidates = @candidates.evaluated_once_or_more
           when 2
             @title = '2 évaluations'
-            @candidates = @candidates.where('candidates.evaluations_count > 1')
+            @candidates = @candidates.evaluated_twice_or_more
           end
         end
         @candidates = @candidates.search params[:search] if params.has_key? :search
         @candidates = @candidates.page params[:page]
         @candidates_synced = Candidate.parcoursup_synced
-        @candidates_single_done = Candidate.where(evaluations_count: 1).count
-        @candidates_multiple_done = Candidate.where('evaluations_count > 1').count
+        @candidates_single_done = Candidate.evaluated_once_or_more.count
+        @candidates_multiple_done = Candidate.evaluated_twice_or_more.count
         @candidates_total = Candidate.count
         @candidates_single_percent = @candidates_total.zero?    ? 0
                                                                 : 100.0 * @candidates_single_done / @candidates_total

@@ -2,11 +2,11 @@
 #
 # Table name: modifiers
 #
-#  id          :bigint(8)        not null, primary key
-#  title       :string
+#  id          :bigint           not null, primary key
 #  description :string
-#  value       :float
 #  kind        :string
+#  title       :string
+#  value       :float
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

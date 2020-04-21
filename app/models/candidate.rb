@@ -2,60 +2,65 @@
 #
 # Table name: candidates
 #
-#  id                                   :bigint(8)        not null, primary key
-#  number                               :string
-#  first_name                           :string
-#  last_name                            :string
-#  baccalaureat_id                      :bigint(8)
-#  created_at                           :datetime         not null
-#  updated_at                           :datetime         not null
+#  id                                   :bigint           not null, primary key
+#  baccalaureat_mention                 :string
 #  dossier_note                         :float            default(0.0)
-#  evaluation_note                      :float            default(0.0)
 #  evaluation_comment                   :text             default("")
-#  evaluated_by_id                      :bigint(8)
+#  evaluation_decile                    :integer
+#  evaluation_done                      :boolean          default(FALSE)
+#  evaluation_note                      :float            default(0.0)
+#  evaluation_selected                  :boolean          default(FALSE)
+#  evaluations_count                    :integer          default(0)
+#  first_name                           :string
+#  gender                               :string
+#  interview_bonus                      :boolean          default(FALSE)
+#  interview_comment                    :text
+#  interview_decile                     :integer
+#  interview_done                       :boolean          default(FALSE)
+#  interview_note                       :float
+#  interview_position                   :integer
+#  interview_selected                   :boolean          default(FALSE)
+#  last_name                            :string
 #  level                                :text
-#  attitude_id                          :bigint(8)
-#  intention_id                         :bigint(8)
-#  production_id                        :bigint(8)
-#  localization_id                      :bigint(8)
-#  position                             :integer
-#  parcoursup_entete                    :text
-#  parcoursup_scolarite                 :text
+#  number                               :string
 #  parcoursup_activites_centres_interet :text
+#  parcoursup_ael                       :text
 #  parcoursup_bac                       :text
 #  parcoursup_bulletins                 :text
-#  parcoursup_ael                       :text
-#  parcoursup_lettre_motivation         :text
-#  parcoursup_groupe                    :text
 #  parcoursup_documents                 :text
+#  parcoursup_entete                    :text
 #  parcoursup_formulaire                :text
-#  scholarship                          :boolean          default(FALSE)
+#  parcoursup_groupe                    :text
+#  parcoursup_lettre_motivation         :text
+#  parcoursup_scolarite                 :text
+#  position                             :integer
+#  production_analyzed                  :boolean          default(FALSE)
 #  production_in_formulaire             :boolean          default(FALSE)
 #  production_somewhere_else            :boolean          default(FALSE)
-#  production_analyzed                  :boolean          default(FALSE)
-#  attributed_to_id                     :bigint(8)
-#  evaluation_done                      :boolean          default(FALSE)
-#  interview_done                       :boolean          default(FALSE)
-#  interview_comment                    :text
-#  interview_position                   :integer
-#  interview_note                       :float
-#  interview_knowledge_id               :integer
-#  interview_project_id                 :integer
-#  interview_motivation_id              :integer
-#  interview_culture_id                 :integer
-#  interview_argument_id                :integer
-#  interview_bonus                      :boolean          default(FALSE)
-#  selection_note                       :float
-#  selection_position                   :integer
-#  evaluation_decile                    :integer
-#  interview_decile                     :integer
-#  selection_decile                     :integer
-#  evaluation_selected                  :boolean          default(FALSE)
-#  interview_selected                   :boolean          default(FALSE)
-#  selection_selected                   :boolean          default(FALSE)
-#  promotion_selected                   :boolean          default(FALSE)
 #  promotion_decile                     :integer
 #  promotion_position                   :integer
+#  promotion_selected                   :boolean          default(FALSE)
+#  scholarship                          :boolean          default(FALSE)
+#  selection_decile                     :integer
+#  selection_note                       :float
+#  selection_position                   :integer
+#  selection_selected                   :boolean          default(FALSE)
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  baccalaureat_id                      :bigint           indexed
+#  interview_argument_id                :integer
+#  interview_culture_id                 :integer
+#  interview_knowledge_id               :integer
+#  interview_motivation_id              :integer
+#  interview_project_id                 :integer
+#
+# Indexes
+#
+#  index_candidates_on_baccalaureat_id  (baccalaureat_id)
+#
+# Foreign Keys
+#
+#  fk_rails_79bec631bb  (baccalaureat_id => baccalaureats.id)
 #
 
 class Candidate < ApplicationRecord
@@ -92,6 +97,9 @@ class Candidate < ApplicationRecord
   scope :with_no_evaluation, -> { includes(:evaluations).where(evaluations: {id: nil}) }
   scope :evaluation_todo, -> { where(evaluations_count: 0)}
   scope :evaluation_done, -> { where.not(evaluations_count: 0)}
+  scope :evaluated_once, -> { where(evaluations_count: 1)}
+  scope :evaluated_once_or_more, -> { where('candidates.evaluations_count > 0')}
+  scope :evaluated_twice_or_more, -> { where('candidates.evaluations_count > 1')}
   scope :evaluation_selected, -> { where(evaluation_selected: true) }
 
   scope :interview_todo, -> { where(interview_done: false)}

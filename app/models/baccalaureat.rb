@@ -2,14 +2,22 @@
 #
 # Table name: baccalaureats
 #
-#  id               :bigint(8)        not null, primary key
-#  title            :string
-#  parent_id        :bigint(8)
+#  id               :bigint           not null, primary key
+#  evaluation_bonus :float
 #  quota            :float
+#  selection_bonus  :float
+#  title            :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  evaluation_bonus :float
-#  selection_bonus  :float
+#  parent_id        :bigint           indexed
+#
+# Indexes
+#
+#  index_baccalaureats_on_parent_id  (parent_id)
+#
+# Foreign Keys
+#
+#  fk_rails_6647df8d93  (parent_id => baccalaureats.id)
 #
 
 class Baccalaureat < ApplicationRecord
