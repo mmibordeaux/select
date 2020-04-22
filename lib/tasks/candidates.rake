@@ -64,21 +64,23 @@ namespace :candidates do
 
   desc "Split second evaluation"
   task split_second_evaluation: :environment do
-    candidate_with_production_ids = []
+    candidates_for_second_evaluation_ids = []
     Candidate.all.each do |candidate|
-      ok = true
+      has_production = true
       candidate.evaluations.each do |evaluation|
-        ok = false if evaluation.production_id == 5 # No production
+        has_production = false if evaluation.production_id == 5 # No production
       end
-      candidate_with_production_ids << candidate.id if ok
+      if has_production && candidate.evaluations_count < 2
+        candidates_for_second_evaluation_ids << candidate.id
+      end
     end
-    candidates_left = candidate_with_production_ids.count
+    candidates_left = candidates_for_second_evaluation_ids.count
     users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
     users_left = users.count
     puts "#{candidates_left} candidats à évaluer (avec production)"
     candidates_planned_ids = []
     mapping = []
-    mapping[1] = [5, 7, 8] #AL
+    mapping[1] = [5, 7, 8, 10, 3] #AL
     mapping[3] = [1, 4, 5, 6, 7, 8] #MD
     mapping[4] = [5, 7, 10] #EE
     mapping[5] = [1, 3, 4, 6] #JS
@@ -87,12 +89,11 @@ namespace :candidates do
     mapping[8] = [1, 3, 4] #DR
     mapping[10] = [4, 5, 6] #JL
     users.each do |user|
+      candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
       unless user.second_evaluation_baccalaureats.blank?
         baccalaureats = Baccalaureat.where(id: user.second_evaluation_baccalaureats.split(','))
         baccalaureats_ids = baccalaureats.map { |b| b.children_ids }.flatten
-        candidates = Candidate.where(baccalaureat: baccalaureats_ids)
-      else
-        candidates = Candidate.all
+        candidates = candidates.where(baccalaureat: baccalaureats_ids)
       end
       candidates_mapped_ids = []
       mapping[user.id].each do |id|
