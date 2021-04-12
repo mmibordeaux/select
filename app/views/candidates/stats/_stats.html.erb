@@ -21,8 +21,8 @@ candidates_concerned = Candidate.where(id: candidates_ids)
     </div>
     <div class="col-md-5">
         <%
-        bac_tech = Baccalaureat.find_by(title: 'Bacheliers technologiques toutes séries')
-        bac_gen = Baccalaureat.find_by(title: 'Tous les candidats sauf les Bac technologiques')
+        bac_tech = Baccalaureat.tech
+        bac_gen = Baccalaureat.gen
         techs_count = candidates_concerned.where(baccalaureat_id: bac_tech.children_ids).count
         gens_count = candidates_concerned.where(baccalaureat_id: bac_gen.children_ids).count
         techs = (100.0 * techs_count / candidates_count).round

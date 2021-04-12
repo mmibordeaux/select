@@ -68,7 +68,7 @@ class Candidate < ApplicationRecord
   DECILE_DELTA_THRESHOLD = 3
 
   belongs_to :baccalaureat
-  has_many :evaluations
+  has_many :evaluations, dependent: :destroy
   has_and_belongs_to_many :interviewers, class_name: 'User'
 
   belongs_to :interview_knowledge, class_name: 'Modifier', optional: true
@@ -127,26 +127,27 @@ class Candidate < ApplicationRecord
       col_sep: ';'
     }
     rows.each do |row|
-      title = row[6]
-      baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
-      title = row[45]
-      unless title.blank?
-        baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
-        title = row[47]
+      number = "#{row[3]}"
+      validated = row[20].to_s == 'Oui'
+      if validated
+        groupe = row[0]
+        title = groupe == '141307'  ? Baccalaureat::TECH
+                                    : Baccalaureat::GEN
+        baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
+        title = row[15]
         unless title.blank?
           baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
+          title = row[17]
+          unless title.blank?
+            baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
+          end
         end
-      end
-
-      number = "#{row[3]}"
-      validated = row[60].to_s == 'Oui'
-      if validated
         first_name = "#{row[5]}"
         last_name = "#{row[4]}"
-        gender = "#{row[9]}"
-        baccalaureat_mention = "#{row[48]}"
-        level = "#{row[34]} - #{row[38]}"
-        scholarship = row[15].to_s == 'Oui'
+        gender = "#{row[6]}"
+        baccalaureat_mention = "#{row[18]}"
+        level = "#{row[12]} - #{row[13]}"
+        scholarship = row[9].to_s == 'Oui'
         candidate = Candidate.where(number: number).first_or_create
         candidate.gender = gender
         candidate.first_name = first_name

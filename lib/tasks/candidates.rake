@@ -3,7 +3,6 @@ namespace :candidates do
   task reset: :environment do
     Candidate.destroy_all
     Baccalaureat.destroy_all
-    User.where(id: [11, 9, 12]).destroy_all
   end
 
   desc "Sync all candidates"

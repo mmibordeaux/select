@@ -21,6 +21,9 @@
 #
 
 class Baccalaureat < ApplicationRecord
+  TECH = 'Bacheliers technologiques toutes séries'
+  GEN = 'Tous les candidats sauf les Bac technologiques'
+
   belongs_to :parent, class_name: 'Baccalaureat', optional: :true
   has_many :children, class_name: 'Baccalaureat', foreign_key: :parent_id, dependent: :destroy
   has_many :candidates, dependent: :nullify
@@ -31,6 +34,14 @@ class Baccalaureat < ApplicationRecord
 
   def self.with_title_and_parent(title, parent)
     where(title: title, parent: parent).first_or_create
+  end
+
+  def self.tech
+    find_by title: TECH
+  end
+
+  def self.gen
+    find_by title: GEN
   end
 
   def inherited_quota
