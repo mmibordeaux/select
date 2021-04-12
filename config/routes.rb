@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     end
   end
   resources :evaluations do
+    collection do
+      post 'no-url/:candidate' => 'evaluations#no_url', as: :no_url
+    end
     get 'my' => 'my#index'
   end
   root to: 'evaluations/my#index'

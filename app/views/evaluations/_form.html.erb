@@ -1,3 +1,9 @@
+<% unless evaluation.persisted? %>
+  <%= link_to 'Pas d\'URL, pas de chocolat',
+              no_url_evaluations_path(@candidate),
+              method: :post,
+              class: 'btn btn-danger float-right' %>
+<% end %>
 <h4>Evaluation de <%= evaluation.user %></h4>
 <%= simple_form_for(evaluation) do |f| %>
   <%= f.association :user, as: :hidden %>

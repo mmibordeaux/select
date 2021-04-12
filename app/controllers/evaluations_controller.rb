@@ -39,6 +39,17 @@ class EvaluationsController < ApplicationController
     end
   end
 
+  def no_url
+    @evaluation = Evaluation.create candidate_id: params[:candidate],
+                                    user: current_user,
+                                    attitude_id: 9,
+                                    localization_id: 7,
+                                    intention_id: 3,
+                                    production_id: 5,
+                                    comment: 'Pas d\'URL, candidature disqualifiée'
+    redirect
+  end
+
   # DELETE /evaluations/1
   def destroy
     @evaluation.destroy
