@@ -40,13 +40,7 @@ class EvaluationsController < ApplicationController
   end
 
   def no_url
-    @evaluation = Evaluation.create candidate_id: params[:candidate],
-                                    user: current_user,
-                                    attitude_id: 9,
-                                    localization_id: 7,
-                                    intention_id: 3,
-                                    production_id: 5,
-                                    comment: 'Pas d\'URL, candidature disqualifiée'
+    Evaluation.no_url params[:candidate], current_user.id
     redirect
   end
 

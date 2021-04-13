@@ -54,6 +54,17 @@ class Evaluation < ApplicationRecord
   scope :todo, -> { where(note: nil) }
   scope :done, -> { where.not(note: nil) }
 
+  def self.no_url(candidate_id, current_user_id)
+    return if exists?(candidate_id: candidate_id, user_id: current_user_id)
+    create  candidate_id: candidate_id,
+            user_id: current_user_id,
+            attitude_id: 9,
+            localization_id: 7,
+            intention_id: 3,
+            production_id: 5,
+            comment: 'Pas d\'URL, candidature disqualifiée'
+  end
+
   def done?
     !note.nil?
   end

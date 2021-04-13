@@ -234,9 +234,8 @@ class Candidate < ApplicationRecord
     self.production_somewhere_else = http_found
     # Auto attribute modifier
     if !self.production_in_formulaire && !self.production_somewhere_else
-      self.production_id = 5
-      self.evaluation_comment = 'Pas de production en ligne'
-      self.evaluation_done = true
+      puts id
+      Evaluation.no_url id, 1 # Arnaud
     end
     # Analyzed
     self.production_analyzed = true
