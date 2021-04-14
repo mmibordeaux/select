@@ -22,6 +22,7 @@ class EvaluationsController < ApplicationController
   # POST /evaluations
   def create
     @evaluation = Evaluation.new(evaluation_params)
+    @candidate = @evaluation.candidate
     if @evaluation.save(context: :evaluation)
       redirect
     else
@@ -32,6 +33,7 @@ class EvaluationsController < ApplicationController
   # PATCH/PUT /evaluations/1
   def update
     @evaluation.assign_attributes evaluation_params
+    @candidate = @evaluation.candidate
     if @evaluation.save(context: :evaluation)
       redirect
     else
