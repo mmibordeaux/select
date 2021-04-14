@@ -1,4 +1,4 @@
-<% unless evaluation.persisted? %>
+<% unless evaluation.done? %>
   <%= link_to 'Pas d\'URL, pas de chocolat',
               no_url_evaluations_path(@candidate),
               method: :post,
