@@ -55,14 +55,13 @@ class Evaluation < ApplicationRecord
   scope :done, -> { where.not(note: nil) }
 
   def self.no_url(candidate_id, current_user_id)
-    return if exists?(candidate_id: candidate_id, user_id: current_user_id)
-    create  candidate_id: candidate_id,
-            user_id: current_user_id,
-            attitude_id: 9,
-            localization_id: 7,
-            intention_id: 3,
-            production_id: 5,
-            comment: 'Pas d\'URL, candidature disqualifiée'
+    evaluation = where(candidate_id: candidate_id, user_id: current_user_id).first_or_initialize
+    evaluation.attitude_id = 9
+    evaluation.localization_id = 7
+    evaluation.intention_id = 3
+    evaluation.production_id = 5
+    evaluation.comment = 'Pas d\'URL, candidature disqualifiée'
+    evaluation.save
   end
 
   def done?
