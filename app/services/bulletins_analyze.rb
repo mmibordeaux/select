@@ -10,6 +10,7 @@ class BulletinsAnalyze
     'encouragement',
     'excellent',
     'compliment',
+    'sérieu',
     'volontaire'
   ]
 
