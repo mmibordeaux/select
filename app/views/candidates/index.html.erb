@@ -13,10 +13,16 @@
         </div>
       </div>
   </div>
-  <div class="col-md-2">
-    <p>2 évaluations</p>
+  <div class="col-md-4">
+    <p>
+      2 évaluations<br>
+      <span class="text-muted small">
+        <%= Candidate.evaluated_and_disqualified.count %> candidats disqualifiés en première lecture,
+        <%= Candidate.evaluated_and_not_disqualified.count %> restants
+      </span>
+    </p>
   </div>
-  <div class="col-md-10">
+  <div class="col-md-8">
     <div class="progress mb-3" style="height: 30px;">
       <div  class="progress-bar bg-info"
             role="progressbar"

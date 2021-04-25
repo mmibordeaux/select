@@ -98,6 +98,14 @@ class Candidate < ApplicationRecord
   scope :evaluation_todo, -> { where(evaluations_count: 0)}
   scope :evaluation_done, -> { where.not(evaluations_count: 0)}
   scope :evaluated_once, -> { where(evaluations_count: 1)}
+  scope :evaluated_and_disqualified, -> {
+    joins(:evaluations)
+    .where("evaluations.attitude_id = 1
+            OR evaluations.production_id = 5
+            OR evaluations.intention_id = 10
+            OR evaluations.localization_id = 11")
+  }
+  scope :evaluated_and_not_disqualified, -> { where.not(id: Candidate.evaluated_and_disqualified) }
   scope :evaluated_once_or_more, -> { where('candidates.evaluations_count > 0')}
   scope :evaluated_twice_or_more, -> { where('candidates.evaluations_count > 1')}
   scope :evaluation_selected, -> { where(evaluation_selected: true) }
