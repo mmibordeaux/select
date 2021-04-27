@@ -45,8 +45,8 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px">
             <%= link_to 'Tous les candidats sélectionnés', candidates_selections_path, class: 'nav-link' %>
-            <%= link_to 'Bacs technologiques', candidates_selections_path(baccalaureat_id: 113), class: 'nav-link' %>
-            <%= link_to 'Bacs généraux', candidates_selections_path(baccalaureat_id: 110), class: 'nav-link' %>
+            <%= link_to 'Bacs technologiques', candidates_selections_path(baccalaureats: :tech), class: 'nav-link' %>
+            <%= link_to 'Bacs généraux', candidates_selections_path(baccalaureats: :gen), class: 'nav-link' %>
             <%= link_to 'Statistiques des sélections', candidates_selections_stats_path, class: 'nav-link' %>
           </div>
         </li>
