@@ -63,6 +63,7 @@ namespace :candidates do
 
   desc "Split second evaluation"
   task split_second_evaluation: :environment do
+    Evaluation.todo.destroy_all
     candidates_for_second_evaluation_ids = Candidate.evaluated_and_not_disqualified.pluck(:id)
     candidates_left = candidates_for_second_evaluation_ids.count
     users = User.evaluators.order(:second_evaluation_quota)
