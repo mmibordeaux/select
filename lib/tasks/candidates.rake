@@ -63,45 +63,15 @@ namespace :candidates do
 
   desc "Split second evaluation"
   task split_second_evaluation: :environment do
-    candidates_for_second_evaluation_ids = []
-    Candidate.all.each do |candidate|
-      has_production = true
-      candidate.evaluations.each do |evaluation|
-        has_production = false if evaluation.production_id == 5 # No production
-      end
-      if has_production && candidate.evaluations_count < 2
-        candidates_for_second_evaluation_ids << candidate.id
-      end
-    end
+    candidates_for_second_evaluation_ids = Candidate.evaluated_and_not_disqualified.pluck(:id)
     candidates_left = candidates_for_second_evaluation_ids.count
-    users = User.evaluators.order(:first_evaluation_quota, :first_evaluation_baccalaureats)
+    users = User.evaluators.order(:second_evaluation_quota)
     users_left = users.count
-    puts "#{candidates_left} candidats à évaluer (avec production)"
+    puts "#{candidates_left} candidats à évaluer"
     candidates_planned_ids = []
-    mapping = []
-    mapping[1] = [5, 7, 8, 10, 3] #AL
-    mapping[3] = [1, 4, 5, 6, 7, 8] #MD
-    mapping[4] = [5, 7, 10] #EE
-    mapping[5] = [1, 3, 4, 6] #JS
-    mapping[6] = [3, 5, 8, 10] #EC
-    mapping[7] = [1, 4, 5, 6] #MB
-    mapping[8] = [1, 3, 4] #DR
-    mapping[10] = [4, 5, 6] #JL
     users.each do |user|
       candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
-      unless user.second_evaluation_baccalaureats.blank?
-        baccalaureats = Baccalaureat.where(id: user.second_evaluation_baccalaureats.split(','))
-        baccalaureats_ids = baccalaureats.map { |b| b.children_ids }.flatten
-        candidates = candidates.where(baccalaureat: baccalaureats_ids)
-      end
-      candidates_mapped_ids = []
-      mapping[user.id].each do |id|
-        u = User.find id
-        candidates_mapped_ids += u.candidates_evaluated.pluck(:id)
-      end
-      candidates = candidates.where.not(id: user.candidates_evaluated)
-                              .where.not(id: candidates_planned_ids)
-                              .where(id: candidates_mapped_ids)
+                            .where.not(id: user.candidates_evaluated)
       max_candidates = (1.0 * candidates_left / users_left).ceil
       quantity = user.second_evaluation_quota ? [max_candidates, user.second_evaluation_quota].min
                                               : max_candidates
