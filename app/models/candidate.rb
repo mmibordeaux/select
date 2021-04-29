@@ -108,6 +108,7 @@ class Candidate < ApplicationRecord
   scope :evaluated_and_not_disqualified, -> { where.not(id: Candidate.evaluated_and_disqualified) }
   scope :evaluated_once_or_more, -> { where('candidates.evaluations_count > 0')}
   scope :evaluated_twice_or_more, -> { where('candidates.evaluations_count > 1')}
+  scope :not_evaluated_twice, -> { where('candidates.evaluations_count < 2')}
   scope :evaluation_selected, -> { where(evaluation_selected: true) }
 
   scope :interview_todo, -> { where(interview_done: false)}

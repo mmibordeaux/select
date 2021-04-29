@@ -64,23 +64,53 @@ namespace :candidates do
   desc "Split second evaluation"
   task split_second_evaluation: :environment do
     Evaluation.todo.destroy_all
-    candidates_for_second_evaluation_ids = Candidate.evaluated_and_not_disqualified.pluck(:id)
+    Candidate.find_each &:save
+    candidates_for_second_evaluation_ids = Candidate.evaluated_and_not_disqualified
+                                                    .not_evaluated_twice
+                                                    .pluck(:id)
     candidates_left = candidates_for_second_evaluation_ids.count
-    users = User.evaluators.order(:second_evaluation_quota)
-    users_left = users.count
-    puts "#{candidates_left} candidats à évaluer"
+    users_candidates_done = {
+      14 => 7,
+      7 => 2,
+      6 => 74,
+      3 => 8,
+      10 => 26,
+      1 => 42,
+      16 => 4,
+      5 => 0
+    }
+    candidates_done = users_candidates_done.inject(0) { |sum, tuple| sum + tuple[1] }
+    candidates_total = candidates_left + candidates_done
+    puts "#{candidates_left} candidats à évaluer une seconde fois, #{candidates_done} déjà évalués, #{candidates_total} au total"
     candidates_planned_ids = []
-    users.each do |user|
+
+    puts "Splitting user with quotas"
+    User.evaluators.where.not(second_evaluation_quota: nil).each do |user|
       candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
+                            .where.not(id: candidates_planned_ids)
                             .where.not(id: user.candidates_evaluated)
-      max_candidates = (1.0 * candidates_left / users_left).ceil
-      quantity = user.second_evaluation_quota ? [max_candidates, user.second_evaluation_quota].min
-                                              : max_candidates
-      # puts "#{quantity} candidats pour #{user}"
+      quantity_done = users_candidates_done[user.id]
+      quantity = user.second_evaluation_quota - quantity_done
       ids = attribute_evaluations user, candidates, quantity
       candidates_planned_ids += ids
       candidates_left -= ids.count
-      users_left -= 1
+      candidates_total -= ids.count
+    end
+
+    puts "Splitting user without quotas"
+    users = User.evaluators.where(second_evaluation_quota: nil).order(id: :desc)
+    users_left = users.count
+    quantity_per_user = (1.0 * candidates_total / users_left).ceil
+    puts "#{quantity_per_user} per user"
+    users.each do |user|
+      candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
+                            .where.not(id: candidates_planned_ids)
+                            .where.not(id: user.candidates_evaluated)
+      quantity_done = users_candidates_done[user.id]
+      quantity = quantity_per_user - quantity_done
+      puts "Minus #{quantity_done}, #{quantity}"
+      ids = attribute_evaluations user, candidates, quantity
+      candidates_planned_ids += ids
     end
   end
 
