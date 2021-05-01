@@ -26,11 +26,12 @@ class CandidatesController < ApplicationController
         @candidates_synced = Candidate.parcoursup_synced
         @candidates_single_done = Candidate.evaluated_once_or_more.count
         @candidates_multiple_done = Candidate.evaluated_twice_or_more.count
+        @candidates_multiple_todo = Candidate.evaluated_and_not_disqualified.count
         @candidates_total = Candidate.count
         @candidates_single_percent = @candidates_total.zero?    ? 0
                                                                 : 100.0 * @candidates_single_done / @candidates_total
         @candidates_multiple_percent = @candidates_total.zero?  ? 0
-                                                                : 100.0 * @candidates_multiple_done / @candidates_total
+                                                                : 100.0 * @candidates_multiple_done / @candidates_multiple_todo
       end
       format.xlsx
     end
