@@ -6,7 +6,7 @@ ruby '2.7.2'
 # Back
 gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-bootstrap-views'
