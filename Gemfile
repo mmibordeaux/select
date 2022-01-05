@@ -1,12 +1,15 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '2.7.5'
+
+# Infrastructure
+gem 'puma', '~> 3.11'
+gem 'pg', '>= 0.18', '< 2.0'
+gem 'sendgrid-ruby'
 
 # Back
 gem 'rails', '~> 5.2.2', '>= 5.2.2.1'
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-bootstrap-views'
@@ -15,11 +18,11 @@ gem 'rubyzip'
 gem 'caxlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
 gem 'breadcrumbs_on_rails'
+gem 'nokogiri'
 
 # Front
 gem 'sassc-rails'
 gem 'uglifier', '>= 1.3.0'
-gem 'nokogiri'
 gem 'simple_form'
 gem 'bootstrap'
 gem 'kaminari'
