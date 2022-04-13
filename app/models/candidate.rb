@@ -137,16 +137,16 @@ class Candidate < ApplicationRecord
     }
     rows.each do |row|
       number = "#{row[3]}"
-      validated = row[20].to_s == 'Oui'
+      validated = row[24].to_s == 'Oui'
       if validated
         groupe = row[0]
         title = groupe == '141307'  ? Baccalaureat::TECH
                                     : Baccalaureat::GEN
         baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
-        title = row[15]
+        title = row[19]
         unless title.blank?
           baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
-          title = row[17]
+          title = row[21]
           unless title.blank?
             baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
           end
@@ -155,8 +155,8 @@ class Candidate < ApplicationRecord
         last_name = "#{row[4]}"
         gender = "#{row[6]}"
         baccalaureat_mention = "#{row[18]}"
-        level = "#{row[12]} - #{row[13]}"
-        scholarship = row[9].to_s == 'Oui'
+        level = "#{row[15]} - #{row[16]} - #{row[17]}"
+        scholarship = row[11].to_s == 'Oui'
         candidate = Candidate.where(number: number).first_or_create
         candidate.gender = gender
         candidate.first_name = first_name

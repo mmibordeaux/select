@@ -1,6 +1,6 @@
 class Note
   def self.average(row)
-    range = row[21..-1]
+    range = row[26..-1]
     notes = []
     range.each_with_index do |value, index|
       unless value.blank?
