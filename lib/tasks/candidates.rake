@@ -69,47 +69,34 @@ namespace :candidates do
                                                     .not_evaluated_twice
                                                     .pluck(:id)
     candidates_left = candidates_for_second_evaluation_ids.count
-    users_candidates_done = {
-      14 => 7,
-      7 => 2,
-      6 => 74,
-      3 => 8,
-      10 => 26,
-      1 => 42,
-      16 => 4,
-      5 => 0
-    }
-    candidates_done = users_candidates_done.inject(0) { |sum, tuple| sum + tuple[1] }
-    candidates_total = candidates_left + candidates_done
-    puts "#{candidates_left} candidats à évaluer une seconde fois, #{candidates_done} déjà évalués, #{candidates_total} au total"
+    puts "#{candidates_left} candidats à évaluer une seconde fois"
+
     candidates_planned_ids = []
 
     puts "Splitting user with quotas"
     User.evaluators.where.not(second_evaluation_quota: nil).each do |user|
+      candidates_evaluated_ids = user.candidates_evaluated.pluck(:id)
       candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
                             .where.not(id: candidates_planned_ids)
-                            .where.not(id: user.candidates_evaluated)
-      quantity_done = users_candidates_done[user.id]
-      quantity = user.second_evaluation_quota - quantity_done
-      ids = attribute_evaluations user, candidates, quantity
+                            .where.not(id: candidates_evaluated_ids)
+      ids = attribute_evaluations user, candidates, user.second_evaluation_quota
       candidates_planned_ids += ids
       candidates_left -= ids.count
-      candidates_total -= ids.count
     end
 
     puts "Splitting user without quotas"
-    users = User.evaluators.where(second_evaluation_quota: nil).order(id: :desc)
+    users = User.evaluators
+                .where(second_evaluation_quota: nil)
+                .order(:id)
     users_left = users.count
-    quantity_per_user = (1.0 * candidates_total / users_left).ceil
+    quantity_per_user = (1.0 * candidates_left / users_left).ceil
     puts "#{quantity_per_user} per user"
     users.each do |user|
+      candidates_evaluated_ids = user.candidates_evaluated.pluck(:id)
       candidates = Candidate.where(id: candidates_for_second_evaluation_ids)
                             .where.not(id: candidates_planned_ids)
-                            .where.not(id: user.candidates_evaluated)
-      quantity_done = users_candidates_done[user.id]
-      quantity = quantity_per_user - quantity_done
-      puts "Minus #{quantity_done}, #{quantity}"
-      ids = attribute_evaluations user, candidates, quantity
+                            .where.not(id: candidates_evaluated_ids)
+      ids = attribute_evaluations user, candidates, quantity_per_user
       candidates_planned_ids += ids
     end
   end
@@ -118,7 +105,8 @@ namespace :candidates do
     puts "Attributing #{quantity} candidates to #{user} from #{candidates.count} possible candidates"
     candidates_planned_ids = []
     candidates.order("RANDOM()").limit(quantity).each do |candidate|
-      user.evaluations.where(candidate: candidate).first_or_create
+      evaluation = user.evaluations.where(candidate: candidate).first_or_create
+      candidate.reload.save
       candidates_planned_ids << candidate.id
     end
     puts "-> #{candidates_planned_ids.count} attributed"
