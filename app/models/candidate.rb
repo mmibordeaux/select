@@ -168,8 +168,8 @@ class Candidate < ApplicationRecord
         level += " - #{serie}" if serie.present?
         level += " - #{specialite}" if specialite.present?
         # Infos
-        first_name = row['Candidat - Nom']
-        last_name = row['Candidat - Prénom']
+        first_name = row['Candidat - Prénom']
+        last_name = row['Candidat - Nom']
         gender = row['Sexe']
         baccalaureat_mention = row['Mention Obtenue - Libellé']
         scholarship = row['Candidat boursier - Libellé'].to_s == 'Boursier de l\'enseignement scolaire'
