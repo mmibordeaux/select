@@ -136,27 +136,44 @@ class Candidate < ApplicationRecord
       col_sep: ';'
     }
     rows.each do |row|
-      number = "#{row[3]}"
-      validated = row[24].to_s == 'Oui'
+      number = row['Candidat - Code']
+      validated = row['Vœu confirmé - Libellé'].to_s == 'Validée'
       if validated
-        groupe = row[0]
-        title = groupe == '141307'  ? Baccalaureat::TECH
-                                    : Baccalaureat::GEN
-        baccalaureat = Baccalaureat.with_title_and_parent(title, nil)
-        title = row[19]
+        groupe = row['Groupe candidat - Code']
+        type = groupe == '141307' ? Baccalaureat::TECH
+                                  : Baccalaureat::GEN
+        baccalaureat = Baccalaureat.with_title_and_parent(type, nil)
+        # Terminale, 1ere année d'études supérieures...
+        # Attention, espace initial dans le libellé
+        niveau_etude = row[' Niveau Etude - Libellé 2022/2023']
+        # Terminale, Année préparatoire aux études supérieures, BUT...
+        type_formation = row['Type Formation - Libellé  2022/2023']
+        # Série Générale, Sciences et Technologies de l'Industrie et du Développement Durable, Bac pro...
+        serie = row['Série - Libellé']
+        # Uniquement pour certains bacs : Système informatique et numérique, Energies et environnement...
+        specialite = row['Spécialité / Mention - Libellé  2022/2023']
+        # Bacs
+        title = serie
         unless title.blank?
           baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
-          title = row[21]
+          title = specialite
           unless title.blank?
             baccalaureat = Baccalaureat.with_title_and_parent(title, baccalaureat)
           end
         end
-        first_name = "#{row[5]}"
-        last_name = "#{row[4]}"
-        gender = "#{row[6]}"
-        baccalaureat_mention = "#{row[18]}"
-        level = "#{row[15]} - #{row[16]} - #{row[17]}"
-        scholarship = row[11].to_s == 'Oui'
+        # Niveau 
+        level = ""
+        level += niveau_etude if niveau_etude.present?
+        level += " - #{type_formation}" if type_formation.present? && (type_formation != niveau_etude)
+        level += " - #{serie}" if serie.present?
+        level += " - #{specialite}" if specialite.present?
+        # Infos
+        first_name = row['Candidat - Nom']
+        last_name = row['Candidat - Prénom']
+        gender = row['Sexe']
+        baccalaureat_mention = row['Mention Obtenue - Libellé']
+        scholarship = row['Candidat boursier - Libellé'].to_s == 'Boursier de l\'enseignement scolaire'
+        # Création
         candidate = Candidate.where(number: number).first_or_create
         candidate.gender = gender
         candidate.first_name = first_name
