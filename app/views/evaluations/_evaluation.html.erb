@@ -17,5 +17,6 @@
     <p><%= evaluation.localization %></p>
   </div>
 </div>
+<% if evaluation.boost %><p>Coup de cœur</p><% end %>
 <h5>Commentaire</h5>
 <%= simple_format evaluation.comment %>
