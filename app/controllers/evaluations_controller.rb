@@ -70,6 +70,6 @@ class EvaluationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def evaluation_params
-      params.require(:evaluation).permit(:candidate_id, :user_id, :attitude_id, :intention_id, :production_id, :localization_id, :comment)
+      params.require(:evaluation).permit(:candidate_id, :user_id, :attitude_id, :intention_id, :production_id, :localization_id, :comment, :boost)
     end
 end

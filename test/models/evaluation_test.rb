@@ -3,6 +3,7 @@
 # Table name: evaluations
 #
 #  id              :bigint           not null, primary key
+#  boost           :boolean          default(FALSE)
 #  comment         :string
 #  note            :float
 #  created_at      :datetime         not null

@@ -3,6 +3,7 @@
 # Table name: evaluations
 #
 #  id              :bigint           not null, primary key
+#  boost           :boolean          default(FALSE)
 #  comment         :string
 #  note            :float
 #  created_at      :datetime         not null
@@ -33,6 +34,8 @@
 #  fk_rails_ef42eba623  (user_id => users.id)
 #
 class Evaluation < ApplicationRecord
+  BOOST = 5
+
   belongs_to :candidate
   belongs_to :user
 
@@ -73,6 +76,7 @@ class Evaluation < ApplicationRecord
   def compute_note
     return unless attitude && intention && production && localization
     self.note = attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
+    self.note += BOOST if boost
   end
 
   def save_candidate
