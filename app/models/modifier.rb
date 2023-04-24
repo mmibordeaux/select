@@ -87,7 +87,7 @@ class Modifier < ApplicationRecord
   end
 
   def title_and_description
-    "#{title} (#{description})"
+    "#{title} (#{description}, #{value.round})"
   end
 
   def candidates
