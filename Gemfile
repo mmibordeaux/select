@@ -6,7 +6,6 @@ ruby '2.7.8'
 # Infrastructure
 gem 'puma'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'mailgun-ruby'
 
 # Back
 gem 'rails', '~> 5.2.2', '>= 5.2.2.1'

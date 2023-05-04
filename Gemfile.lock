@@ -148,8 +148,6 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mailgun-ruby (1.2.8)
-      rest-client (>= 2.0.2)
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
@@ -294,7 +292,6 @@ DEPENDENCIES
   kaminari
   kaminari-i18n
   listen (>= 3.0.5, < 3.2)
-  mailgun-ruby
   nokogiri
   pg (>= 0.18, < 2.0)
   puma
