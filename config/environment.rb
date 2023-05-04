@@ -5,11 +5,12 @@ require_relative 'application'
 Rails.application.initialize!
 
 ActionMailer::Base.smtp_settings = {
-  :user_name => 'apikey',
-  :password => ENV['SENDGRID_API_KEY'],
-  :domain => 'mmibordeaux.com',
-  :address => 'smtp.sendgrid.net',
-  :port => 587,
-  :authentication => :plain,
-  :enable_starttls_auto => true
+  api_key: ENV['MAILGUN_API_KEY'],
+  user_name: ENV['MAILGUN_SMTP_LOGIN'],
+  password: ENV['MAILGUN_SMTP_PASSWORD'],
+  domain: ENV['MAILGUN_DOMAIN'],
+  address: ENV['MAILGUN_SMTP_SERVER'],
+  port: ENV['MAILGUN_SMTP_PORT'],
+  authentication: :plain,
+  enable_starttls_auto: true
 }
