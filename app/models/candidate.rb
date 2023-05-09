@@ -114,6 +114,7 @@ class Candidate < ApplicationRecord
   scope :interview_todo, -> { where(interview_done: false)}
   scope :interview_done, -> { where(interview_done: true)}
   scope :interview_selected, -> { where(interview_selected: true) }
+  scope :interview_bonus, -> { where(interview_bonus: true) }
 
   scope :selection_selected, -> { where(selection_selected: true) }
 

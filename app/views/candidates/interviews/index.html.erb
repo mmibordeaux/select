@@ -8,9 +8,19 @@
           value="<%= params[:search] %>">
 </form>
 
-<%= link_to 'Export (.xlsx)', candidates_interviews_path(format: :xlsx), class: 'btn btn-primary btn-sm' %>
+<div class="row">
+  <div class="col-md-4">
+    <%= link_to 'Export (.xlsx)', candidates_interviews_path(format: :xlsx), class: 'btn btn-primary btn-sm' %>
+  </div>
+  <div class="col-md-4">
+    <p><%= page_entries_info @candidates %></p>
+  </div>
+  <div class="col-md-4">
+    <%= Candidate.interview_done.count %> entretiens faits, 
+    <%= Candidate.interview_bonus.count %> coups de cœur
+  </div>
+</div>
 
-<p><%= page_entries_info @candidates %></p>
 <table class="table table-hover table-bordered mt-5">
 <thead>
   <tr>

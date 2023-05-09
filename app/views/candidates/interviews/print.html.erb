@@ -32,7 +32,9 @@
 <%= simple_format @candidate.interview_comment %>
 
 <br/>
-<h4>Note : <%= @candidate.interview_note.to_f.round(2) %></h4>
+<h4>Note d'entretien : <%= @candidate.interview_note.to_f.round(2) %></h4>
+<h4>Note de dossier : <%= @candidate.evaluation_note.to_f.round(2) %></h4>
+<h4>Note totale : <%= @candidate.selection_note.to_f.round(2) %></h4>
 
 <p>Prénoms, noms et signatures des membres du jury</p>
 
