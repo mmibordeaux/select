@@ -35,7 +35,12 @@
       <td><%= candidate.last_name %></td>
       <td class="small"><%= candidate.baccalaureat %></td>
       <td class="small">
-        <%= candidate.interviewers.join(', ') %><br/>
+        <%= candidate.interviewers.join(', ') %>
+        <% if candidate.interview_bonus %>
+          <span class="badge badge-success">Coup de cœur</span>
+        <% end %>
+        
+        <br/>
         (dossier <%= candidate.evaluations.map { |e| e.user.to_s }.join(', ') %>)
       </td>
       <td class="small
