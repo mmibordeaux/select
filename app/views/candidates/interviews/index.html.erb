@@ -16,8 +16,13 @@
     <p><%= page_entries_info @candidates %></p>
   </div>
   <div class="col-md-4">
-    <%= Candidate.interview_done.count %> entretiens faits, 
-    <%= Candidate.interview_bonus.count %> coups de cœur
+    <%
+    interviews = Candidate.interview_done.count
+    bonus = Candidate.interview_bonus.count
+    %>
+    <%= interviews %> entretiens faits, 
+    <%= bonus %> coups de cœur
+    (<%= number_to_percentage(100.0 * bonus / interviews, precision: 0) %>)
   </div>
 </div>
 
