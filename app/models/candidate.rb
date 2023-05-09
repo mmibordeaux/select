@@ -372,14 +372,16 @@ class Candidate < ApplicationRecord
 
   def compute_evaluation_note
     note = dossier_note
-    note += evaluations.done.average :note if evaluations.done.any?
+    note += evaluations.done.average(:note) if evaluations.done.any?
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
     note
   end
 
   def compute_interview_note
-    note = 0
+    note = dossier_note
+    note += evaluations.done.average(:note) if evaluations.done.any?
+    note += Setting.first.selection_scholarship_bonus if scholarship
     note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|
       property = send kind
