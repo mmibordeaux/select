@@ -1,9 +1,6 @@
 <h1>Entretien de recrutement MMI</h1>
-<h2>IUT Bordeaux Montaigne - session <%= @candidate.updated_at.year %></h2>
 <p>Candidat(e): <%= @candidate %></p>
-<p>Etudes: <%= @candidate.baccalaureat %></p>
 <p>Date: <%= @candidate.updated_at.strftime('%d/%m/%Y') %></p>
-<p>Jury: <%= @candidate.interviewers.join(', ') %></p>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -19,7 +16,7 @@
       <td><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></td>
       <td>
         <p>
-          <b><%= property.title %></b><br/>
+          <b><%= property.title %></b> 
           <%= property.description %>
         </p>
       </td>
@@ -28,13 +25,24 @@
   </tbody>
 </table>
 
-<p>Remarques particulières - Profil et potentiel, points forts/points faibles :</p>
 <%= simple_format @candidate.interview_comment %>
 
-<br/>
-<h4>Note d'entretien : <%= @candidate.interview_note.to_f.round(2) %></h4>
-<h4>Note de dossier : <%= @candidate.evaluation_note.to_f.round(2) %></h4>
-<h4>Note totale : <%= @candidate.selection_note.to_f.round(2) %></h4>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Note d'entretien</th>
+      <th>Note de dossier</th>
+      <th>Note totale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @candidate.interview_note.to_f.round(2) %></td>
+      <td><%= @candidate.evaluation_note.to_f.round(2) %></td>
+      <td><%= @candidate.selection_note.to_f.round(2) %></td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Prénoms, noms et signatures des membres du jury</p>
 
@@ -42,7 +50,8 @@
   <tr>
     <% @candidate.interviewers.each do |interviewer| %>
       <td>
-        <%= interviewer %>
+        <p><%= interviewer %></p>
+        <%= image_tag interviewer.signature_url, width: 300 if interviewer.signature.present? %>
       </td>
     <% end %>
   </tr>

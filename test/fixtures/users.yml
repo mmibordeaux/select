@@ -15,6 +15,7 @@
 #  reset_password_token            :string           indexed
 #  second_evaluation_baccalaureats :string
 #  second_evaluation_quota         :integer
+#  signature                       :text
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
 #

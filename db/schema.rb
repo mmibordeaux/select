@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_15_121831) do
+ActiveRecord::Schema.define(version: 2023_05_10_201950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2023_04_15_121831) do
     t.integer "first_evaluation_quota"
     t.string "second_evaluation_baccalaureats"
     t.integer "second_evaluation_quota"
+    t.text "signature"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

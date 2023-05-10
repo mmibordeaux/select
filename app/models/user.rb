@@ -15,6 +15,7 @@
 #  reset_password_token            :string           indexed
 #  second_evaluation_baccalaureats :string
 #  second_evaluation_quota         :integer
+#  signature                       :text
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
 #
@@ -100,6 +101,10 @@ class User < ApplicationRecord
 
   def interview_modifier_used(modifier)
     candidates_interviewed.where("#{modifier.kind}_id" => modifier.id).count
+  end
+
+  def signature_url
+    "https://drive.google.com/uc?id=#{signature}"
   end
 
   def to_s
