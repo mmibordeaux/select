@@ -1,5 +1,5 @@
 <h1>Entretien de recrutement MMI</h1>
-<h2>IUT Bordeaux Montaigne - session 2019</h2>
+<h2>IUT Bordeaux Montaigne - session <%= @candidate.updated_at.year %></h2>
 <p>Candidat(e): <%= @candidate %></p>
 <p>Etudes: <%= @candidate.baccalaureat %></p>
 <p>Date: <%= @candidate.updated_at.strftime('%d/%m/%Y') %></p>
