@@ -3,7 +3,7 @@ candidates_count = candidates.count
 candidates_ids = candidates.pluck(:id)
 candidates_concerned = Candidate.where(id: candidates_ids)
 %>
-
+<p><%= candidates_count %> personnes</p>
 <div class="row">
     <div class="col-md-4">
         <%
@@ -31,13 +31,21 @@ candidates_concerned = Candidate.where(id: candidates_ids)
         <h3><%= techs %>% bacs technologiques</h3>
         <p><%= techs_count %> candidats</p>
         <%= pie_chart [
-            [bac_tech.to_s, techs],
-            [bac_gen.to_s, gens]
+            [bac_tech.to_s, techs_count],
+            [bac_gen.to_s, gens_count]
         ] %>
     </div>
     <div class="col-md-3">
-        <h3>Genre</h3>
-        <%= pie_chart candidates_concerned.group(:gender).count %>
+        <%
+        women_count = candidates_concerned.women.count
+        men_count = candidates_concerned.men.count
+        women = (100.0 * women_count / candidates_count).round
+        %>
+        <h3><%= women %>% femmes</h3>
+        <%= pie_chart [
+            ['Femmes', women_count],
+            ['Hommes', men_count]
+        ] %>
     </div>
 </div>
 

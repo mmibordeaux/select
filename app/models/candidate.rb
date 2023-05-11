@@ -66,6 +66,8 @@
 class Candidate < ApplicationRecord
 
   DECILE_DELTA_THRESHOLD = 3
+  GENDER_WOMAN = 'Féminin'
+  GENDER_MAN = 'Masculin'
 
   belongs_to :baccalaureat
   has_many :evaluations, dependent: :destroy
@@ -119,6 +121,9 @@ class Candidate < ApplicationRecord
   scope :selection_selected, -> { where(selection_selected: true) }
 
   scope :promotion_selected, -> { where(promotion_selected: true) }
+
+  scope :women, -> { where(gender: GENDER_WOMAN) }
+  scope :men, -> { where(gender: GENDER_MAN) }
 
   before_save :denormalize_notes
 
@@ -321,7 +326,7 @@ class Candidate < ApplicationRecord
   end
 
   def woman
-    gender == 'Féminin'
+    gender == GENDER_WOMAN
   end
 
   def to_s
