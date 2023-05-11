@@ -72,7 +72,9 @@
           <!-- Entretien -->
           <td>
             <% if candidate.interview_done %>
-              <%= candidate.interview_note.round(2) %>
+              <%= link_to candidates_interview_path(candidate) do %>
+                <%= candidate.interview_note.round(2) %>
+              <% end %>
               <div class="small">
                 <%= simple_format candidate.interviewers.join("\n") %>
               </div>
