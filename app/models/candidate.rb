@@ -73,6 +73,13 @@ class Candidate < ApplicationRecord
   has_many :evaluations, dependent: :destroy
   has_and_belongs_to_many :interviewers, class_name: 'User'
 
+  scope :women, -> { where(gender: GENDER_WOMAN) }
+  scope :men, -> { where(gender: GENDER_MAN) }
+
+  scope :with_baccalaureat, -> (baccalaureat) { where(baccalaureat_id: baccalaureat.children_ids) }
+  scope :tech, -> { with_baccalaureat(Baccalaureat.tech) }
+  scope :gen, -> { with_baccalaureat(Baccalaureat.gen) }
+
   belongs_to :interview_knowledge, class_name: 'Modifier', optional: true
   belongs_to :interview_project, class_name: 'Modifier', optional: true
   belongs_to :interview_motivation, class_name: 'Modifier', optional: true
@@ -121,9 +128,6 @@ class Candidate < ApplicationRecord
   scope :selection_selected, -> { where(selection_selected: true) }
 
   scope :promotion_selected, -> { where(promotion_selected: true) }
-
-  scope :women, -> { where(gender: GENDER_WOMAN) }
-  scope :men, -> { where(gender: GENDER_MAN) }
 
   before_save :denormalize_notes
 

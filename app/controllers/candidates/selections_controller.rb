@@ -15,4 +15,14 @@ class Candidates::SelectionsController < ApplicationController
   def stats
     @candidates = Candidate.selection_selected
   end
+
+  def stats_tech
+    @candidates = Candidate.selection_selected.tech
+    render :stats
+  end
+
+  def stats_gen
+    @candidates = Candidate.selection_selected.gen
+    render :stats
+  end
 end
