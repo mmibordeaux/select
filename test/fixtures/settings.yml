@@ -6,6 +6,7 @@
 #  evaluation_scholarship_bonus   :float
 #  interview_bonus                :float
 #  interview_number_of_candidates :integer
+#  selection_gender_bonus         :integer
 #  selection_number_of_candidates :integer
 #  selection_scholarship_bonus    :float
 #  created_at                     :datetime         not null

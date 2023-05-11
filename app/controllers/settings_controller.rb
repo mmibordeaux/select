@@ -57,6 +57,6 @@ class SettingsController < ApplicationController
     params.require(:setting)
           .permit(:evaluation_scholarship_bonus,
             :interview_number_of_candidates, :interview_bonus,
-            :selection_number_of_candidates, :selection_scholarship_bonus)
+            :selection_number_of_candidates, :selection_scholarship_bonus, :selection_gender_bonus)
   end
 end

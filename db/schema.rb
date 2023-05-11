@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_10_201950) do
+ActiveRecord::Schema.define(version: 2023_05_11_085710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2023_05_10_201950) do
     t.float "interview_bonus"
     t.integer "selection_number_of_candidates"
     t.float "selection_scholarship_bonus"
+    t.integer "selection_gender_bonus"
   end
 
   create_table "users", force: :cascade do |t|

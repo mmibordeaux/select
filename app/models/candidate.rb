@@ -320,6 +320,10 @@ class Candidate < ApplicationRecord
     decile_delta < -DECILE_DELTA_THRESHOLD
   end
 
+  def woman
+    gender == 'Féminin'
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end
@@ -382,6 +386,7 @@ class Candidate < ApplicationRecord
   def compute_interview_note
     note = 0
     note += Setting.first.selection_scholarship_bonus.to_f if scholarship
+    note += Setting.first.selection_gender_bonus.to_f if woman
     note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|
       property = send kind
