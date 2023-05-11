@@ -10,12 +10,12 @@ class Candidates::PromotionController < ApplicationController
   def select
     @candidate = Candidate.find(params[:candidate_id])
     @candidate.update_column :promotion_selected, true
-    redirect_to candidates_selections_path
+    redirect_to @candidate, notice: 'Personne sélectionnée'
   end
 
   def unselect
     @candidate = Candidate.find(params[:candidate_id])
     @candidate.update_column :promotion_selected, false
-    redirect_to candidates_selections_path
+    redirect_to @candidate, notice: 'Personne désélectionnée'
   end
 end

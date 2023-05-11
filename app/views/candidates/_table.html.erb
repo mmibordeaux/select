@@ -108,11 +108,13 @@
               <%= link_to '-',
                           candidates_promotion_unselect_path(candidate_id: candidate.id),
                           method: :put,
+                          target: :_blank,
                           class: 'btn btn-sm btn-primary' %>
             <% else %>
               <%= link_to '+',
                           candidates_promotion_select_path(candidate_id: candidate.id),
                           method: :put,
+                          target: :_blank,
                           class: 'btn btn-sm btn-primary' %>
             <% end %>
           </td>
