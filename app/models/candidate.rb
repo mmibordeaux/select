@@ -386,7 +386,6 @@ class Candidate < ApplicationRecord
   def compute_interview_note
     note = 0
     note += Setting.first.selection_scholarship_bonus.to_f if scholarship
-    note += Setting.first.selection_gender_bonus.to_f if woman
     note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|
       property = send kind
@@ -399,6 +398,7 @@ class Candidate < ApplicationRecord
   def compute_selection_note
     note = self.evaluation_note
     note += self.interview_note
+    note += Setting.first.selection_gender_bonus.to_f if woman
     note += baccalaureat.inherited_selection_bonus if baccalaureat.inherited_selection_bonus
     note
   end
