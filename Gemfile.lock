@@ -296,7 +296,7 @@ DEPENDENCIES
   nokogiri
   pg (>= 0.18, < 2.0)
   puma
-  rails (~> 5.2.2, >= 5.2.2.1)
+  rails (= 5.2.8.1)
   rest-client
   rubyzip
   sassc-rails
