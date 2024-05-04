@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.8'
+ruby '3.3.0'
 
 # Infrastructure
 gem 'puma'
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'pg'
 
 # Back
 gem 'rails', '5.2.8.1'
@@ -21,7 +21,7 @@ gem 'nokogiri'
 
 # Front
 gem 'sassc-rails'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 gem 'simple_form'
 gem 'bootstrap', '~> 4'
 gem 'kaminari'
