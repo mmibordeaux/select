@@ -61,7 +61,7 @@ class Importers::Json
     candidate.dossier_note = average_note_with_defaults(data)
     candidate.save
     # byebug if candidate.number == '1447482'
-    # puts candidate
+    puts candidate
   end
 
   def build_baccalaureat(data)
@@ -138,7 +138,7 @@ class Importers::Json
   end
 
   def full_data
-    @full_data ||= File.read(@path)
+    @full_data ||= URI.open(@path) { |file| file.read }
   end
 
   def json

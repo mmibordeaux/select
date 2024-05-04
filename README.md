@@ -29,3 +29,12 @@ Entretien avec les candidats.
 ### Sélection
 
 Classement des candidats sur liste principale et secondaire.
+
+# Import JSON
+
+Mettre à disposition temporairement les données JSON sur une URL https.
+
+Avec dropbox, il faut appeler ce type d'url, avec le `dl=1`
+```
+rake app:import data="https://www.dropbox.com/scl/fi/[id]/[filename].json?rlkey=[key]&dl=1"
+```

@@ -18,6 +18,8 @@ gem 'caxlsx'#, git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'caxlsx_rails'
 gem 'breadcrumbs_on_rails'
 gem 'nokogiri'
+gem 'base64'
+gem 'bigdecimal'
 
 # Front
 gem 'sassc-rails'
