@@ -69,7 +69,8 @@ class Candidate < ApplicationRecord
   DECILE_DELTA_THRESHOLD = 3
   GENDER_WOMAN = 'Féminin'
   GENDER_MAN = 'Masculin'
-  DEFAULT_NOTE = 12
+  # Used in JSON importer
+  DEFAULT_NOTE = 10
 
   belongs_to :baccalaureat
   has_many :evaluations, dependent: :destroy
@@ -199,7 +200,7 @@ class Candidate < ApplicationRecord
   end
 
   def bulletins_texts
-    data['BulletinsScolaires'].to_s
+    data.dig('BulletinsScolaires').to_s
   end
 
   def to_s
@@ -266,7 +267,7 @@ class Candidate < ApplicationRecord
   end
 
   def compute_evaluation_note
-    note = dossier_note.nan? ? DEFAULT_NOTE : dossier_note
+    note = dossier_note
     note += evaluations.done.average(:note) if evaluations.done.any?
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
@@ -274,7 +275,7 @@ class Candidate < ApplicationRecord
   end
 
   def compute_interview_note
-    note = dossier_note.nan? ? DEFAULT_NOTE : dossier_note
+    note = dossier_note
     note += Setting.first.selection_scholarship_bonus.to_f if scholarship
     note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|

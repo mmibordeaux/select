@@ -25,7 +25,7 @@
       <div class="col-md-4">
         <dl>
           <dt class="small text-muted">Baccalauréat</dt>
-          <dd><%= link_to candidate.baccalaureat.to_s.gsub(' / ', '<br>/ ').html_safe, candidate.baccalaureat %></dd>
+          <dd><%= link_to baccalaureat_breaked(candidate.baccalaureat), candidate.baccalaureat %></dd>
         </dl>
       </div>
       <div class="col-md-4">

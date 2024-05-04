@@ -1,0 +1,20 @@
+<h3>Répartition par jury d'entretien</h3>
+<div class="row">
+    <div class="col-md-4">
+      <%= pie_chart User.evaluators.map { |u|
+        [u.to_s, u.candidates_interviewed.where(id: candidates).count ]
+      } %>
+    </div>
+    <div class="col-md-8">
+      <%= column_chart User.evaluators.map { |u|
+        {
+          name: u.to_s,
+          data: 10.times.map { |index|
+            index += 1
+            count = u.candidates_interviewed.where(id: candidates_ids, decile => index).count
+            ["D#{index}", count]
+          }
+        }
+      }, stacked: true %>
+    </div>
+</div>

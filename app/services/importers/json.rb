@@ -58,8 +58,9 @@ class Importers::Json
     candidate.baccalaureat_mention = data['Baccalaureat']['MentionObtenueLibelle']
     candidate.level = build_level(data)
     candidate.scholarship = has_scholarship?(data)
-    candidate.dossier_note = average_note(data)
+    candidate.dossier_note = average_note_with_defaults(data)
     candidate.save
+    # byebug if candidate.number == '1447482'
     # puts candidate
   end
 
@@ -95,6 +96,12 @@ class Importers::Json
     all_notes.sum / all_notes.size.to_f
   end
 
+  def average_note_with_defaults(data)
+    note = average_note(data)
+    return Candidate::DEFAULT_NOTE if note.nan? || note.zero?
+    note
+  end
+
   def build_notes_avenir(data)
     data.dig('NotesFicheAvenir').map do |note| 
       convert_note note.dig('MoyenneCandidat')
@@ -113,6 +120,7 @@ class Importers::Json
       year.dig('BulletinsScolairesAnnee', 'BulletinsScolairesSeries').each do |period|
         period.dig('BulletinsScolairesParPeriode').each do |bulletin|
           note = bulletin.dig('MoyenneduCandidat')
+          next if note == 'Aucune note'
           notes << convert_note(note)
         end
       end
@@ -125,7 +133,7 @@ class Importers::Json
   end
 
   def convert_note(note)
-    return nil if note.nil?
+    return nil if note.nil? || note.blank? 
     note.gsub(',', '.').to_f
   end
 

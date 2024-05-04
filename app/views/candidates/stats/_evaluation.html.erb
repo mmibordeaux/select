@@ -1,0 +1,21 @@
+<h3>Répartition par évaluateur du dossier</h3>
+<div class="row">
+    <div class="col-md-4">
+      <%= pie_chart User.evaluators.map { |u|
+        [u.to_s, u.evaluations.done.count ]
+      } %>
+    </div>
+    <div class="col-md-8">
+      <%= column_chart User.evaluators.map { |u|
+        {
+          name: u.to_s,
+          data: 10.times.map { |index|
+            index += 1
+            candidate_ids = u.evaluations.done.pluck(:candidate_id)
+            count = candidates.where(id: candidate_ids, decile => index).count
+            ["D#{index}", count]
+          }
+        }
+      }, stacked: true %>
+    </div>
+</div>
