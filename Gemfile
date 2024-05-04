@@ -8,7 +8,7 @@ gem 'puma'
 gem 'pg'
 
 # Back
-gem 'rails', '5.2.8.1'
+gem 'rails', '~> 6.0'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-bootstrap-views'

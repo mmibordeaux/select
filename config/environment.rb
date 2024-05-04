@@ -1,5 +1,5 @@
 # Load the Rails application.
-require_relative 'application'
+require_relative "application"
 
 # Initialize the Rails application.
 Rails.application.initialize!
@@ -11,3 +11,4 @@ ActionMailer::Base.smtp_settings = {
   password:       ENV['SENDINBLUE_SMTP_PASSWORD'],
   authentication: :plain
 }
+
