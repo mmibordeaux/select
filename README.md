@@ -14,6 +14,8 @@
 
     rake candidates:recompute_notes
 
+    rake app:import data=tmp/data.json
+
 ## Phases
 
 ### Evaluation
