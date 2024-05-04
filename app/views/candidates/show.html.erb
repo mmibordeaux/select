@@ -1,54 +1,7 @@
 <% content_for :title, @candidate %>
 
 <%= render 'header', candidate: @candidate %>
-
-<h2>Synthèse</h2>
-
-<div class="row synthesis">
-  <div class="col-md-4 marked">
-    <%= @candidate.parcoursup_lettre_motivation.html_safe %>
-  </div>
-  <div class="col-md-6 marked">
-    <%# @candidate.parcoursup_formulaire_change %>
-  </div>
-  <div class="col-md-2">
-    <div class="progress mb-4" style="height: 30px">
-      <div  class="progress-bar bg-danger"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_negative %>%"></div>
-      <div  class="progress-bar bg-secondary"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_neutral %>%"></div>
-      <div  class="progress-bar bg-success"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_positive %>%"></div>
-    </div>
-    <ul class="list-unstyled">
-      <% @bulletins_analyze.keywords.each do |keyword| %>
-        <%
-        case keyword[:kind]
-        when 'positive'
-          color = 'success'
-        when 'neutral'
-          color = 'secondary'
-        when 'negative'
-          color = 'danger'
-        end
-        %>
-        <li>
-          <h5>
-            <span class="badge badge-xl badge-<%= color %>">
-              <%= keyword[:word] %>
-              <span class="small">x<%= keyword[:occurences] %></span>
-            </span>
-          </h5>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<hr />
+<%= render 'synthesis', candidate: @candidate %>
 
 <% @candidate.evaluations.each do |evaluation| %>
   <% if evaluation.user == current_user %>
@@ -57,30 +10,7 @@
     <%= render evaluation %>
   <% end %>
 <% end %>
-
 <hr />
 
-<h2>Tout le dossier Parcoursup</h2>
+<%= render 'full', candidate: @candidate %>
 
-<div class="row">
-  <div class="col-md-3">
-    <ul class="nav nav-pills flex-column bg-light">
-      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
-        <li class="nav-item">
-          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" >
-            <%= kind.titleize %>
-          </a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="col-md-9">
-    <div class="tab-content" id="parcoursup">
-      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
-        <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
-          TODO
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>

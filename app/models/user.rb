@@ -103,10 +103,6 @@ class User < ApplicationRecord
     candidates_interviewed.where("#{modifier.kind}_id" => modifier.id).count
   end
 
-  def signature_url
-    "https://drive.google.com/uc?id=#{signature}"
-  end
-
   def to_s
     first_name.blank? ? "#{email}"
                       : "#{first_name} #{last_name}"

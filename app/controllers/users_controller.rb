@@ -6,6 +6,10 @@ class UsersController < ApplicationController
     @users = User.ordered
   end
 
+  def stats
+    @users = User.ordered
+  end
+
   # GET /users/1
   def show
   end

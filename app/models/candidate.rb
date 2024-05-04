@@ -4,6 +4,7 @@
 #
 #  id                                   :bigint           not null, primary key
 #  baccalaureat_mention                 :string
+#  data                                 :jsonb
 #  dossier_note                         :float            default(0.0)
 #  evaluation_comment                   :text             default("")
 #  evaluation_decile                    :integer
@@ -68,6 +69,7 @@ class Candidate < ApplicationRecord
   DECILE_DELTA_THRESHOLD = 3
   GENDER_WOMAN = 'Féminin'
   GENDER_MAN = 'Masculin'
+  DEFAULT_NOTE = 12
 
   belongs_to :baccalaureat
   has_many :evaluations, dependent: :destroy
@@ -191,11 +193,36 @@ class Candidate < ApplicationRecord
     gender == GENDER_WOMAN
   end
 
+  def questions
+    questions_activites_centres_interet + 
+    questions_formulaire_dematerialise
+  end
+
+  def bulletins_texts
+    data['BulletinsScolaires'].to_s
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end
 
   protected
+
+  def questions_activites_centres_interet
+    data['ActivitesCentresInteret'].map do |key, value| 
+      [key, value]
+    end
+  end
+
+  def questions_formulaire_dematerialise
+    data['FormulaireDematerialise'].first['QuestionsBlocFormulaireDematerialise'].map do |hash| 
+      question = hash.dig('LibelleQuestionBlocFormulaireDematerialise').delete_prefix('- ')
+      answer = hash.dig('ReponsesQuestionBlocFormulaireDematerialise')
+                   .first
+                   .dig('SaisieLibreReponseQuestionBlocFormulaireDematerialise')
+      [question, answer]
+    end
+  end
 
   def self.set_positions_in_list_by_key(list, note_key, position_key, decile_key = nil)
     current_note = nil
@@ -239,7 +266,7 @@ class Candidate < ApplicationRecord
   end
 
   def compute_evaluation_note
-    note = dossier_note
+    note = dossier_note.nan? ? DEFAULT_NOTE : dossier_note
     note += evaluations.done.average(:note) if evaluations.done.any?
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
@@ -247,7 +274,7 @@ class Candidate < ApplicationRecord
   end
 
   def compute_interview_note
-    note = 0
+    note = dossier_note.nan? ? DEFAULT_NOTE : dossier_note
     note += Setting.first.selection_scholarship_bonus.to_f if scholarship
     note += Setting.first.interview_bonus if interview_bonus
     Modifier::KINDS_INTERVIEW.each do |kind|

@@ -2,6 +2,9 @@
 
 <%= render 'candidates/header', candidate: @candidate %>
 
+<%= render 'candidates/synthesis', candidate: @candidate %>
+
+<h2>Entretien</h2>
 <%= simple_form_for(@candidate, url: candidates_interview_path(@candidate)) do |f| %>
   <div class="row">
     <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
@@ -30,81 +33,12 @@
 
 <hr/>
 
-<h2>Evaluation du dossier</h2>
-
-<% @candidate.evaluations.each do |evaluation| %>
-  <%= render 'evaluations/evaluation', evaluation: evaluation %>
+<% if @candidate.evaluations.any? %>
+  <h2>Evaluation du dossier</h2>
+  <% @candidate.evaluations.each do |evaluation| %>
+    <%= render 'evaluations/evaluation', evaluation: evaluation %>
+  <% end %>
+  <hr/>
 <% end %>
 
-<hr/>
-
-<h2>Synthèse du dossier</h2>
-
-<div class="row synthesis">
-  <div class="col-md-4 marked">
-    <%= @candidate.parcoursup_synthesis_lettre_motivation.html_safe %>
-  </div>
-  <div class="col-md-6 marked">
-    <%= @candidate.parcoursup_synthesis_formulaire.html_safe %>
-  </div>
-  <div class="col-md-2">
-    <div class="progress mb-4" style="height: 30px">
-      <div  class="progress-bar bg-danger"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_negative %>%"></div>
-      <div  class="progress-bar bg-secondary"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_neutral %>%"></div>
-      <div  class="progress-bar bg-success"
-            role="progressbar"
-            style="width: <%= @bulletins_analyze.percent_positive %>%"></div>
-    </div>
-    <ul class="list-unstyled">
-      <% @bulletins_analyze.keywords.each do |keyword| %>
-        <% 
-        case keyword[:kind]
-        when 'positive'
-          color = 'success'
-        when 'neutral'
-          color = 'secondary'
-        when 'negative'
-          color = 'danger'
-        end
-        %>
-        <li>
-          <h5>
-            <span class="badge badge-xl badge-<%= color %>">
-              <%= keyword[:word] %>
-              <span class="small">x<%= keyword[:occurences] %></span>
-            </span>
-          </h5>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
-
-<hr />
-
-<h2>Dossier Parcoursup</h2>
-
-<div class="row">
-  <div class="col-md-3">
-    <ul class="nav nav-pills flex-column bg-light">
-      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
-        <li class="nav-item">
-          <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" ><%= kind.titleize %></a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="col-md-9">
-    <div class="tab-content" id="parcoursup">
-      <% Parcoursup::PARTS.each_with_index do |kind, index| %>
-        <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
-          <%= @candidate.parcoursup_clean(kind).html_safe %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'candidates/full', candidate: @candidate %>

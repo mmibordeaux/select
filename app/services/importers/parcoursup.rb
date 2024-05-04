@@ -70,6 +70,7 @@ class Importers::Parcoursup
       end
     end
   end
+
   def parcoursup_synced?
     !parcoursup_formulaire.blank?
   end

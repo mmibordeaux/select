@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :modifiers, :baccalaureats, :users, :settings
+  resources :modifiers, :baccalaureats, :settings
+  resources :users do 
+    collection do
+      get 'stats' => 'users#stats', as: :users_stats
+    end
+  end
   namespace :candidates do
     get 'import' => 'operations#import'
     post 'import' => 'operations#import'
@@ -40,5 +45,6 @@ Rails.application.routes.draw do
     end
     get 'my' => 'my#index'
   end
-  root to: 'evaluations/my#index'
+  get 'signatures/:id' => 'signatures#show', as: :signature
+  root to: 'candidates/interviews#index'
 end

@@ -38,8 +38,7 @@ class Candidates::InterviewsController < ApplicationController
 
   def set_candidate
     @candidate = Candidate.find(params[:id])
-    bulletins = @candidate.parcoursup_clean 'bulletins'
-    @bulletins_analyze = BulletinsAnalyze.new bulletins
+    @bulletins_analyze = BulletinsAnalyze.new @candidate.bulletins_texts
   end
 
   def candidate_params

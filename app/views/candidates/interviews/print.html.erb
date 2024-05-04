@@ -51,7 +51,7 @@
     <% @candidate.interviewers.each do |interviewer| %>
       <td>
         <p><%= interviewer %></p>
-        <%= image_tag interviewer.signature_url, width: 300 if interviewer.signature.present? %>
+        <%= image_tag signature_path(interviewer.signature), class: "signature" if interviewer.signature.present? %>
       </td>
     <% end %>
   </tr>

@@ -4,6 +4,7 @@
 #
 #  id                                   :bigint           not null, primary key
 #  baccalaureat_mention                 :string
+#  data                                 :jsonb
 #  dossier_note                         :float            default(0.0)
 #  evaluation_comment                   :text             default("")
 #  evaluation_decile                    :integer

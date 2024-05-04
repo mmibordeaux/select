@@ -1,5 +1,6 @@
 <%
 candidates_count = candidates.count
+candidates_count = 1 if candidates_count.zero?
 candidates_ids = candidates.pluck(:id)
 candidates_concerned = Candidate.where(id: candidates_ids)
 %>

@@ -54,9 +54,10 @@
         <% if candidate.interview_bonus %>
           <span class="badge badge-success">Coup de cœur</span>
         <% end %>
-        
+        <!--
         <br/>
         (dossier <%= candidate.evaluations.map { |e| e.user.to_s }.join(', ') %>)
+        -->
       </td>
       <td class="small
                 <%= 'bg-danger' if candidate.decile_bad_surprise? %>
@@ -67,7 +68,7 @@
           <span class="badge badge-light">D<%= candidate.selection_decile %> sélection</span>
         <% end %>
       </td>
-      <td><b><%= candidate.interview_note.to_f.round %></b></td>
+      <td><b><%= candidate.interview_note.round(2) %></b></td>
       <td><span class="badge badge-info"><%= candidate.interview_position %></span></td>
       <td><%= link_to 'PV',
                       candidates_print_interview_path(candidate),

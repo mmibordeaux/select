@@ -1,0 +1,98 @@
+
+<h2>Baccalauréat</h2>
+<table class="table mb-5">
+  <thead>
+    <tr>
+      <th>Matière</th>
+      <th>Moyenne</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% candidate.data.dig('NotesBaccalaureat').each do |discipline| %>
+      <%
+      name = discipline.dig('EpreuveLibelle')
+      note = discipline.dig('NoteEpreuve')
+      next if note.blank?
+      %>
+      <tr>
+        <td><%= name %></td>
+        <td><%= note %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Fiche Avenir</h2>
+<table class="table mb-5">
+  <thead>
+    <tr>
+      <th width="300">Matière</th>
+      <th width="120">Moyenne</th>
+      <th>Appréciation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% candidate.data.dig('NotesFicheAvenir').each do |note| %>
+      <%
+      discipline = note.dig('MatiereFicheAvenirLibelle')
+      average = note.dig('MoyenneCandidat')
+      text = note.dig('AppreciationFicheAvenir')
+      %>
+      <tr>
+        <td><%= discipline %></td>
+        <td><%= average %></td>
+        <td><%= text %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Bulletins</h2>
+<%
+bulletins = candidate.data.dig('BulletinsScolaires')
+%>
+<% bulletins.each do |year| %>
+  <% list = year.dig('BulletinsScolairesAnnee', 'BulletinsScolairesSeries') %>
+  <p><%= year.dig('BulletinsScolairesAnnee', 'SerieLibelle') %></p>
+  <% list.each do |bulletin| %>
+    <table class="table mb-5">
+      <thead>
+        <tr>
+          <th width="300">
+            <%= year.dig('AnneeLibelle') %>
+            <%= bulletin.dig('TrimestreLibelle') %>
+          </th>
+          <th width="120">Moyenne</th>
+          <th>Appréciation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bulletin.dig('BulletinsScolairesParPeriode').each do |note| %>
+          <%
+          discipline = note.dig('MatiereBulletinLibelle')
+          average = note.dig('MoyenneduCandidat')
+          text = note.dig('AppreciationProfesseur')
+          %>
+          <tr>
+            <td><%= discipline %></td>
+            <td>
+              <% if average && average != 'Aucune note' %>
+                <%= average %><br>
+                <small class="badge bg-dark text-white">
+                  <%= note['MoyenneBasseClasseduCandidat'] %>
+                  → <%= note['MoyenneHauteClasseduCandidat'] %>
+                </small>
+              <% end %>
+            </td>
+            <td><%= text %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
+
+<details>
+  <summary>Données parcoursup brutes</summary>
+  <pre><%= JSON.pretty_generate candidate.data %></pre>
+</details>

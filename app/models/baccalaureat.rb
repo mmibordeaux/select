@@ -33,6 +33,9 @@ class Baccalaureat < ApplicationRecord
   default_scope { order(:title) }
 
   def self.with_title_and_parent(title, parent)
+    return parent if title.blank?
+    return parent if title == 'Pas de section linguistique'
+    return parent if title == 'MEF NATIONAL'
     where(title: title, parent: parent).first_or_create
   end
 

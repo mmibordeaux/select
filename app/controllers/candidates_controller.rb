@@ -42,7 +42,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates/1
   def show
-    @bulletins_analyze = BulletinsAnalyze.new ''
+    @bulletins_analyze = BulletinsAnalyze.new @candidate.bulletins_texts
     @candidate.evaluations.where(user: current_user).first_or_initialize
   end
 

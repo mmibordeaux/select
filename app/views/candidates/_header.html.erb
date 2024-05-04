@@ -25,7 +25,7 @@
       <div class="col-md-4">
         <dl>
           <dt class="small text-muted">Baccalauréat</dt>
-          <dd><%= link_to candidate.baccalaureat, candidate.baccalaureat %></dd>
+          <dd><%= link_to candidate.baccalaureat.to_s.gsub(' / ', '<br>/ ').html_safe, candidate.baccalaureat %></dd>
         </dl>
       </div>
       <div class="col-md-4">
@@ -33,10 +33,12 @@
           <dt class="small text-muted">Moyenne du dossier</dt>
           <dd><strong><%= candidate.dossier_note.round(2) %></strong></dd>
         </dl>
+        <!--
         <dl>
           <dt class="small text-muted">Moyenne après évaluation</dt>
           <dd><strong><%= candidate.evaluation_note.round(2) %></strong></dd>
         </dl>
+        -->
         <dl>
           <dt class="small text-muted">Entretien</dt>
           <dd><strong><%= candidate.interview_note.round(2) %></strong></dd>
