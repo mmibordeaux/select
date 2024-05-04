@@ -23,7 +23,6 @@ class CandidatesController < ApplicationController
         end
         @candidates = @candidates.search params[:search] if params.has_key? :search
         @candidates = @candidates.page params[:page]
-        @candidates_synced = Candidate.parcoursup_synced
         @candidates_single_done = Candidate.evaluated_once_or_more.count
         @candidates_multiple_done = Candidate.evaluated_twice_or_more.count
         @candidates_multiple_todo = Candidate.evaluated_and_not_disqualified.count
@@ -43,9 +42,7 @@ class CandidatesController < ApplicationController
 
   # GET /candidates/1
   def show
-    @candidate.parcoursup_sync! unless @candidate.parcoursup_synced?
-    bulletins = @candidate.parcoursup_clean 'bulletins'
-    @bulletins_analyze = BulletinsAnalyze.new bulletins
+    @bulletins_analyze = BulletinsAnalyze.new ''
     @candidate.evaluations.where(user: current_user).first_or_initialize
   end
 

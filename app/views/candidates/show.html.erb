@@ -6,10 +6,10 @@
 
 <div class="row synthesis">
   <div class="col-md-4 marked">
-    <%= @candidate.parcoursup_synthesis_lettre_motivation.html_safe %>
+    <%= @candidate.parcoursup_lettre_motivation.html_safe %>
   </div>
   <div class="col-md-6 marked">
-    <%= @candidate.parcoursup_synthesis_formulaire.html_safe %>
+    <%# @candidate.parcoursup_formulaire_change %>
   </div>
   <div class="col-md-2">
     <div class="progress mb-4" style="height: 30px">
@@ -69,9 +69,6 @@
         <li class="nav-item">
           <a class="nav-link<%= ' active' if index.zero? %>" href="#<%= kind %>" data-toggle="tab" >
             <%= kind.titleize %>
-            <% if kind == 'documents' && @candidate.is_there_a_document? %>
-              <span class="badge badge-danger">attention!</span>
-            <% end %>
           </a>
         </li>
       <% end %>
@@ -81,7 +78,7 @@
     <div class="tab-content" id="parcoursup">
       <% Parcoursup::PARTS.each_with_index do |kind, index| %>
         <div class="tab-pane<%= ' show active' if index.zero? %>" id="<%= kind %>" role="tabpanel" aria-labelledby="home-tab">
-          <%= @candidate.parcoursup_clean(kind).html_safe %>
+          TODO
         </div>
       <% end %>
     </div>

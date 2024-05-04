@@ -31,3 +31,4 @@
 /config/application.yml
 
 /db/latest.dump
+/db/latest.pgsql
