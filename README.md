@@ -76,7 +76,7 @@ Situation particulière, la question Parcoursup sur les productions a été supp
 | Excellent | A rencontré des professionnels, a effectué des stages, se projette après le DUT concrètement, projet professionnel clairement identifié | 10     |  
 | Bon       | Bien renseigné sur les compétences, sur les métiers, projet professionnel qui se dessine                                                | 6      |  
 | Moyen     | Vision confuse des métiers, des compétences nécessaires, projet professionnel trop succinct                                             | 2      |  
-| Mauvais   | Aucune conscience des réalités du terrain, attentiste, pas de projet professionnel                                                      | 0      |  
+| Mauvais   | Aucune conscience des réalités des métiers, attentiste, pas de projet professionnel                                                      | 0      |  
 
 ### 4. Curiosité et culture numérique
 
