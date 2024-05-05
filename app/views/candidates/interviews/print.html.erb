@@ -1,6 +1,6 @@
-<h1>Entretien de recrutement MMI</h1>
-<p>Candidat(e): <%= @candidate %></p>
-<p>Date: <%= @candidate.updated_at.strftime('%d/%m/%Y') %></p>
+<h1><%= @candidate %></h1>
+<h2 class="h5 mb-5">Entretien de recrutement MMI</h2>
+
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -9,42 +9,40 @@
     </tr>
   </thead>
   <tbody>
-  <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
-    <% property = @candidate.send kind %>
-    <% next if property.nil? %>
-    <tr>
-      <td><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></td>
-      <td>
-        <p>
-          <b><%= property.title %></b> 
-          <%= property.description %>
-        </p>
-      </td>
-    </tr>
-  <% end %>
+    <% Modifier::KINDS_INTERVIEW.each_with_index do |kind, index| %>
+      <% property = @candidate.send kind %>
+      <% next if property.nil? %>
+      <tr>
+        <td><%= Modifier::KINDS_INTERVIEW_LABELS[index] %></td>
+        <td>
+          <p>
+            <b><%= property.title %></b> 
+            <%= property.description %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
-
-<%= simple_format @candidate.interview_comment %>
-
+  
 <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Note d'entretien</th>
-      <th>Note de dossier</th>
-      <th>Note totale</th>
-    </tr>
-  </thead>
   <tbody>
     <tr>
-      <td><%= @candidate.interview_note.to_f.round(2) %></td>
-      <td><%= @candidate.evaluation_note.to_f.round(2) %></td>
+      <th width="300">Commentaire</th>
+      <td><%= simple_format @candidate.interview_comment %></td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td><%= @candidate.updated_at.strftime('%d/%m/%Y') %></td>
+    </tr>
+    <tr>
+      <th>Note</th>
       <td><%= @candidate.selection_note.to_f.round(2) %></td>
     </tr>
   </tbody>
 </table>
 
-<p>Prénoms, noms et signatures des membres du jury</p>
+<p class="mt-5">Prénoms, noms et signatures des membres du jury</p>
 
 <table class="table table-borderless table-sm">
   <tr>

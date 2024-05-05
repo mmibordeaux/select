@@ -46,7 +46,56 @@ scalingo run --app mmibordeaux-select run bash
 
 Puis on passe les commandes.
 
-# Modificateurs
+# Modificateurs 2024
+
+Situation particulière, la question Parcoursup sur les productions a été supprimée (erreur administrative).
+
+
+### 1. Productions numériques
+
+| Titre     | Description                                                                                                                                                                 | Valeur | 
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| Excellentes productions                             | Qui mettent en valeur les compétences du candidat sur le fond (portfolio qui parle du projet professionnel) mais également la forme (site avec cms ou codé ad hoc, vidéo de bonne qualité, blog avec rédactionnel...) | 10      |
+| Productions correctes                               | Pertinent mais de qualité moyenne, ou de bonne qualité mais pas pertinent                                                         | 5      |
+| Productions disponibles mais peu ou pas pertinentes | PPT, partie de jeu vidéo, photos de vacances, dessins pas aboutis…                                                                | 0      |
+| Rien                                                | Pas de productions                                                                                                                | -10    |
+
+### 2. Comportement et engagement
+
+| Titre                           | Description                                                                      | Valeur |
+|---------------------------------|----------------------------------------------------------------------------------|--------|
+| Excellent                       | Pro-actif, moteur, participation, engagement citoyen…                            | 10     |  
+| Bon comportement                | Un ensemble convenable                                                           | 5      | 
+| Comportement neutre             | Ne dénote pas d’une attitude, d’une conduite le prédisposant à travailler en MMI | 0      | 
+| Comportement très problématique | Insolence, trop de bavardage, absence totale de travail, grave immaturité…       | -10    |
+
+### 3. Projet professionnel
+
+| Titre     | Description                                                                                                                             | Valeur |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------|--------|
+| Excellent | A rencontré des professionnels, a effectué des stages, se projette après le DUT concrètement, projet professionnel clairement identifié | 10     |  
+| Bon       | Bien renseigné sur les compétences, sur les métiers, projet professionnel qui se dessine                                                | 6      |  
+| Moyen     | Vision confuse des métiers, des compétences nécessaires, projet professionnel trop succinct                                             | 2      |  
+| Mauvais   | Aucune conscience des réalités du terrain, attentiste, pas de projet professionnel                                                      | 0      |  
+
+### 4. Curiosité et culture numérique
+
+| Titre     | Description                                                                                                                             | Valeur |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| Excellent | Compétences techniques (avérées ou potentielles) dans plusieurs domaines (voire équilibrées entre les trois parcours !), excellente connaissance en culture numérique, identifie plusieurs actualités récentes en lien avec le web | 10     |
+| Bon       | Mise en valeur de compétences (avérées ou potentielles) dans un domaine, rebondit sur une actualité récente du numérique                | 6      |
+| Moyen     | Difficultés pressenties à appréhender certains contenus de la formation, faible culture numérique                                       | 2      | 
+| Mauvais   | Culture numérique inexistante                                                                                                           | 0      |
+
+### 5. Conviction du jury
+
+| Titre     | Description                                                                              | Valeur |
+|-----------|------------------------------------------------------------------------------------------|--------|
+| Excellent | Le jury est unanimement convaincu de la grande qualité de la candidature pour le BUT MMI | 10     |
+| Neutre    |                                                                                          | 0      |
+
+
+# Modificateurs avant 2023
 
 ## Dossiers
 
@@ -76,6 +125,7 @@ Puis on passe les commandes.
 | Productions correctes                               | Pertinent mais de qualité moyenne, ou de bonne qualité mais pas pertinent                                                                                                                                                                  | 3      |
 | Productions disponibles mais peu ou pas pertinentes | PPT, partie de jeu vidéo, photos de vacances, dessins pas aboutis…                                                                                                                                                                         | 0      |
 | Rien                                                | pas de production en ligne                                                                                                                                                                                                                 | -10    |
+
 ### Motivation pour la spécialité
 
 | Titre                  | Description                                                             | Valeur |

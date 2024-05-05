@@ -45,11 +45,11 @@ class Modifier < ApplicationRecord
   ]
 
   KINDS_INTERVIEW_LABELS = [
-    '1. Connaissances de la formation',
-    '2. Construction du projet professionnel',
-    '3. Motivation',
-    '4. Curiosité et culture générale / MMI',
-    '5. Capacité d’argumentation et de conviction'
+    '1. Productions numériques',
+    '2. Comportement et engagement',
+    '3. Projet professionnel',
+    '4. Curiosité et culture numérique',
+    '5. Conviction du jury'
   ]
 
   KINDS = [
