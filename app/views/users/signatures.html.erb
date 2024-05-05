@@ -1,0 +1,10 @@
+<% content_for :title, 'Signatures' %>
+
+<div class="row">
+  <% @users.each do |interviewer| %>
+    <div class="col-lg-3 mb-5">
+      <p><%= interviewer %></p>
+      <%= image_tag signature_path(interviewer.signature), class: "signature" if interviewer.signature.present? %>
+    </div>
+  <% end %>
+</div>

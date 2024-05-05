@@ -9,6 +9,10 @@ class UsersController < ApplicationController
   def stats
     @users = User.ordered
   end
+  
+  def signatures
+    @users = User.evaluators.ordered
+  end
 
   # GET /users/1
   def show

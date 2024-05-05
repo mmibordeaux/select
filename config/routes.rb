@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users do 
     collection do
       get 'stats' => 'users#stats', as: :users_stats
+      get 'signatures' => 'users#signatures', as: :users_signatures
     end
   end
   namespace :candidates do
