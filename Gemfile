@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.0'
+ruby '3.4.1'
 
 # Infrastructure
 gem 'puma'
@@ -20,6 +20,10 @@ gem 'breadcrumbs_on_rails'
 gem 'nokogiri'
 gem 'base64'
 gem 'bigdecimal'
+
+# https://stackoverflow.com/questions/79360526/uninitialized-constant-activesupportloggerthreadsafelevellogger-nameerror
+gem 'concurrent-ruby', '1.3.4'
+gem 'mutex_m'
 
 # Front
 gem 'sassc-rails'
