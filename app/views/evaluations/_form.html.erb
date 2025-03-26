@@ -1,5 +1,5 @@
 <% unless evaluation.done? %>
-  <%= link_to 'Pas d\'URL, pas de chocolat',
+  <%= link_to 'Candidat·e non en adéquation avec MMI',
               no_url_evaluations_path(@candidate),
               method: :post,
               class: 'btn btn-danger float-right' %>
@@ -9,20 +9,21 @@
   <%= f.association :user, as: :hidden %>
   <%= f.association :candidate, as: :hidden %>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-6">
       <%= f.association :attitude,
                         as: :radio_buttons,
                         collection: Modifier.attitude,
                         label_method: :title_and_description,
                         label: 'Qualité du parcours scolaire' %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
       <%= f.association :intention,
                         as: :radio_buttons,
                         collection: Modifier.intention,
                         label_method: :title_and_description,
                         label: 'Projet de formation motivé' %>
     </div>
+    <!--
     <div class="col-md-3">
       <%= f.association :production,
                         as: :radio_buttons,
@@ -37,6 +38,7 @@
                         label_method: :title_and_description,
                         label: 'Motivation pour la spécialité' %>
     </div>
+    -->
   </div>
   <%= f.input :boost, label: 'Coup de cœur' %>
   <div class="row">
