@@ -20,6 +20,7 @@ gem 'breadcrumbs_on_rails'
 gem 'nokogiri'
 gem 'base64'
 gem 'bigdecimal'
+gem 'benchmark'
 
 # https://stackoverflow.com/questions/79360526/uninitialized-constant-activesupportloggerthreadsafelevellogger-nameerror
 gem 'concurrent-ruby', '1.3.4'

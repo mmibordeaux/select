@@ -53,23 +53,22 @@ class EvaluationsController < ApplicationController
   end
 
   private
-    def redirect
-      remaining = current_user.evaluations.todo.count
-      next_evaluation = current_user.evaluations.todo.first
-      if next_evaluation
-        redirect_to next_evaluation.candidate, notice: "Evaluation enregistrée. Courage, plus que #{remaining} !"
-      else
-        redirect_to candidates_path, notice: "Terminé!"
-      end
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_evaluation
-      @evaluation = Evaluation.find(params[:id])
+  def redirect
+    remaining = current_user.evaluations.todo.count
+    next_evaluation = current_user.evaluations.todo.first
+    if next_evaluation
+      redirect_to next_evaluation.candidate, notice: "Evaluation enregistrée. Courage, plus que #{remaining} !"
+    else
+      redirect_to candidates_path, notice: "Terminé!"
     end
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def evaluation_params
-      params.require(:evaluation).permit(:candidate_id, :user_id, :attitude_id, :intention_id, :production_id, :localization_id, :comment, :boost)
-    end
+  def set_evaluation
+    @evaluation = Evaluation.find(params[:id])
+  end
+
+  def evaluation_params
+    params.require(:evaluation).permit(:candidate_id, :user_id, :attitude_id, :intention_id, :production_id, :localization_id, :comment, :boost)
+  end
 end

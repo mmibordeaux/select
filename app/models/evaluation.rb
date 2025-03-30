@@ -44,12 +44,12 @@ class Evaluation < ApplicationRecord
   belongs_to :production, class_name: 'Modifier', optional: true
   belongs_to :localization, class_name: 'Modifier', optional: true
 
-  validates_presence_of :comment, on: :evaluation
+  # validates_presence_of :comment, on: :evaluation
+  # validates_length_of :comment, minimum: 15, allow_blank: false, on: :evaluation
   validates_presence_of :attitude, on: :evaluation
   validates_presence_of :intention, on: :evaluation
-  validates_presence_of :production, on: :evaluation
-  validates_presence_of :localization, on: :evaluation
-  validates_length_of :comment, minimum: 15, allow_blank: false, on: :evaluation
+  # validates_presence_of :production, on: :evaluation
+  # validates_presence_of :localization, on: :evaluation
 
   before_validation :compute_note
   after_save :save_candidate
@@ -63,7 +63,7 @@ class Evaluation < ApplicationRecord
     evaluation.localization_id = 7
     evaluation.intention_id = 3
     evaluation.production_id = 5
-    evaluation.comment = 'Pas d\'URL, candidature disqualifiée'
+    evaluation.comment = I18n.t('reject')
     evaluation.save
   end
 
@@ -74,7 +74,7 @@ class Evaluation < ApplicationRecord
   protected
 
   def compute_note
-    return unless attitude && intention && production && localization
+    return unless attitude && intention # && production && localization
     self.note = attitude&.value.to_f + intention&.value.to_f + production&.value.to_f + localization&.value.to_f
     self.note += BOOST if boost
   end

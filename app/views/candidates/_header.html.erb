@@ -33,16 +33,16 @@
           <dt class="small text-muted">Moyenne du dossier</dt>
           <dd><strong><%= candidate.dossier_note.round(2) %></strong></dd>
         </dl>
-        <!--
         <dl>
           <dt class="small text-muted">Moyenne après évaluation</dt>
           <dd><strong><%= candidate.evaluation_note.round(2) %></strong></dd>
         </dl>
-        -->
-        <dl>
-          <dt class="small text-muted">Entretien</dt>
-          <dd><strong><%= candidate.interview_note.round(2) %></strong></dd>
-        </dl>
+        <% if candidate.interview_done %>
+          <dl>
+            <dt class="small text-muted">Entretien</dt>
+            <dd><strong><%= candidate.interview_note.round(2) %></strong></dd>
+          </dl>
+        <% end %>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 fr:
+  reject: Candidat·e non en adéquation avec MMI
   activerecord:
     models:
       candidate:

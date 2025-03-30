@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     post 'import' => 'operations#import'
     get 'production/:production' => 'production#index', as: :production
     get 'stats' => 'stats#index', as: :stats
+    scope :selections do
+      get 'stats' => 'selections#stats', as: :selections_stats
+      get 'stats/tech' => 'selections#stats_tech', as: :selections_stats_tech
+      get 'stats/gen' => 'selections#stats_gen', as: :selections_stats_gen
+      root to: 'selections#index', as: :selections
+    end
     scope :interviews do
       get 'stats' => 'interviews#stats', as: :interviews_stats
       get ':id' => 'interviews#show', as: :interview
@@ -19,12 +25,6 @@ Rails.application.routes.draw do
       put ':id' => 'interviews#update', as: nil
       patch ':id' => 'interviews#update', as: nil
       root to: 'interviews#index', as: :interviews
-    end
-    scope :selections do
-      get 'stats' => 'selections#stats', as: :selections_stats
-      get 'stats/tech' => 'selections#stats_tech', as: :selections_stats_tech
-      get 'stats/gen' => 'selections#stats_gen', as: :selections_stats_gen
-      root to: 'selections#index', as: :selections
     end
     scope :promotion do
       get 'stats' => 'promotion#stats', as: :promotion_stats
@@ -47,5 +47,5 @@ Rails.application.routes.draw do
     get 'my' => 'my#index'
   end
   get 'signatures/:id' => 'signatures#show', as: :signature
-  root to: 'candidates/interviews#index'
+  root to: 'evaluations/my#index'
 end

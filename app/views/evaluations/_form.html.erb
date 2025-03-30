@@ -1,5 +1,5 @@
 <% unless evaluation.done? %>
-  <%= link_to 'Candidat·e non en adéquation avec MMI',
+  <%= link_to t('reject'),
               no_url_evaluations_path(@candidate),
               method: :post,
               class: 'btn btn-danger float-right' %>
@@ -40,17 +40,16 @@
     </div>
     -->
   </div>
-  <%= f.input :boost, label: 'Coup de cœur' %>
   <div class="row">
     <div class="col-md-9">
       <%= f.input :comment,
                   as: :text,
-                  label: 'Commentaire',
-                  hint: 'Au moins 15 signes',
-                  input_html: { rows: 10 } %>
+                  label: 'Commentaire (optionnel)',
+                  input_html: { rows: 3 } %>
     </div>
     <div class="col-md-3">
       <label>&nbsp;</label><br/>
+      <%= f.input :boost, label: 'Coup de cœur' %>
       <%= f.submit 'Enregistrer l\'évaluation', class: 'btn btn-primary align-right' %>
     </div>
   </div>
