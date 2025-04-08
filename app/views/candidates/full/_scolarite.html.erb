@@ -1,0 +1,42 @@
+<h2>Scolarité</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Série</th>
+      <th>Établissement</th>
+      <th>Motivation</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%
+  candidate.scolarite.each do |year| 
+    contract = year.dig('TypedecontratetablissementdorigineLibelle')
+    name = year.dig('NomEtablissementOrigine')
+    %>
+    <tr>
+      <td>
+        <%= year.dig('AnneeScolaireLibelle') %><br>
+        <%= year.dig('NiveauEtudeLibelle') %>
+      </td>
+      <td>
+        <%= year.dig('FiliereScolariteLibelle') %>
+        <%= year.dig('SeriedeclasseLibelle') %><br>
+        <%= year.dig('OptionClasseLibelle') %>
+      </td>
+      <td>
+        <%= year.dig('TypeEtablissementorigineLibelle') %>
+        <% if contract.present? %>
+          (<%= year.dig('TypedecontratetablissementdorigineLibelle') %>)
+        <% end %>
+        <br>
+        <% if name.present? %>
+          <%= year.dig('NomEtablissementOrigine') %>, 
+        <% end %>
+        <%= year.dig('DepartementEtablissementOrigineLibelle') %>
+      </td>
+      <td width="500"><%= simple_format year.dig('MotivationScolarite') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

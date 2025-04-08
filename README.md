@@ -16,6 +16,8 @@
 
     rake app:import data=tmp/data.json
 
+    rake candidates:clear
+
 ## Phases
 
 ### Evaluation

@@ -53,7 +53,7 @@ class Importers::Json
     candidate.first_name = data['DonneesCandidats']['PrenomCandidat']
     candidate.last_name = data['DonneesCandidats']['NomCandidat']
     candidate.gender = data['DonneesCandidats']['Sexe']
-    candidate.parcoursup_lettre_motivation = data['DonneesVoeux']['ProjetMotive']
+    candidate.parcoursup_lettre_motivation = data['DonneesVoeux']['LettreDeMotivation']
     candidate.baccalaureat = build_baccalaureat(data)
     candidate.baccalaureat_mention = data['Baccalaureat']['MentionObtenueLibelle']
     candidate.level = build_level(data)
@@ -88,7 +88,8 @@ class Importers::Json
 
   def average_note(data)
     all_notes = []
-    all_notes.concat build_notes_avenir(data)
+    # Donnée plus disponible dans l'export JSON
+    # all_notes.concat build_notes_avenir(data)
     all_notes.concat build_notes_bac(data)
     all_notes.concat build_notes_bulletins(data)
     all_notes.flatten!
@@ -120,6 +121,7 @@ class Importers::Json
       year.dig('BulletinsScolairesAnnee', 'BulletinsScolairesSeries').each do |period|
         period.dig('BulletinsScolairesParPeriode').each do |bulletin|
           note = bulletin.dig('MoyenneduCandidat')
+          next if note == 'N'
           next if note == 'Aucune note'
           notes << convert_note(note)
         end

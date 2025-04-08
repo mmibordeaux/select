@@ -203,6 +203,10 @@ class Candidate < ApplicationRecord
     data.dig('BulletinsScolaires').to_s
   end
 
+  def scolarite
+    data.dig('Scolarite')
+  end
+
   def to_s
     "#{first_name} #{last_name}"
   end
@@ -216,7 +220,9 @@ class Candidate < ApplicationRecord
   end
 
   def questions_formulaire_dematerialise
-    data['FormulaireDematerialise'].first['QuestionsBlocFormulaireDematerialise'].map do |hash| 
+    formulaire = data['FormulaireDematerialise'].first
+    return [] if formulaire.nil?
+    formulaire['QuestionsBlocFormulaireDematerialise'].map do |hash| 
       question = hash.dig('LibelleQuestionBlocFormulaireDematerialise').delete_prefix('- ')
       answer = hash.dig('ReponsesQuestionBlocFormulaireDematerialise')
                    .first

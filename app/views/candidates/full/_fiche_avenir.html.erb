@@ -1,0 +1,24 @@
+<h2>Fiche Avenir</h2>
+<table class="table mb-5">
+  <thead>
+    <tr>
+      <th width="300">Matière</th>
+      <th width="120">Moyenne</th>
+      <th>Appréciation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% candidate.data.dig('NotesFicheAvenir').each do |note| %>
+      <%
+      discipline = note.dig('MatiereFicheAvenirLibelle')
+      average = note.dig('MoyenneCandidat')
+      text = note.dig('AppreciationFicheAvenir')
+      %>
+      <tr>
+        <td><%= discipline %></td>
+        <td><%= average %></td>
+        <td><%= simple_format text %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

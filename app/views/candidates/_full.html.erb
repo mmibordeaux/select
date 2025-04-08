@@ -1,3 +1,4 @@
+<%= render 'candidates/full/scolarite', candidate: candidate %>
 
 <h2>Baccalauréat</h2>
 <table class="table mb-5">
@@ -22,30 +23,7 @@
   </tbody>
 </table>
 
-<h2>Fiche Avenir</h2>
-<table class="table mb-5">
-  <thead>
-    <tr>
-      <th width="300">Matière</th>
-      <th width="120">Moyenne</th>
-      <th>Appréciation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% candidate.data.dig('NotesFicheAvenir').each do |note| %>
-      <%
-      discipline = note.dig('MatiereFicheAvenirLibelle')
-      average = note.dig('MoyenneCandidat')
-      text = note.dig('AppreciationFicheAvenir')
-      %>
-      <tr>
-        <td><%= discipline %></td>
-        <td><%= average %></td>
-        <td><%= simple_format text %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%#= render 'candidates/full/fiche_avenir', candidate: candidate %>
 
 <h2>Bulletins</h2>
 <%
@@ -78,10 +56,18 @@ bulletins = candidate.data.dig('BulletinsScolaires')
             <td>
               <% if average && average != 'Aucune note' %>
                 <%= average %><br>
-                <small class="badge bg-dark text-white">
-                  <%= note['MoyenneBasseClasseduCandidat'] %>
-                  → <%= note['MoyenneHauteClasseduCandidat'] %>
-                </small>
+                <% unless note['MoyenneBasseClasseduCandidat'] == 'N' %>
+                  <small class="badge bg-dark text-white">
+                    <%= note['MoyenneBasseClasseduCandidat'] %>
+                    → <%= note['MoyenneHauteClasseduCandidat'] %>
+                  </small>
+                <% end %>
+                <% unless note['RangCandidat'].in?(['N', nil, '']) %>
+                  <br>
+                  <small>
+                    Rang <%= note['RangCandidat'] %> / <%= note['EffectifClasse'] %>
+                  </small>
+                <% end %>
               <% end %>
             </td>
             <td><%= text %></td>
