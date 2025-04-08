@@ -122,10 +122,4 @@ namespace :candidates do
   task recompute_notes: :environment do
     Candidate.recompute_notes
   end
-
-  desc "Empty all database"
-  task clear: :environment do
-    Candidate.destroy_all
-    Baccalaureat.destroy_all
-  end
 end
