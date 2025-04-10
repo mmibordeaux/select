@@ -7,7 +7,7 @@
   <div class="col-md-6 marked autolinked">
     <% candidate.questions.each do |value| %>
       <h3 class="h6"><%= value.first %></h3>
-      <p><%= sanitize value.last %></p>
+      <%= simple_format value.last %>
     <% end %>
   </div>
   <div class="col-md-2">

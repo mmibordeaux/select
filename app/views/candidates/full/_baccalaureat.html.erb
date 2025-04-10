@@ -1,0 +1,22 @@
+<h2>Baccalauréat</h2>
+<table class="table mb-5">
+  <thead>
+    <tr>
+      <th>Moyenne</th>
+      <th>Matière</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% candidate.data.dig('NotesBaccalaureat').each do |discipline| %>
+      <%
+      name = discipline.dig('EpreuveLibelle')
+      note = discipline.dig('NoteEpreuve')
+      next if note.blank?
+      %>
+      <tr>
+        <td><%= note %></td>
+        <td><%= name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

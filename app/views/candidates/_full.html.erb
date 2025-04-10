@@ -1,28 +1,5 @@
 <%= render 'candidates/full/scolarite', candidate: candidate %>
-
-<h2>Baccalauréat</h2>
-<table class="table mb-5">
-  <thead>
-    <tr>
-      <th>Matière</th>
-      <th>Moyenne</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% candidate.data.dig('NotesBaccalaureat').each do |discipline| %>
-      <%
-      name = discipline.dig('EpreuveLibelle')
-      note = discipline.dig('NoteEpreuve')
-      next if note.blank?
-      %>
-      <tr>
-        <td><%= name %></td>
-        <td><%= note %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<%= render 'candidates/full/baccalaureat', candidate: candidate %>
 <%#= render 'candidates/full/fiche_avenir', candidate: candidate %>
 
 <h2>Bulletins</h2>
