@@ -277,6 +277,7 @@ class Candidate < ApplicationRecord
     note += evaluations.done.average(:note) if evaluations.done.any?
     note += Setting.first.evaluation_scholarship_bonus if scholarship
     note += baccalaureat.inherited_evaluation_bonus if baccalaureat.inherited_evaluation_bonus
+    note += Setting.first.selection_gender_bonus.to_f if woman
     note
   end
 
