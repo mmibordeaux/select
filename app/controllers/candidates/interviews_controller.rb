@@ -2,15 +2,20 @@ class Candidates::InterviewsController < ApplicationController
   before_action :set_candidate, only: [:show, :update, :print]
 
   def index
+    @title = 'Entretiens'
     @candidates =  Candidate.evaluation_selected
                             .ordered_by_interview
                             .includes(:baccalaureat)
     @candidates = @candidates.search params[:search] if params.has_key? :search
+    if params.has_key? :baccalaureats
+      @baccalaureat = Baccalaureat.send params[:baccalaureats]
+      @candidates = @candidates.where(baccalaureat_id: @baccalaureat.children_ids)
+      @title += " #{params[:baccalaureats]}"
+    end
     respond_to do |format|
       format.html { @candidates = @candidates.page params[:page] }
       format.xlsx {}
-    end
-    
+    end    
   end
 
   def stats
