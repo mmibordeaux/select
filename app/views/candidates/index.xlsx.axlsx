@@ -6,21 +6,8 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
     'Prénom',
     'Nom',
     'Baccalauréat',
-    'Baccalauréat (modificateur)',
-    'Boursier',
-    'Boursier (modificateur)',
     'Moyenne du dossier',
-    'Qualité du parcours scolaire',
-    'Qualité du parcours scolaire (modificateur)',
-    'Projet de formation motivé',
-    'Projet de formation motivé (modificateur)',
-    'Intérêt du projet en ligne',
-    'Intérêt du projet en ligne (modificateur)',
-    'Motivation pour la spécialité',
-    'Motivation pour la spécialité (modificateur)',
-    'Commentaire',
-    'Evaluation',
-    'Evaluateur'
+    'Evaluation'
   ]
   @candidates.each do |candidate|
     sheet.add_row [
@@ -29,21 +16,8 @@ wb.add_worksheet(name: 'Candidats') do |sheet|
       candidate.first_name,
       candidate.last_name,
       candidate.baccalaureat,
-      candidate.baccalaureat.evaluation_bonus,
-      candidate.scholarship,
-      candidate.scholarship ? Setting.first.evaluation_scholarship_bonus : 0,
       candidate.dossier_note.round(2),
-      candidate.attitude,
-      candidate.attitude&.value,
-      candidate.intention,
-      candidate.intention&.value,
-      candidate.production,
-      candidate.production&.value,
-      candidate.localization,
-      candidate.localization&.value,
-      candidate.evaluation_comment,
-      candidate.evaluation_note.round(2),
-      candidate.evaluated_by
+      candidate.evaluation_note.round(2)
     ]
   end
 end

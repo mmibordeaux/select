@@ -1,22 +1,26 @@
 # README
 
-    rake candidates:reset
+## Commandes
 
-    rake candidates:sync
+```bash
+rake candidates:reset
 
-    rake candidates:find_productions
+rake candidates:sync
 
-    rake candidates:split_first_evaluation
+rake candidates:find_productions
 
-    rake candidates:split_second_evaluation
+rake candidates:split_first_evaluation
 
-    rake candidates:positionize
+rake candidates:split_second_evaluation
 
-    rake candidates:recompute_notes
+rake candidates:positionize
 
-    rake app:import data=tmp/data.json
+rake candidates:recompute_notes
 
-    rake candidates:clear
+rake app:import data=tmp/data.json
+
+rake candidates:clear
+```
 
 ## Phases
 
@@ -31,6 +35,7 @@ Entretien avec les candidats.
 ### Sélection
 
 Classement des candidats sur liste principale et secondaire.
+
 
 # Import JSON
 
