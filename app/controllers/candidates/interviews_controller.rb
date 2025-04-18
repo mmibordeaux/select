@@ -6,7 +6,7 @@ class Candidates::InterviewsController < ApplicationController
     @candidates =  Candidate.evaluation_selected
                             .ordered_by_interview
                             .includes(:baccalaureat)
-    @candidates = @candidates.search params[:search] if params.has_key? :search
+    @candidates = @candidates.search(params[:search]) if params.has_key? :search
     if params.has_key? :baccalaureats
       @baccalaureat = Baccalaureat.send params[:baccalaureats]
       @candidates = @candidates.where(baccalaureat_id: @baccalaureat.children_ids)

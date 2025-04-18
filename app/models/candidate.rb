@@ -143,12 +143,12 @@ class Candidate < ApplicationRecord
   def self.positionize
     # Positions
     set_positions_in_list_by_key(ordered_by_evaluation, :evaluation_note, :position)
-    set_positions_in_list_by_key(ordered_by_interview, :interview_note, :interview_position)
-    set_positions_in_list_by_key(ordered_by_selection, :selection_note, :selection_position)
-    set_positions_in_list_by_key(ordered_by_promotion, :selection_note, :promotion_position)
+    set_positions_in_list_by_key(evaluation_selected.ordered_by_interview, :interview_note, :interview_position)
+    set_positions_in_list_by_key(interview_selected.ordered_by_selection, :selection_note, :selection_position)
+    set_positions_in_list_by_key(promotion_selected.ordered_by_promotion, :selection_note, :promotion_position)
     # Selections
     find_each do |candidate|
-      evaluation_selected = candidate.position <= Setting.first.interview_number_of_candidates
+      evaluation_selected = candidate.position < Setting.first.interview_number_of_candidates-1
       candidate.update_column :evaluation_selected, evaluation_selected
     end
     all.reload.ordered_by_interview.each_with_index do |candidate, index|
