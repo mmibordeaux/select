@@ -294,10 +294,8 @@ class Candidate < ApplicationRecord
   end
 
   def compute_selection_note
-    note = self.evaluation_note
-    note += self.interview_note
+    note = interview_note
     note += Setting.first.selection_gender_bonus.to_f if woman
-    note += baccalaureat.inherited_selection_bonus if baccalaureat.inherited_selection_bonus
     note
   end
 end
